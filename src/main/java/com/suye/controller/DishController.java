@@ -13,6 +13,7 @@ import com.suye.service.DishService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,9 @@ public class DishController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+//    @Autowired
+//    private CacheManager cacheManager;
+
 
     /**
      * 新增菜品
@@ -54,7 +58,7 @@ public class DishController {
         log.info(dishDto.toString());
         dishService.saveWithFlavor(dishDto);
 
-        //        清理对应菜品类别的缓存数据
+//        清理对应菜品类别的缓存数据
         String key = "dish_" + dishDto.getCategoryId() + "_1";
         redisTemplate.delete(key);
 
