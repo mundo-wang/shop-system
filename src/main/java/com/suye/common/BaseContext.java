@@ -14,4 +14,10 @@ public class BaseContext {
     public static Long getCurrentId() {
         return threadLocal.get();
     }
+
+    public static void main(String[] args) {
+        float f = 3.4F;
+        System.out.println(f);
+    }
+
 }

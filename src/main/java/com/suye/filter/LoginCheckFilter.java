@@ -20,7 +20,7 @@ import java.io.IOException;
  * 检查用户是否已经完成登录
  */
 
-@WebFilter(filterName = "loginCheckFilter", urlPatterns = "/*")
+@WebFilter(filterName = "loginCheckFilter", urlPatterns = "/employee/page")
 @Slf4j
 public class LoginCheckFilter implements Filter {
 
