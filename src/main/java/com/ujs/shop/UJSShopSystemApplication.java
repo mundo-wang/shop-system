@@ -11,16 +11,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class UJSShopSystemApplication {
 
     public static void main(String[] args) {
-//        返回ioc容器
         ConfigurableApplicationContext run = SpringApplication.run(UJSShopSystemApplication.class, args);
         log.info("项目启动成功！");
-
-//        查看容器内的组件
-//        String[] names = run.getBeanDefinitionNames();
-//        for (String name : names) {
-//            System.out.println(name);
-//        }
-
     }
 
 }
