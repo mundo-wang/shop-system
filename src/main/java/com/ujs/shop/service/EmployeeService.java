@@ -1,8 +1,11 @@
 package com.ujs.shop.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ujs.shop.common.dto.EmployeeInfoDTO;
 import com.ujs.shop.common.po.EmployeePO;
 import com.ujs.shop.common.ro.AddEmployeeRO;
+import com.ujs.shop.common.ro.UpdateEmployeeRO;
+import com.ujs.shop.common.ro.UpdatePasswordRO;
 
 /**
  * @author mundo.wang
@@ -13,4 +16,13 @@ import com.ujs.shop.common.ro.AddEmployeeRO;
 public interface EmployeeService extends IService<EmployeePO> {
 
     void addEmployee(AddEmployeeRO addEmployeeRO);
+
+    void updateEmployee(UpdateEmployeeRO updateEmployeeRO);
+
+    EmployeeInfoDTO getEmployInfo(String id);
+
+
+
+
+    void updatePassword(UpdatePasswordRO updatePasswordRO);
 }

@@ -25,4 +25,10 @@ public class ConstantBean {
     public static final String INITPASSWORD = DigestUtils.md5DigestAsHex("123456".getBytes());
 
 
+    /**
+     * 管理员用户名
+     */
+    public static final String superUser = "admin";
+
+
 }

@@ -8,13 +8,13 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author mundo.wang
- * @date 2023/2/6 19:04
+ * @date 2023/2/7 9:58
  */
 
-
 @Data
-public class AddEmployeeRO {
+public class UpdateEmployeeRO {
 
+    private String id;
 
     @NotBlank(message = "用户名不得为空")
     @Length(message = "用户名最长为{max}个字符", max = 15)

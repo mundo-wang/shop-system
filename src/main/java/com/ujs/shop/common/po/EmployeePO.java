@@ -22,7 +22,7 @@ public class EmployeePO extends BasePO implements Serializable {
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;
 
-    private String name;
+    private String userName;
 
     private String password;
 
