@@ -40,7 +40,7 @@ public class EmployeePO extends BasePO implements Serializable {
 
 
     /**
-     * 用户状态，0为启用，1为禁用，默认为启用
+     * 用户状态，false为启用，true为禁用，默认为启用
      */
     private Boolean status;
 

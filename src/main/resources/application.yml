@@ -2,7 +2,7 @@ server:
   port: 8280
 
 
-# 数据库连接相关配置
+# MySQL 和 Redis 连接相关配置
 spring:
   application:
     name: ujs_shop_system
@@ -12,6 +12,10 @@ spring:
       url: jdbc:mysql://10.40.18.10:3306/shop?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       password: root
+  redis:
+    host: 10.40.18.10
+    port: 6379
+    database: 0
 
 
 # Mybatis-Plus相关配置

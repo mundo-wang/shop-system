@@ -31,4 +31,10 @@ public class ConstantBean {
     public static final String superUser = "admin";
 
 
+    /**
+     * JWT使用到的密钥
+     */
+    public static final String SECRET = "ujs-shop-system-jwt-secret";
+
+
 }

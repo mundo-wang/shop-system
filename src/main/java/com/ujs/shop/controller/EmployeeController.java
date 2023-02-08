@@ -10,7 +10,10 @@ import com.ujs.shop.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
 
 /**
  * @author mundo.wang
@@ -22,11 +25,12 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/shop/employee")
-public class EmployeeController {
+public class EmployeeController extends BaseController {
 
 
     @Autowired
     private EmployeeService employeeService;
+
 
 
     /**
@@ -68,11 +72,12 @@ public class EmployeeController {
     /**
      * 员工登录平台
      * @param employeeLoginRO
-     * @return
+     * @return jwt字符串
      */
     @PostMapping("/login")
-    public ResponseBean<EmployeePO> login(@Valid @RequestBody EmployeeLoginRO employeeLoginRO) {
-        return null;
+    public ResponseBean<String> login(@Valid @RequestBody EmployeeLoginRO employeeLoginRO) {
+        String jwtToken = employeeService.login(employeeLoginRO);
+        return ResponseBean.success(jwtToken);
     }
 
 
@@ -82,7 +87,9 @@ public class EmployeeController {
      */
     @GetMapping("/logout")
     public ResponseBean<?> logout() {
-        return null;
+//        从请求头中获取jwtToken，为的是在登出的时候把Redis中相应的数据移除
+        employeeService.logout(request.getHeader("Authorization"));
+        return ResponseBean.success();
     }
 
 

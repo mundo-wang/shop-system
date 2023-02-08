@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
  */
 
 @Data
-public class EmployeePageRO extends BasePageRO{
+public class EmployeePageRO extends BasePageRO {
 
     private String name;
 }
