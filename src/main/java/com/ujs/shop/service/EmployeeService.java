@@ -18,16 +18,18 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface EmployeeService extends IService<EmployeePO> {
 
-    void addEmployee(AddEmployeeRO addEmployeeRO);
+    void addEmployee(AddEmployeeRO addEmployeeRO, String userName);
 
-    void updateEmployee(UpdateEmployeeRO updateEmployeeRO);
+    void updateEmployee(UpdateEmployeeRO updateEmployeeRO, String userName);
 
-    EmployeeInfoDTO getEmployInfo(String id);
+    EmployeeInfoDTO getEmployInfo(String id, String userName);
 
     String login(EmployeeLoginRO employeeLoginRO);
 
-    void logout(String jwtToken);
+    void logout(String token);
 
 
-    void updatePassword(UpdatePasswordRO updatePasswordRO);
+    void changeStatus(String id, Boolean status, String userName);
+
+    void updatePassword(UpdatePasswordRO updatePasswordRO, String userName);
 }

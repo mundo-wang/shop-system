@@ -57,7 +57,12 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
     }
 
     @Override
-    public void addEmployee(AddEmployeeRO addEmployeeRO) {
+    public void addEmployee(AddEmployeeRO addEmployeeRO, String userName) {
+//        非管理员不可添加用户
+        if (! ConstantBean.SUPER_USER.equals(userName)) {
+            throw new ServiceException(ResponseCodeEnum.NO_PERMISSION);
+        }
+
 //        员工用户名重复提醒
         if (EmployeeNames().contains(addEmployeeRO.getUserName())) {
             throw new ServiceException(ResponseCodeEnum.USER_NAME_ERROR);
@@ -72,10 +77,14 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
     }
 
     @Override
-    public void updateEmployee(UpdateEmployeeRO updateEmployeeRO) {
+    public void updateEmployee(UpdateEmployeeRO updateEmployeeRO, String userName) {
         EmployeePO employeePO = employeeMapper.selectById(updateEmployeeRO.getId());
         if (employeePO == null) {
             throw new ServiceException(ResponseCodeEnum.NO_SUCH_USER);
+        }
+//        非管理员或自己不得更改用户信息
+        if (! (employeePO.getUserName().equals(userName) || ConstantBean.SUPER_USER.equals(userName))) {
+            throw new ServiceException(ResponseCodeEnum.NO_PERMISSION);
         }
         if (! employeePO.getUserName().equals(updateEmployeeRO.getUserName())) {
             if (EmployeeNames().contains(updateEmployeeRO.getUserName())) {
@@ -88,10 +97,13 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
     }
 
     @Override
-    public EmployeeInfoDTO getEmployInfo(String id) {
+    public EmployeeInfoDTO getEmployInfo(String id, String userName) {
         EmployeePO employeePO = employeeMapper.selectById(id);
         if (employeePO == null) {
             throw new ServiceException(ResponseCodeEnum.NO_SUCH_USER);
+        }
+        if (! (employeePO.getUserName().equals(userName) || employeePO.getUserName().equals(ConstantBean.SUPER_USER))) {
+            throw new ServiceException(ResponseCodeEnum.NO_PERMISSION);
         }
         EmployeeInfoDTO employeeInfoDTO = new EmployeeInfoDTO();
         BeanUtils.copyProperties(employeePO, employeeInfoDTO);
@@ -123,30 +135,48 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
             throw new ServiceException(ResponseCodeEnum.PASSWORD_WRONG);
         }
 
-        String token = ConstantBean.getUUIDKey();
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         BeanUtils.copyProperties(employeePO, userInfoDTO);
-        redisTemplate.boundValueOps(token).set(userInfoDTO, 4, TimeUnit.HOURS);
+        String token = userInfoDTO.getUserName() + "_" + userInfoDTO.getId().substring(0, 8);
+        if (! redisTemplate.hasKey(token)) {
+            redisTemplate.boundValueOps(token).set(userInfoDTO, 24, TimeUnit.HOURS);
+        }
         return JWTHelper.getJWTToken(token, ConstantBean.SECRET);
     }
 
     @Override
-    public void logout(String jwtToken) {
-        DecodedJWT decode = JWTHelper.decode(jwtToken);
-        if (! jwtToken.equals(decode.getToken())) {
-            throw new ServiceException(ResponseCodeEnum.JWT_TOKEN_ERROR);
-        }
-        String token = JWTHelper.getToken(jwtToken);
+    public void logout(String token) {
         if (redisTemplate.hasKey(token)) {
             redisTemplate.delete(token);
         }
     }
 
     @Override
-    public void updatePassword(UpdatePasswordRO updatePasswordRO) {
+    public void changeStatus(String id, Boolean status, String userName) {
+        EmployeePO employeePO = employeeMapper.selectById(id);
+        if (employeePO == null) {
+            throw new ServiceException(ResponseCodeEnum.NO_SUCH_USER);
+        }
+        if (! ConstantBean.SUPER_USER.equals(userName)) {
+            throw new ServiceException(ResponseCodeEnum.NO_PERMISSION);
+        }
+        if (employeePO.getUserName().equals(ConstantBean.SUPER_USER)) {
+            throw new ServiceException(ResponseCodeEnum.DISABLE_ERROR);
+        }
+        employeePO.setStatus(status);
+        employeeMapper.updateById(employeePO);
+        log.info("修改员工状态成功");
+    }
+
+    @Override
+    public void updatePassword(UpdatePasswordRO updatePasswordRO, String userName) {
         EmployeePO employeePO = employeeMapper.selectById(updatePasswordRO.getId());
         if (employeePO == null) {
             throw new ServiceException(ResponseCodeEnum.NO_SUCH_USER);
+        }
+//        密码只有自己能改，管理员也改不了
+        if (! employeePO.getUserName().equals(userName)) {
+            throw new ServiceException(ResponseCodeEnum.NO_PERMISSION);
         }
         String oldPassMD5 = DigestUtils.md5DigestAsHex(updatePasswordRO.getOldPassword().getBytes());
         String newPassMD5 = DigestUtils.md5DigestAsHex(updatePasswordRO.getNewPassword().getBytes());

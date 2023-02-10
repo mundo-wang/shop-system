@@ -40,19 +40,19 @@ public class EmployeeController extends BaseController {
      */
     @PostMapping("/addEmployee")
     public ResponseBean<?> addEmployee(@Valid @RequestBody AddEmployeeRO addEmployeeRO) {
-        employeeService.addEmployee(addEmployeeRO);
+        employeeService.addEmployee(addEmployeeRO, getUserName());
         return ResponseBean.success();
     }
 
 
     /**
-     * 修改员工信息
+     * 员工修改信息
      * @param updateEmployeeRO
      * @return
      */
     @PostMapping("/updateEmployee")
     public ResponseBean<?> updateEmployee(@Valid @RequestBody UpdateEmployeeRO updateEmployeeRO) {
-        employeeService.updateEmployee(updateEmployeeRO);
+        employeeService.updateEmployee(updateEmployeeRO, getUserName());
         return ResponseBean.success();
     }
 
@@ -64,7 +64,7 @@ public class EmployeeController extends BaseController {
      */
     @GetMapping("/getEmployInfo")
     public ResponseBean<EmployeeInfoDTO> getEmployInfo(String id) {
-        EmployeeInfoDTO employeeInfoDTO = employeeService.getEmployInfo(id);
+        EmployeeInfoDTO employeeInfoDTO = employeeService.getEmployInfo(id, getUserName());
         return ResponseBean.success(employeeInfoDTO);
     }
 
@@ -87,8 +87,8 @@ public class EmployeeController extends BaseController {
      */
     @GetMapping("/logout")
     public ResponseBean<?> logout() {
-//        从请求头中获取jwtToken，为的是在登出的时候把Redis中相应的数据移除
-        employeeService.logout(request.getHeader("Authorization"));
+//        从请求头中获取jwtToken转为token，为的是在登出的时候把Redis中相应的数据移除
+        employeeService.logout(getToken());
         return ResponseBean.success();
     }
 
@@ -111,7 +111,19 @@ public class EmployeeController extends BaseController {
      */
     @PostMapping("/updatePassword")
     public ResponseBean<?> updatePassword(@Valid @RequestBody UpdatePasswordRO updatePasswordRO) {
-        employeeService.updatePassword(updatePasswordRO);
+        employeeService.updatePassword(updatePasswordRO, getUserName());
+        return ResponseBean.success();
+    }
+
+
+    /**
+     * 管理员更改员工状态
+     * @param status
+     * @return
+     */
+    @GetMapping("/changeStatus")
+    public ResponseBean<?> changeStatus(String id, Boolean status) {
+        employeeService.changeStatus(id, status, getUserName());
         return ResponseBean.success();
     }
 

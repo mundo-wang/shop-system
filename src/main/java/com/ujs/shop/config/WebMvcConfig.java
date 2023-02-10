@@ -1,5 +1,7 @@
 package com.ujs.shop.config;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -7,6 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  * @author mundo.wang
  * @date 2023/2/8 14:27
  */
+
+@Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
 

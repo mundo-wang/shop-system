@@ -28,13 +28,19 @@ public class ConstantBean {
     /**
      * 管理员用户名
      */
-    public static final String superUser = "admin";
+    public static final String SUPER_USER = "admin";
 
 
     /**
      * JWT使用到的密钥
      */
     public static final String SECRET = "ujs-shop-system-jwt-secret";
+
+
+    /**
+     * 从请求头中拿取对应属性值名称
+     */
+    public static final String AUTHORIZATION = "Authorization";
 
 
 }

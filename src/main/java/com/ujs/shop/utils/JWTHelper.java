@@ -28,6 +28,7 @@ public class JWTHelper {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.create()
                 .withClaim("token", token)
+                .withClaim("uuid", ConstantBean.getUUIDKey())
                 .sign(algorithm);
     }
 
