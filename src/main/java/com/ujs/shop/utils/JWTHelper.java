@@ -53,9 +53,9 @@ public class JWTHelper {
      * @param jwtToken
      * @return
      */
-    public static DecodedJWT decode(String jwtToken){
+    public static Boolean decode(String jwtToken){
         JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(ConstantBean.SECRET)).build();
-        return jwtVerifier.verify(jwtToken);
+        return jwtToken.equals(jwtVerifier.verify(jwtToken).getToken());
     }
 
 

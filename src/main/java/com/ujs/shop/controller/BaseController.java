@@ -44,13 +44,12 @@ public class BaseController {
 
 
     /**
-     * 由jwtToken获取生成的随机token
+     * 由jwtToken获取定义的token
      * @return
      */
     public String getToken() {
         String jwtToken = getJwtToken();
-        DecodedJWT decode = JWTHelper.decode(jwtToken);
-        if (! jwtToken.equals(decode.getToken())) {
+        if (! JWTHelper.decode(jwtToken)) {
             throw new ControllerException(ResponseCodeEnum.JWT_TOKEN_ERROR);
         }
         return JWTHelper.getToken(jwtToken);
@@ -58,6 +57,7 @@ public class BaseController {
 
     /**
      * 由token从Redis获取到用户具体信息
+     * 这里可能登录信息已经过期，返回值可能为null
      * @return
      */
     public UserInfoDTO getUserInfo() {
@@ -70,7 +70,7 @@ public class BaseController {
      */
     public String getUserId() {
         UserInfoDTO userInfoDTO = getUserInfo();
-        return userInfoDTO.getId();
+        return userInfoDTO != null ? userInfoDTO.getId() : null;
     }
 
     /**
@@ -78,7 +78,7 @@ public class BaseController {
      */
     public String getUserName() {
         UserInfoDTO userInfoDTO = getUserInfo();
-        return userInfoDTO.getUserName();
+        return userInfoDTO != null ? userInfoDTO.getUserName() : null;
     }
 
 

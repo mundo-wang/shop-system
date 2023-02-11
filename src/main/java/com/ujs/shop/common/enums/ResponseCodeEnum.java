@@ -26,8 +26,10 @@ public enum ResponseCodeEnum {
     USER_DISABLE(207, "用户已被禁用"),
     JWT_TOKEN_ERROR(208, "校验失败，jwtToken可能已被篡改"),
     NO_PERMISSION(209, "无权限操作"),
-    DISABLE_ERROR(210, "不能操作管理员状态");
-
+    DISABLE_ERROR(210, "不能操作管理员状态"),
+    OTHER_ERROR(211, "其他问题，请检查后端控制台"),
+    OVERDUE(212, "未登录或登录已过期，请重新登录"),
+    NO_LOGIN_MSG(213, "没有登录信息，请检查请求头");
 
     private final Integer code;
 

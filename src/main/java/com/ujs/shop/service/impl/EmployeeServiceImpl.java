@@ -102,7 +102,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
         if (employeePO == null) {
             throw new ServiceException(ResponseCodeEnum.NO_SUCH_USER);
         }
-        if (! (employeePO.getUserName().equals(userName) || employeePO.getUserName().equals(ConstantBean.SUPER_USER))) {
+        if (! (employeePO.getUserName().equals(userName) || ConstantBean.SUPER_USER.equals(userName))) {
             throw new ServiceException(ResponseCodeEnum.NO_PERMISSION);
         }
         EmployeeInfoDTO employeeInfoDTO = new EmployeeInfoDTO();
@@ -112,9 +112,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
 
 
     /**
-     * 这里采取的步骤：验证账号密码通过后，生成一个随机token，以token为key，userInfoDTO为value存入Redis，有效期设为4小时。
-     * 以随机生成的token作为JWT的payload部分，生成一个JWT返回给前端，前端下次请求就将 Authorization=JWT 放到请求头中。
-     * 下次请求发送过来时，解析JWT，获取token，再从Redis获取userInfoDTO，如果过期了，需要重新登录。
+     * 这里采取的步骤：验证账号密码通过后，以用户名+id前八位生成一个固定token，以token为key，userInfoDTO为value存入Redis，有效期设为24小时。
+     * 以上面生成的token和一个随机UUID作为JWT的payload部分，生成一个JWT返回给前端，前端下次请求就将 Authorization=JWT 放到请求头中。
+     * 在过滤器拦截请求时，解析JWT，获取token，再从Redis获取userInfoDTO，如果过期了，需要重新登录。
      * @param employeeLoginRO
      * @return
      */
@@ -123,7 +123,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
         LambdaQueryWrapper<EmployeePO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(EmployeePO::getUserName, employeeLoginRO.getUserName());
         List<EmployeePO> employeePOS = employeeMapper.selectList(wrapper);
-        if (employeePOS.size() == 0) {
+        if (employeePOS.isEmpty()) {
             throw new ServiceException(ResponseCodeEnum.NO_SUCH_USER);
         }
         EmployeePO employeePO = employeePOS.get(0);
