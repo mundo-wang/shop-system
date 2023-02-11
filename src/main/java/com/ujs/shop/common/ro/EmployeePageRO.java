@@ -1,8 +1,7 @@
 package com.ujs.shop.common.ro;
 
+import com.ujs.shop.common.base.BasePageRO;
 import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
 
 /**
  * @author mundo.wang

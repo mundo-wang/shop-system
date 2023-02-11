@@ -1,4 +1,4 @@
-package com.ujs.shop.common.po;
+package com.ujs.shop.common.base;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

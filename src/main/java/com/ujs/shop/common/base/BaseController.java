@@ -1,4 +1,4 @@
-package com.ujs.shop.controller;
+package com.ujs.shop.common.base;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ujs.shop.common.dto.UserInfoDTO;

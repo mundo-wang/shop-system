@@ -11,8 +11,6 @@ import lombok.Data;
 @Data
 public class EmployeeInfoDTO {
 
-    private String id;
-
     private String userName;
 
     private String realName;

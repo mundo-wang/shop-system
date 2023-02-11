@@ -1,4 +1,4 @@
-package com.ujs.shop.common.ro;
+package com.ujs.shop.common.base;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

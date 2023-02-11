@@ -1,19 +1,16 @@
 package com.ujs.shop.controller;
 
 
+import com.ujs.shop.common.base.BaseController;
 import com.ujs.shop.common.dto.EmployeeInfoDTO;
 import com.ujs.shop.common.dto.EmployeePageDTO;
 import com.ujs.shop.common.global.ResponseBean;
-import com.ujs.shop.common.po.EmployeePO;
 import com.ujs.shop.common.ro.*;
 import com.ujs.shop.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Arrays;
 
 /**
  * @author mundo.wang
