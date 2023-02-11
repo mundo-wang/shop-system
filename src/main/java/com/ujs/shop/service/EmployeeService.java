@@ -32,4 +32,6 @@ public interface EmployeeService extends IService<EmployeePO> {
     void changeStatus(String id, Boolean status, String userName);
 
     void updatePassword(UpdatePasswordRO updatePasswordRO, String userName);
+
+    void removeEmployee(String id, String userName);
 }

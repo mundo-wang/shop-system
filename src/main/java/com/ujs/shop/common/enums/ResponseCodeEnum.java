@@ -29,7 +29,8 @@ public enum ResponseCodeEnum {
     DISABLE_ERROR(210, "不能操作管理员状态"),
     OTHER_ERROR(211, "其他问题，请检查后端控制台"),
     OVERDUE(212, "未登录或登录已过期，请重新登录"),
-    NO_LOGIN_MSG(213, "没有登录信息，请检查请求头");
+    NO_LOGIN_MSG(213, "没有登录信息，请检查请求头"),
+    STATUS_ERROR(214, "请先禁用员工再删除");
 
     private final Integer code;
 

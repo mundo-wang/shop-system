@@ -189,4 +189,20 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
         employeeMapper.updateById(employeePO);
         log.info("修改密码成功");
     }
+
+    @Override
+    public void removeEmployee(String id, String userName) {
+        EmployeePO employeePO = employeeMapper.selectById(id);
+        if (employeePO == null) {
+            throw new ServiceException(ResponseCodeEnum.NO_SUCH_USER);
+        }
+        if (! ConstantBean.SUPER_USER.equals(userName)) {
+            throw new ServiceException(ResponseCodeEnum.NO_PERMISSION);
+        }
+        if (! employeePO.getStatus()) {
+            throw new ServiceException(ResponseCodeEnum.STATUS_ERROR);
+        }
+        employeeMapper.deleteById(id);
+        log.info("删除用户成功");
+    }
 }

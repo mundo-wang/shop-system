@@ -1,6 +1,7 @@
 package com.ujs.shop.common.global;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.ujs.shop.utils.LoginContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
@@ -23,15 +24,14 @@ public class MyBatisPlusMetaObjectHandler implements MetaObjectHandler {
         log.info("insert 公共字段填充");
         metaObject.setValue("createTime", new Date());
         metaObject.setValue("updateTime", new Date());
-//        todo：这里要把value改成动态获取
-        metaObject.setValue("createUser", "王诗剑");
-        metaObject.setValue("updateUser", "王诗剑");
+        metaObject.setValue("createUser", LoginContextUtil.getCurrentUserName());
+        metaObject.setValue("updateUser", LoginContextUtil.getCurrentUserName());
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("update 公共字段填充");
         metaObject.setValue("updateTime", new Date());
-        metaObject.setValue("updateUser", "王诗剑");
+        metaObject.setValue("updateUser", LoginContextUtil.getCurrentUserName());
     }
 }

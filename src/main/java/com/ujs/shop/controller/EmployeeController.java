@@ -19,7 +19,7 @@ import java.util.Arrays;
  * @author mundo.wang
  * @date 2023/2/6 18:59
  *
- * 员工表对应controller
+ * shop_employee表对应controller
  */
 
 
@@ -124,6 +124,18 @@ public class EmployeeController extends BaseController {
     @GetMapping("/changeStatus")
     public ResponseBean<?> changeStatus(String id, Boolean status) {
         employeeService.changeStatus(id, status, getUserName());
+        return ResponseBean.success();
+    }
+
+
+    /**
+     * 管理员移除员工
+     * @param id
+     * @return
+     */
+    @GetMapping("/removeEmployee")
+    public ResponseBean<?> removeEmployee(String id) {
+        employeeService.removeEmployee(id, getUserName());
         return ResponseBean.success();
     }
 
