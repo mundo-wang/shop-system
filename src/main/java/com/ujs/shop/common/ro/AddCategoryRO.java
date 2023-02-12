@@ -20,6 +20,6 @@ public class AddCategoryRO {
     @Length(message = "分类名最长为{max}个字符", max = 15)
     private String name;
 
-    @NotNull
+    @NotNull(message = "分类类型不得为空")
     private Boolean type;
 }

@@ -27,7 +27,7 @@ public class CategoryController extends BaseController {
 
 
     /**
-     * 增加分类
+     * 增加分类（商品/套餐）
      * @param addCategoryRO
      * @return
      */
