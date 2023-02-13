@@ -31,7 +31,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryPO>
     public void addCategory(AddCategoryRO addCategoryRO) {
         CategoryPO categoryPO = new CategoryPO();
         BeanUtils.copyProperties(addCategoryRO, categoryPO);
-        categoryPO.setId(ConstantBean.getUUIDKey());
+        categoryPO.setId(ConstantBean.getUUID());
         categoryMapper.insert(categoryPO);
     }
 

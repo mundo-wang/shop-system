@@ -70,7 +70,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
 
         EmployeePO employeePO = new EmployeePO();
         BeanUtils.copyProperties(addEmployeeRO, employeePO);
-        employeePO.setId(ConstantBean.getUUIDKey());
+        employeePO.setId(ConstantBean.getUUID());
         employeePO.setPassword(ConstantBean.INITPASSWORD);
         employeeMapper.insert(employeePO);
         log.info("添加员工成功");

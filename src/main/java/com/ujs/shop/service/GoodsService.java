@@ -1,7 +1,12 @@
 package com.ujs.shop.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ujs.shop.common.dto.GoodsInfoDTO;
 import com.ujs.shop.common.po.GoodsPO;
+import com.ujs.shop.common.ro.AddGoodsRO;
+import com.ujs.shop.common.ro.UpdateGoodsRO;
+
+import java.util.List;
 
 /**
  * @author mundo.wang
@@ -9,5 +14,14 @@ import com.ujs.shop.common.po.GoodsPO;
  */
 public interface GoodsService extends IService<GoodsPO> {
 
+    void addGoods(AddGoodsRO addGoodsRO);
+
+    void updateGoods(UpdateGoodsRO updateGoodsRO);
+
+    GoodsInfoDTO getGoodsInfo(String id);
+
+    void changeStatus(List<String> goodsIds, Boolean status);
+
+    void removeGoods(List<String> goodsIds);
 
 }

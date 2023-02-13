@@ -31,13 +31,13 @@ public enum ResponseCodeEnum {
     OVERDUE(212, "未登录或登录已过期，请重新登录"),
     NO_LOGIN_MSG(213, "没有登录信息，请检查请求头"),
     STATUS_ERROR(214, "请先禁用员工再删除"),
-    NO_SUCH_CATEGORY(215, "没有此分类");
+    NO_SUCH_CATEGORY(215, "没有此分类"),
+    NO_SUCH_GOODS(216, "没有此商品"),
+    GOODS_ON_SALE(217, "商品还在售卖，无法删除");
 
     private final Integer code;
 
     private final String message;
-
-
 
 
 }

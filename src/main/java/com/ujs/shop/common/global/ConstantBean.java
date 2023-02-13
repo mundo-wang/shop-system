@@ -15,7 +15,7 @@ public class ConstantBean {
     /**
      * UUID主键统一从这里拿
      */
-    public static String getUUIDKey() {
+    public static String getUUID() {
         return UUID.randomUUID().toString();
     }
 

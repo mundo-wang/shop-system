@@ -4,12 +4,14 @@ import com.ujs.shop.common.base.BaseController;
 import com.ujs.shop.common.dto.GoodsInfoDTO;
 import com.ujs.shop.common.global.ResponseBean;
 import com.ujs.shop.common.ro.AddGoodsRO;
+import com.ujs.shop.common.ro.ChangeGoodsStatusRO;
 import com.ujs.shop.common.ro.UpdateGoodsRO;
 import com.ujs.shop.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author mundo.wang
@@ -35,7 +37,8 @@ public class GoodsController extends BaseController {
      */
     @PostMapping("/addGoods")
     public ResponseBean<?> addGoods(@Valid @RequestBody AddGoodsRO addGoodsRO) {
-        return null;
+        goodsService.addGoods(addGoodsRO);
+        return ResponseBean.success();
     }
 
 
@@ -46,7 +49,8 @@ public class GoodsController extends BaseController {
      */
     @PostMapping("/updateGoods")
     public ResponseBean<?> updateGoods(@Valid @RequestBody UpdateGoodsRO updateGoodsRO) {
-        return null;
+        goodsService.updateGoods(updateGoodsRO);
+        return ResponseBean.success();
     }
 
 
@@ -57,7 +61,32 @@ public class GoodsController extends BaseController {
      */
     @GetMapping("/getGoodsInfo")
     public ResponseBean<GoodsInfoDTO> getGoodsInfo(String id) {
-        return null;
+        GoodsInfoDTO goodsInfo = goodsService.getGoodsInfo(id);
+        return ResponseBean.success(goodsInfo);
+    }
+
+
+    /**
+     * 单体/批量 启售/停售
+     * @param statusRO
+     * @return
+     */
+    @PostMapping("/changeStatus")
+    public ResponseBean<?> changeStatus(@Valid @RequestBody ChangeGoodsStatusRO statusRO) {
+        goodsService.changeStatus(statusRO.getGoodsIds(), statusRO.getStatus());
+        return ResponseBean.success();
+    }
+
+
+    /**
+     * 单体/批量 删除商品以及对应配置
+     * @param goodsIds
+     * @return
+     */
+    @GetMapping("/removeGoods")
+    public ResponseBean<?> removeGoods(@RequestParam("goodsIds") List<String> goodsIds) {
+        goodsService.removeGoods(goodsIds);
+        return ResponseBean.success();
     }
 
 }
