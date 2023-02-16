@@ -10,40 +10,26 @@ import java.math.BigDecimal;
 
 /**
  * @author mundo.wang
- * @date 2023/2/12 17:54
+ * @date 2023/2/16 15:08
  */
 
-
 @Data
-@TableName("shop_goods")
-public class GoodsPO extends BasePO {
+@TableName("shop_package")
+public class PackagePO extends BasePO {
 
 
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;
 
-    private String name;
-
-    /**
-     * 商品关联的类型id
-     */
     private String categoryId;
 
+    private String name;
+
     private BigDecimal price;
-
-
-    /**
-     * 商品余量
-     */
-    private Integer allowance;
 
     private String image;
 
     private String description;
 
-    /**
-     * 0为停售，1为启售
-     */
     private Boolean status;
-
 }

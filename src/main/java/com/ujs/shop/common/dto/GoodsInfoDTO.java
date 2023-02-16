@@ -1,7 +1,9 @@
 package com.ujs.shop.common.dto;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -18,6 +20,8 @@ public class GoodsInfoDTO {
     private String categoryId;
 
     private BigDecimal price;
+
+    private Integer allowance;
 
     private List<GoodsConfigDTO> goodsConfig;
 

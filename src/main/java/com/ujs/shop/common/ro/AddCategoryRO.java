@@ -2,9 +2,11 @@ package com.ujs.shop.common.ro;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * @author mundo.wang
@@ -22,4 +24,6 @@ public class AddCategoryRO {
 
     @NotNull(message = "分类类型不得为空")
     private Boolean type;
+
+
 }

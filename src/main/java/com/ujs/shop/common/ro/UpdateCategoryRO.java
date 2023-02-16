@@ -2,8 +2,10 @@ package com.ujs.shop.common.ro;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author mundo.wang
@@ -19,4 +21,6 @@ public class UpdateCategoryRO {
     @NotBlank(message = "分类名不得为空")
     @Length(message = "分类名最长为{max}个字符", max = 15)
     private String name;
+
+
 }
