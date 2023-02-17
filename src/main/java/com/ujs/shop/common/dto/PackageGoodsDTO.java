@@ -11,9 +11,7 @@ import lombok.Data;
 @Data
 public class PackageGoodsDTO {
 
-    private String name;
-
-    private String categoryId;
+    private String goodsId;
 
     private Integer amount;
 }

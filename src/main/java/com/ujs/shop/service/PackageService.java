@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ujs.shop.common.dto.PackageInfoDTO;
 import com.ujs.shop.common.po.PackagePO;
 import com.ujs.shop.common.ro.AddPackageRO;
+import com.ujs.shop.common.ro.ChangePackageStatusRO;
 import com.ujs.shop.common.ro.UpdatePackageRO;
+
+import java.util.List;
 
 /**
  * @author mundo.wang
@@ -18,4 +21,10 @@ public interface PackageService extends IService<PackagePO> {
     void updatePackage(UpdatePackageRO updatePackageRO);
 
     PackageInfoDTO getPackageInfo(String id);
+
+    void removePackage(List<String> packageIds);
+
+    void changeStatus(List<String> packageIds, Boolean status);
+
+
 }

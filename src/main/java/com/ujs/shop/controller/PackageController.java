@@ -3,12 +3,14 @@ package com.ujs.shop.controller;
 import com.ujs.shop.common.dto.PackageInfoDTO;
 import com.ujs.shop.common.global.ResponseBean;
 import com.ujs.shop.common.ro.AddPackageRO;
+import com.ujs.shop.common.ro.ChangePackageStatusRO;
 import com.ujs.shop.common.ro.UpdatePackageRO;
 import com.ujs.shop.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author mundo.wang
@@ -63,5 +65,27 @@ public class PackageController {
     }
 
 
+    /**
+     * 单体/批量删除套餐及其对应商品
+     * @param packageIds
+     * @return
+     */
+    @GetMapping("/removePackage")
+    public ResponseBean<?> removePackage(@RequestParam("packageIds") List<String> packageIds) {
+        packageService.removePackage(packageIds);
+        return ResponseBean.success();
+    }
+
+
+    /**
+     * 单体/批量 启用/禁用
+     * @param ro
+     * @return
+     */
+    @PostMapping("/changeStatus")
+    public ResponseBean<?> changeStatus(@Valid @RequestBody ChangePackageStatusRO ro) {
+        packageService.changeStatus(ro.getPackageIds(), ro.getStatus());
+        return ResponseBean.success();
+    }
 
 }

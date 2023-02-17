@@ -1,13 +1,32 @@
 package com.ujs.shop.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ujs.shop.common.dto.PackageGoodsDTO;
 import com.ujs.shop.common.dto.PackageInfoDTO;
+import com.ujs.shop.common.enums.ResponseCodeEnum;
+import com.ujs.shop.common.exception.ServiceException;
+import com.ujs.shop.common.global.ConstantBean;
+import com.ujs.shop.common.po.GoodsPO;
+import com.ujs.shop.common.po.PackageDetailPO;
 import com.ujs.shop.common.po.PackagePO;
+import com.ujs.shop.common.ro.AddOrUpdateGoodsRO;
 import com.ujs.shop.common.ro.AddPackageRO;
+import com.ujs.shop.common.ro.ChangePackageStatusRO;
 import com.ujs.shop.common.ro.UpdatePackageRO;
+import com.ujs.shop.mapper.GoodsMapper;
+import com.ujs.shop.mapper.PackageDetailMapper;
 import com.ujs.shop.mapper.PackageMapper;
+import com.ujs.shop.service.PackageDetailService;
 import com.ujs.shop.service.PackageService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author mundo.wang
@@ -17,18 +36,156 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PackageServiceImpl extends ServiceImpl<PackageMapper, PackagePO> implements PackageService {
-    @Override
-    public void addPackage(AddPackageRO addPackageRO) {
 
+
+    @Autowired
+    private PackageMapper packageMapper;
+
+
+    @Autowired
+    private PackageDetailMapper packageDetailMapper;
+
+
+    @Autowired
+    private GoodsMapper goodsMapper;
+
+
+    /**
+     * 拿到所有商品和套餐名
+     * @return
+     */
+    private Set<String> goodsAndPackageNames() {
+        List<GoodsPO> list1 = goodsMapper.selectList(null);
+        List<PackagePO> list2 = packageMapper.selectList(null);
+        Set<String> result = list1.stream().map(GoodsPO::getName).collect(Collectors.toSet());
+        Set<String> packageNames = list2.stream().map(PackagePO::getName).collect(Collectors.toSet());
+        result.addAll(packageNames);
+        return result;
+    }
+
+
+    /**
+     * 将套餐内的商品插入表
+     */
+    private void addPackageGoods(List<AddOrUpdateGoodsRO> goodsList, String packageId) {
+        List<PackageDetailPO> packageDetailPOList = goodsList.stream().map(item -> {
+            PackageDetailPO packageDetailPO = new PackageDetailPO();
+            packageDetailPO.setId(ConstantBean.getUUID());
+            packageDetailPO.setPackageId(packageId);
+            BeanUtils.copyProperties(item, packageDetailPO);
+            return packageDetailPO;
+        }).collect(Collectors.toList());
+
+        for (PackageDetailPO packageDetailPO : packageDetailPOList) {
+            packageDetailMapper.insert(packageDetailPO);
+        }
+    }
+
+
+    /**
+     * 检验套餐内商品的数量是否超过库存上线或者已被禁售
+     * @param goodsList
+     * @return
+     */
+    private void checkGoodsAmountAndStatus(List<AddOrUpdateGoodsRO> goodsList) {
+        for (AddOrUpdateGoodsRO ro : goodsList) {
+            GoodsPO goodsPO = goodsMapper.selectById(ro.getGoodsId());
+            if (goodsPO.getAllowance() < ro.getAmount()) {
+                throw new ServiceException(ResponseCodeEnum.OUT_OF_ALLOWANCE);
+            }
+            if (goodsPO.getStatus()) {
+                throw new ServiceException(ResponseCodeEnum.GOODS_DISABLE);
+            }
+        }
+    }
+
+
+
+    @Override
+    @Transactional
+    public void addPackage(AddPackageRO addPackageRO) {
+        if (goodsAndPackageNames().contains(addPackageRO.getName())) {
+            throw new ServiceException(ResponseCodeEnum.PACKAGE_NAME_UNIQUE);
+        }
+        PackagePO packagePO = new PackagePO();
+        packagePO.setId(ConstantBean.getUUID());
+        BeanUtils.copyProperties(addPackageRO, packagePO);
+        packageMapper.insert(packagePO);
+        List<AddOrUpdateGoodsRO> goodsList = addPackageRO.getGoodsList();
+        checkGoodsAmountAndStatus(goodsList);
+        addPackageGoods(goodsList, packagePO.getId());
     }
 
     @Override
+    @Transactional
     public void updatePackage(UpdatePackageRO updatePackageRO) {
-
+        PackagePO packagePO = packageMapper.selectById(updatePackageRO.getId());
+        if (packagePO == null) {
+            throw new ServiceException(ResponseCodeEnum.NO_SUCH_PACHAGE);
+        }
+        if (! packagePO.getName().equals(updatePackageRO.getName())) {
+            if (goodsAndPackageNames().contains(updatePackageRO.getName())) {
+                throw new ServiceException(ResponseCodeEnum.PACKAGE_NAME_UNIQUE);
+            }
+        }
+        BeanUtils.copyProperties(updatePackageRO, packagePO);
+        packageMapper.updateById(packagePO);
+        LambdaQueryWrapper<PackageDetailPO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(PackageDetailPO::getPackageId, packagePO.getId());
+        packageDetailMapper.delete(wrapper);
+        List<AddOrUpdateGoodsRO> goodsList = updatePackageRO.getGoodsList();
+        checkGoodsAmountAndStatus(goodsList);
+        addPackageGoods(goodsList, packagePO.getId());
     }
 
     @Override
     public PackageInfoDTO getPackageInfo(String id) {
-        return null;
+        PackagePO packagePO = packageMapper.selectById(id);
+        if (packagePO == null) {
+            throw new ServiceException(ResponseCodeEnum.NO_SUCH_PACHAGE);
+        }
+        PackageInfoDTO packageInfoDTO = new PackageInfoDTO();
+        BeanUtils.copyProperties(packagePO, packageInfoDTO);
+        LambdaQueryWrapper<PackageDetailPO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(PackageDetailPO::getPackageId, packagePO.getId());
+        List<PackageDetailPO> packageDetailPOS = packageDetailMapper.selectList(wrapper);
+        List<PackageGoodsDTO> goodsList = packageDetailPOS.stream().map(item -> {
+            PackageGoodsDTO packageGoodsDTO = new PackageGoodsDTO();
+            BeanUtils.copyProperties(item, packageGoodsDTO);
+            return packageGoodsDTO;
+        }).collect(Collectors.toList());
+        packageInfoDTO.setGoodsList(goodsList);
+        return packageInfoDTO;
+    }
+
+    @Override
+    @Transactional
+    public void removePackage(List<String> packageIds) {
+        for (String id : packageIds) {
+            PackagePO packagePO = packageMapper.selectById(id);
+            if (packagePO == null) {
+                throw new ServiceException(ResponseCodeEnum.NO_SUCH_PACHAGE);
+            }
+            if (! packagePO.getStatus()) {
+                throw new ServiceException(ResponseCodeEnum.PACKAGE_ON_SALE);
+            }
+        }
+        LambdaQueryWrapper<PackageDetailPO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.in(PackageDetailPO::getPackageId, packageIds);
+        packageDetailMapper.delete(wrapper);
+        packageMapper.deleteBatchIds(packageIds);
+    }
+
+    @Override
+    @Transactional
+    public void changeStatus(List<String> packageIds, Boolean status) {
+        for (String id : packageIds) {
+            PackagePO packagePO = packageMapper.selectById(id);
+            if (packagePO == null) {
+                throw new ServiceException(ResponseCodeEnum.NO_SUCH_PACHAGE);
+            }
+            packagePO.setStatus(status);
+            packageMapper.updateById(packagePO);
+        }
     }
 }

@@ -31,5 +31,8 @@ public class PackagePO extends BasePO {
 
     private String description;
 
+    /**
+     * false为启售 true为停售
+     */
     private Boolean status;
 }
