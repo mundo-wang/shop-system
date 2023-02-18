@@ -1,8 +1,13 @@
 package com.ujs.shop.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ujs.shop.common.dto.GoodsPageDTO;
+import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.po.GoodsPO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,4 +19,8 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface GoodsMapper extends BaseMapper<GoodsPO> {
+
+    IPage<GoodsPageDTO> goodsPage(@Param("page") Page<GoodsPageDTO> page,
+                                  @Param("name") String name,
+                                  @Param("categoryId") String categoryId);
 }

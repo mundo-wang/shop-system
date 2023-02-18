@@ -1,12 +1,16 @@
 package com.ujs.shop.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ujs.shop.common.dto.GoodsConfigDTO;
 import com.ujs.shop.common.dto.GoodsInfoDTO;
+import com.ujs.shop.common.dto.GoodsPageDTO;
 import com.ujs.shop.common.enums.ResponseCodeEnum;
 import com.ujs.shop.common.exception.ServiceException;
 import com.ujs.shop.common.global.ConstantBean;
+import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.po.GoodsConfigPO;
 import com.ujs.shop.common.po.GoodsPO;
 import com.ujs.shop.common.po.PackagePO;
@@ -166,5 +170,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
         wrapper.in(GoodsConfigPO::getGoodsId, goodsIds);
         goodsConfigMapper.delete(wrapper);
         goodsMapper.deleteBatchIds(goodsIds);
+    }
+
+    @Override
+    public PageFormBean<GoodsPageDTO> goodsPage(Integer page, Integer size, String name, String categoryId) {
+        Page<GoodsPageDTO> page1 = new Page<>(page, size);
+        IPage<GoodsPageDTO> page2 = goodsMapper.goodsPage(page1, name, categoryId);
+        return new PageFormBean<>(page2);
     }
 }

@@ -1,10 +1,14 @@
 package com.ujs.shop.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ujs.shop.common.dto.CategoryInfoDTO;
+import com.ujs.shop.common.dto.CategoryPageDTO;
 import com.ujs.shop.common.enums.ResponseCodeEnum;
 import com.ujs.shop.common.exception.ServiceException;
 import com.ujs.shop.common.global.ConstantBean;
+import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.po.CategoryPO;
 import com.ujs.shop.common.ro.AddCategoryRO;
 import com.ujs.shop.common.ro.UpdateCategoryRO;
@@ -13,6 +17,9 @@ import com.ujs.shop.service.CategoryService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author mundo.wang
@@ -63,5 +70,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryPO>
         CategoryInfoDTO categoryInfoDTO = new CategoryInfoDTO();
         BeanUtils.copyProperties(categoryPO, categoryInfoDTO);
         return categoryInfoDTO;
+    }
+
+    @Override
+    public PageFormBean<CategoryPageDTO> categoryPage(Integer page, Integer size, Boolean type, String name) {
+        Page<CategoryPageDTO> page1 = new Page<>(page, size);
+        IPage<CategoryPageDTO> page2 = categoryMapper.categoryPage(page1, type, name);
+        return new PageFormBean<>(page2);
     }
 }

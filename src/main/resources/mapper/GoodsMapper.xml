@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ujs.shop.mapper.GoodsMapper">
+
+    <select id="goodsPage" resultType="com.ujs.shop.common.dto.GoodsPageDTO">
+        select a.name, b.name as categoryName, a.price, a.allowance, a.status, a.update_user, a.update_time
+        from shop_goods a
+        inner join shop_category b
+        on a.category_id = b.id
+        <where>
+            <if test="name != null and name != ''">
+                a.name like concat("%", #{name}, "%")
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                a.category_id = #{categoryId}
+            </if>
+            and a.is_deleted = 0
+        </where>
+        order by a.create_time desc
+    </select>
+
+</mapper>

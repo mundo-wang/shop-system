@@ -1,8 +1,12 @@
 package com.ujs.shop.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ujs.shop.common.dto.EmployeePageDTO;
 import com.ujs.shop.common.po.EmployeePO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,5 +20,9 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface EmployeeMapper extends BaseMapper<EmployeePO> {
+
+
+    IPage<EmployeePageDTO> employeePage(@Param("page") Page<EmployeePageDTO> page,
+                                        @Param("userName") String userName);
 
 }

@@ -2,9 +2,12 @@ package com.ujs.shop.controller;
 
 import com.ujs.shop.common.base.BaseController;
 import com.ujs.shop.common.dto.GoodsInfoDTO;
+import com.ujs.shop.common.dto.GoodsPageDTO;
+import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.global.ResponseBean;
 import com.ujs.shop.common.ro.AddGoodsRO;
 import com.ujs.shop.common.ro.ChangeGoodsStatusRO;
+import com.ujs.shop.common.ro.GoodsPageRO;
 import com.ujs.shop.common.ro.UpdateGoodsRO;
 import com.ujs.shop.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +90,23 @@ public class GoodsController extends BaseController {
     public ResponseBean<?> removeGoods(@RequestParam("goodsIds") List<String> goodsIds) {
         goodsService.removeGoods(goodsIds);
         return ResponseBean.success();
+    }
+
+
+    /**
+     * 商品分页展示
+     * @param goodsPageRO
+     * @return
+     */
+    @PostMapping("/goodsPage")
+    public ResponseBean<PageFormBean<GoodsPageDTO>> goodsPage(@Valid @RequestBody GoodsPageRO goodsPageRO) {
+        PageFormBean<GoodsPageDTO> goodsPage = goodsService.goodsPage(
+                goodsPageRO.getPage(),
+                goodsPageRO.getSize(),
+                goodsPageRO.getName(),
+                goodsPageRO.getCategoryId()
+        );
+        return ResponseBean.success(goodsPage);
     }
 
 }

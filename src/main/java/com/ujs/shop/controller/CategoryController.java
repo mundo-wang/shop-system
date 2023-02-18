@@ -2,8 +2,11 @@ package com.ujs.shop.controller;
 
 import com.ujs.shop.common.base.BaseController;
 import com.ujs.shop.common.dto.CategoryInfoDTO;
+import com.ujs.shop.common.dto.CategoryPageDTO;
+import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.global.ResponseBean;
 import com.ujs.shop.common.ro.AddCategoryRO;
+import com.ujs.shop.common.ro.CategoryPageRO;
 import com.ujs.shop.common.ro.UpdateCategoryRO;
 import com.ujs.shop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +76,22 @@ public class CategoryController extends BaseController {
     public ResponseBean<CategoryInfoDTO> getCategoryInfo(String id) {
         CategoryInfoDTO categoryInfo = categoryService.getCategoryInfo(id);
         return ResponseBean.success(categoryInfo);
+    }
+
+
+    /**
+     * 分类的分页展示
+     * @param categoryPageRO
+     * @return
+     */
+    @PostMapping("/categoryPage")
+    public ResponseBean<PageFormBean<CategoryPageDTO>> categoryPage(@Valid @RequestBody CategoryPageRO categoryPageRO) {
+        PageFormBean<CategoryPageDTO> categoryPage = categoryService.categoryPage(
+                categoryPageRO.getPage(),
+                categoryPageRO.getSize(),
+                categoryPageRO.getType(),
+                categoryPageRO.getName()
+        );
+        return ResponseBean.success(categoryPage);
     }
 }

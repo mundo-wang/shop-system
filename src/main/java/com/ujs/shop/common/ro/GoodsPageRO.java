@@ -5,11 +5,15 @@ import lombok.Data;
 
 /**
  * @author mundo.wang
- * @date 2023/2/7 15:55
+ * @date 2023/2/18 23:34
  */
 
-@Data
-public class EmployeePageRO extends BasePageRO {
 
-    private String userName;
+@Data
+public class GoodsPageRO extends BasePageRO {
+
+    private String name;
+
+    private String categoryId;
+
 }

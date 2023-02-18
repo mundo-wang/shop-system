@@ -4,6 +4,7 @@ package com.ujs.shop.controller;
 import com.ujs.shop.common.base.BaseController;
 import com.ujs.shop.common.dto.EmployeeInfoDTO;
 import com.ujs.shop.common.dto.EmployeePageDTO;
+import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.global.ResponseBean;
 import com.ujs.shop.common.ro.*;
 import com.ujs.shop.service.EmployeeService;
@@ -96,8 +97,13 @@ public class EmployeeController extends BaseController {
      * @return
      */
     @PostMapping("/employeePage")
-    public ResponseBean<EmployeePageDTO> employeePage(@Valid @RequestBody EmployeePageRO employeePageRO) {
-        return null;
+    public ResponseBean<PageFormBean<EmployeePageDTO>> employeePage(@Valid @RequestBody EmployeePageRO employeePageRO) {
+        PageFormBean<EmployeePageDTO> employeePage = employeeService.employeePage(
+                employeePageRO.getPage(),
+                employeePageRO.getSize(),
+                employeePageRO.getUserName(),
+                getUserName());
+        return ResponseBean.success(employeePage);
     }
 
 

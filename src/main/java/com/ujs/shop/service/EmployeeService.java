@@ -2,6 +2,8 @@ package com.ujs.shop.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ujs.shop.common.dto.EmployeeInfoDTO;
+import com.ujs.shop.common.dto.EmployeePageDTO;
+import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.po.EmployeePO;
 import com.ujs.shop.common.ro.AddEmployeeRO;
 import com.ujs.shop.common.ro.EmployeeLoginRO;
@@ -27,6 +29,8 @@ public interface EmployeeService extends IService<EmployeePO> {
     String login(EmployeeLoginRO employeeLoginRO);
 
     void logout(String token);
+
+    PageFormBean<EmployeePageDTO> employeePage(Integer page, Integer size, String userName, String loginName);
 
 
     void changeStatus(String id, Boolean status, String userName);
