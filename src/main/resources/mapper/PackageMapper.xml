@@ -2,11 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ujs.shop.mapper.GoodsMapper">
+<mapper namespace="com.ujs.shop.mapper.PackageMapper">
 
-    <select id="goodsPage" resultType="com.ujs.shop.common.dto.GoodsPageDTO">
-        select a.id, a.name, b.name as categoryName, a.price, a.allowance, a.status, a.update_user, a.update_time
-        from shop_goods a
+    <select id="packagePage" resultType="com.ujs.shop.common.dto.PackagePageDTO">
+        select a.id, a.name, b.name as categoryName, a.price, a.status, a.update_time, a.update_user
+        from shop_package a
         inner join shop_category b
         on a.category_id = b.id
         <where>
@@ -18,7 +18,7 @@
             </if>
             and a.is_deleted = 0
         </where>
-        order by a.create_time desc
+        order by update_time desc
     </select>
 
 </mapper>

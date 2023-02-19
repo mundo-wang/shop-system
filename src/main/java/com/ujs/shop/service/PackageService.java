@@ -2,6 +2,8 @@ package com.ujs.shop.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ujs.shop.common.dto.PackageInfoDTO;
+import com.ujs.shop.common.dto.PackagePageDTO;
+import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.po.PackagePO;
 import com.ujs.shop.common.ro.AddPackageRO;
 import com.ujs.shop.common.ro.ChangePackageStatusRO;
@@ -25,6 +27,8 @@ public interface PackageService extends IService<PackagePO> {
     void removePackage(List<String> packageIds);
 
     void changeStatus(List<String> packageIds, Boolean status);
+
+    PageFormBean<PackagePageDTO> packagePage(Integer page, Integer size, String name, String categoryId);
 
 
 }

@@ -15,6 +15,8 @@ import java.util.Date;
 @Data
 public class CategoryPageDTO {
 
+    private String id;
+
     private String name;
 
     private Boolean type;

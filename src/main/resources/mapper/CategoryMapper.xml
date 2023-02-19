@@ -5,7 +5,7 @@
 <mapper namespace="com.ujs.shop.mapper.CategoryMapper">
 
     <select id="categoryPage" resultType="com.ujs.shop.common.dto.CategoryPageDTO">
-        select name, type, update_user, update_time
+        select id, name, type, update_user, update_time
         from shop_category
         <where>
             <if test="type != null">

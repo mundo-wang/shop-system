@@ -1,9 +1,12 @@
 package com.ujs.shop.controller;
 
 import com.ujs.shop.common.dto.PackageInfoDTO;
+import com.ujs.shop.common.dto.PackagePageDTO;
+import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.global.ResponseBean;
 import com.ujs.shop.common.ro.AddPackageRO;
 import com.ujs.shop.common.ro.ChangePackageStatusRO;
+import com.ujs.shop.common.ro.PackagePageRO;
 import com.ujs.shop.common.ro.UpdatePackageRO;
 import com.ujs.shop.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +89,23 @@ public class PackageController {
     public ResponseBean<?> changeStatus(@Valid @RequestBody ChangePackageStatusRO ro) {
         packageService.changeStatus(ro.getPackageIds(), ro.getStatus());
         return ResponseBean.success();
+    }
+
+
+    /**
+     * 套餐分页展示
+     * @param packagePageRO
+     * @return
+     */
+    @PostMapping("/packagePage")
+    public ResponseBean<PageFormBean<PackagePageDTO>> packagePage(@Valid @RequestBody PackagePageRO packagePageRO) {
+        PageFormBean<PackagePageDTO> packagePage = packageService.packagePage(
+                packagePageRO.getPage(),
+                packagePageRO.getSize(),
+                packagePageRO.getName(),
+                packagePageRO.getCategoryId()
+        );
+        return ResponseBean.success(packagePage);
     }
 
 }
