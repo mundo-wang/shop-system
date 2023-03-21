@@ -16,7 +16,9 @@ public enum NoFilterPathEnum {
     PATH1("/shop/employee/login"),
 //    PATH2("/shop/employee/logout"),
     PATH3("/backend/**"),
-    PATH4("/front/**");
+    PATH4("/front/**"),
+    PATH5("/shop/customer/login"),
+    PATH6("/shop/customer/getVerifyCode");
 
     private final String path;
 }

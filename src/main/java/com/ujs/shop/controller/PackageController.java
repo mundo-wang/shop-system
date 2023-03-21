@@ -62,7 +62,7 @@ public class PackageController {
      * @return
      */
     @GetMapping("/getPackageInfo")
-    public ResponseBean<PackageInfoDTO> getPackageInfo(String id) {
+    public ResponseBean<PackageInfoDTO> getPackageInfo(@RequestParam String id) {
         PackageInfoDTO packageInfo = packageService.getPackageInfo(id);
         return ResponseBean.success(packageInfo);
     }

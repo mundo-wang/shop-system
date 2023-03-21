@@ -4,10 +4,15 @@ import com.ujs.shop.common.base.BaseController;
 import com.ujs.shop.common.global.ResponseBean;
 import com.ujs.shop.common.ro.UpdateCustomerRO;
 import com.ujs.shop.common.ro.UpdatePackageRO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ujs.shop.service.CustomerService;
+import com.ujs.shop.utils.ValidateCodeUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author mundo.wang
@@ -15,19 +20,37 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 
+
 @RestController
 @RequestMapping("/shop/customer")
 public class CustomerController extends BaseController {
 
 
+    @Autowired
+    private CustomerService customerService;
+
+
     /**
-     * 新增用户
+     * 获取验证码
      * @param phone
      * @return
      */
-    @GetMapping("/addCustomer")
-    public ResponseBean<?> addCustomer(String phone) {
+    @GetMapping("/getVerifyCode")
+    public ResponseBean<?> getVerifyCode(@RequestParam String phone) {
+        customerService.getVerifyCode(phone);
         return ResponseBean.success();
+    }
+
+
+    /**
+     * 用户登录
+     * @param phone
+     * @return
+     */
+    @GetMapping("/login")
+    public ResponseBean<String> login(@RequestParam String phone, @RequestParam String verifyCode) {
+        String token = customerService.login(phone, verifyCode);
+        return ResponseBean.success(token);
     }
 
 
@@ -37,7 +60,8 @@ public class CustomerController extends BaseController {
      * @return
      */
     @PostMapping("/updateCustomer")
-    public ResponseBean<?> updateCustomer(UpdateCustomerRO updateCustomerRO) {
+    public ResponseBean<?> updateCustomer(@RequestBody @Valid UpdateCustomerRO updateCustomerRO) {
+        customerService.updateCustomer(updateCustomerRO);
         return ResponseBean.success();
     }
 

@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.ujs.shop.common.base.BasePO;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * @author mundo.wang
  * @date 2023/2/19 15:17
@@ -14,7 +16,7 @@ import lombok.Data;
 
 @Data
 @TableName("shop_customer")
-public class CustomerPO extends BasePO {
+public class CustomerPO {
 
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;
@@ -28,5 +30,9 @@ public class CustomerPO extends BasePO {
     private String picture;
 
     private Boolean status;
+
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
 
 }

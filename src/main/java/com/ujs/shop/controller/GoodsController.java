@@ -63,7 +63,7 @@ public class GoodsController extends BaseController {
      * @return
      */
     @GetMapping("/getGoodsInfo")
-    public ResponseBean<GoodsInfoDTO> getGoodsInfo(String id) {
+    public ResponseBean<GoodsInfoDTO> getGoodsInfo(@RequestParam String id) {
         GoodsInfoDTO goodsInfo = goodsService.getGoodsInfo(id);
         return ResponseBean.success(goodsInfo);
     }

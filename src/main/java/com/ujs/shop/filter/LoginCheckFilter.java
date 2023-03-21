@@ -71,14 +71,20 @@ public class LoginCheckFilter implements Filter {
             return;
         }
 
+
 //        这里如果采用抛出异常，无法被全局异常捕捉器捕捉到。我们使用输出流的方式返回给前端。
 //        更改浏览器解码规则，按json格式输出给前端。
 //        注意！这里更改response解码规则要放到if语句里面，不然如果登录没问题，这里改了会影响后面响应的处理。
         String jwtToken = request.getHeader(ConstantBean.AUTHORIZATION);
         if (jwtToken == null || jwtToken.equals("")) {
-            response.setContentType("application/json;charset=utf-8");
-            PrintWriter writer = response.getWriter();
-            writer.write(JSON.toJSONString(ResponseBean.fail(ResponseCodeEnum.NO_LOGIN_MSG), SerializerFeature.WriteMapNullValue));
+            String token = request.getHeader(ConstantBean.TOKEN);
+            if (token == null || token.equals("")) {
+                response.setContentType("application/json;charset=utf-8");
+                PrintWriter writer = response.getWriter();
+                writer.write(JSON.toJSONString(ResponseBean.fail(ResponseCodeEnum.NO_LOGIN_MSG), SerializerFeature.WriteMapNullValue));
+                return;
+            }
+            filterChain.doFilter(request, response);
             return;
         }
         if (! JWTHelper.decode(jwtToken)) {
@@ -111,6 +117,8 @@ public class LoginCheckFilter implements Filter {
 //        list.add(NoFilterPathEnum.PATH2.getPath());
         list.add(NoFilterPathEnum.PATH3.getPath());
         list.add(NoFilterPathEnum.PATH4.getPath());
+        list.add(NoFilterPathEnum.PATH5.getPath());
+        list.add(NoFilterPathEnum.PATH6.getPath());
         return list;
     }
 

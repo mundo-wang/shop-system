@@ -39,7 +39,11 @@ public enum ResponseCodeEnum {
     NO_SUCH_PACHAGE(220, "没有此套餐"),
     OUT_OF_ALLOWANCE(221, "套餐内商品数量超过库存"),
     PACKAGE_ON_SALE(222, "请先停售套餐再删除"),
-    GOODS_DISABLE(223, "商品已被停售，无法加入套餐");
+    GOODS_DISABLE(223, "商品已被停售，无法加入套餐"),
+    PHONE_UNIQUE(224, "电话号已被注册"),
+    USERNAME_UNIQUE(225, "用户名重复"),
+    VERIFY_ERROR(226, "验证码错误"),
+    VERIFY_OVERDUE(227, "验证码已过期");
 
     private final Integer code;
 

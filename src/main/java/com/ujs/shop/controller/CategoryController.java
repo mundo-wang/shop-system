@@ -61,7 +61,7 @@ public class CategoryController extends BaseController {
      * @return
      */
     @GetMapping("/removeCategory")
-    public ResponseBean<?> removeCategory(String id) {
+    public ResponseBean<?> removeCategory(@RequestParam String id) {
         categoryService.removeCategory(id);
         return ResponseBean.success();
     }
@@ -73,7 +73,7 @@ public class CategoryController extends BaseController {
      * @return
      */
     @GetMapping("/getCategoryInfo")
-    public ResponseBean<CategoryInfoDTO> getCategoryInfo(String id) {
+    public ResponseBean<CategoryInfoDTO> getCategoryInfo(@RequestParam String id) {
         CategoryInfoDTO categoryInfo = categoryService.getCategoryInfo(id);
         return ResponseBean.success(categoryInfo);
     }

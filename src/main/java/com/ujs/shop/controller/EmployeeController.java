@@ -61,7 +61,7 @@ public class EmployeeController extends BaseController {
      * @return
      */
     @GetMapping("/getEmployInfo")
-    public ResponseBean<EmployeeInfoDTO> getEmployInfo(String id) {
+    public ResponseBean<EmployeeInfoDTO> getEmployInfo(@RequestParam String id) {
         EmployeeInfoDTO employeeInfoDTO = employeeService.getEmployInfo(id, getUserName());
         return ResponseBean.success(employeeInfoDTO);
     }
@@ -125,7 +125,7 @@ public class EmployeeController extends BaseController {
      * @return
      */
     @GetMapping("/changeStatus")
-    public ResponseBean<?> changeStatus(String id, Boolean status) {
+    public ResponseBean<?> changeStatus(@RequestParam String id, @RequestParam Boolean status) {
         employeeService.changeStatus(id, status, getUserName());
         return ResponseBean.success();
     }
@@ -137,7 +137,7 @@ public class EmployeeController extends BaseController {
      * @return
      */
     @GetMapping("/removeEmployee")
-    public ResponseBean<?> removeEmployee(String id) {
+    public ResponseBean<?> removeEmployee(@RequestParam String id) {
         employeeService.removeEmployee(id, getUserName());
         return ResponseBean.success();
     }

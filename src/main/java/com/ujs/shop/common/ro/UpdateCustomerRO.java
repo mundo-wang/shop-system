@@ -19,6 +19,4 @@ public class UpdateCustomerRO {
 
     private String picture;
 
-    private Boolean status;
-
 }
