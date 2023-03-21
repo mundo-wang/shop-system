@@ -43,7 +43,8 @@ public enum ResponseCodeEnum {
     PHONE_UNIQUE(224, "电话号已被注册"),
     USERNAME_UNIQUE(225, "用户名重复"),
     VERIFY_ERROR(226, "验证码错误"),
-    VERIFY_OVERDUE(227, "验证码已过期");
+    VERIFY_OVERDUE(227, "验证码已过期"),
+    NO_SUCH_ADDRESS(228, "没有此地址");
 
     private final Integer code;
 

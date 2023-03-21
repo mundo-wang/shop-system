@@ -6,6 +6,7 @@ import com.ujs.shop.common.enums.ResponseCodeEnum;
 import com.ujs.shop.common.exception.ControllerException;
 import com.ujs.shop.common.exception.ServiceException;
 import com.ujs.shop.common.global.ConstantBean;
+import com.ujs.shop.service.CustomerService;
 import com.ujs.shop.utils.JWTHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -79,6 +80,16 @@ public class BaseController {
     public String getUserName() {
         UserInfoDTO userInfoDTO = getUserInfo();
         return userInfoDTO != null ? userInfoDTO.getUserName() : null;
+    }
+
+
+    /**
+     * 获取用户的用户id
+     * @return
+     */
+    public String getCustomerId() {
+        String token = request.getHeader(ConstantBean.TOKEN);
+        return (String) redisTemplate.boundValueOps(token).get();
     }
 
 

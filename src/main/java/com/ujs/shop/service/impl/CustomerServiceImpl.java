@@ -1,6 +1,7 @@
 package com.ujs.shop.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ujs.shop.common.dto.CustomerInfoDTO;
 import com.ujs.shop.common.enums.ResponseCodeEnum;
@@ -76,16 +77,22 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerPO>
             throw new ServiceException(ResponseCodeEnum.VERIFY_ERROR);
         }
         redisTemplate.delete(phone);
+        String id = ConstantBean.getUUID();
         String token = ConstantBean.USER_PREFIX + phone;
-        if (! redisTemplate.hasKey(token)) {
-            redisTemplate.boundValueOps(token).set(phone, 3, TimeUnit.DAYS);
-        }
 
-        CustomerPO customerPO = new CustomerPO();
         if (phoneSet().contains(phone)) {
+            CustomerPO customerPO = customerMapper.selectOne(new LambdaUpdateWrapper<CustomerPO>().eq(CustomerPO::getPhone, phone));
+            if (! redisTemplate.hasKey(token)) {
+                redisTemplate.boundValueOps(token).set(customerPO.getId(), 3, TimeUnit.DAYS);
+            }
             return token;
+        } else {
+            if (! redisTemplate.hasKey(token)) {
+                redisTemplate.boundValueOps(token).set(id, 3, TimeUnit.DAYS);
+            }
         }
-        customerPO.setId(ConstantBean.getUUID());
+        CustomerPO customerPO = new CustomerPO();
+        customerPO.setId(id);
         customerPO.setPhone(phone);
         String userName = ConstantBean.USERNAME_PREFIX + ConstantBean.getUUID().substring(0, 8);
         while (userNameSet().contains(userName)) {
