@@ -156,32 +156,11 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
         }
     }
 
-    /**
-     * 此处逻辑：如果是普通用户，是无法查看管理员信息的，所以查询结果要去掉管理员的数据。
-     * 如果是管理员，要求管理员的信息永远处在第一条，但是我们是按照创建时间倒序排序，所以我们需要把管理员的数据塞到List集合第一个。
-     *
-     * @param page
-     * @param size
-     * @param userName
-     * @param loginName
-     * @return
-     */
+
     @Override
     public PageFormBean<EmployeePageDTO> employeePage(Integer page, Integer size, String userName, String loginName) {
         Page<EmployeePageDTO> page1 = new Page<>(page, size);
         IPage<EmployeePageDTO> page2 = employeeMapper.employeePage(page1, userName);
-        List<EmployeePageDTO> records = page2.getRecords();
-        EmployeePageDTO employeePageDTO = records.get(records.size() - 1);
-        records.remove(records.size() - 1);
-        page2.setTotal(page2.getTotal() - 1);
-        if (ConstantBean.SUPER_USER.equals(loginName)) {
-            List<EmployeePageDTO> temp = new ArrayList<>();
-            temp.add(employeePageDTO);
-            temp.addAll(records);
-            records = temp;
-            page2.setTotal(page2.getTotal() + 1);
-        }
-        page2.setRecords(records);
         return new PageFormBean<>(page2);
     }
 

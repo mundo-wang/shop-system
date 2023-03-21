@@ -11,10 +11,10 @@
         on a.category_id = b.id
         <where>
             <if test="name != null and name != ''">
-                a.name like concat("%", #{name}, "%")
+                a.name like concat('%', #{name}, '%')
             </if>
             <if test="categoryId != null and categoryId != ''">
-                a.category_id = #{categoryId}
+                and a.category_id = #{categoryId}
             </if>
             and a.is_deleted = 0
         </where>

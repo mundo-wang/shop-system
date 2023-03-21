@@ -12,7 +12,7 @@
                 type = #{type}
             </if>
             <if test="name != null and name != ''">
-                name like concat("%", #{name}, "%")
+                and name like concat('%', #{name}, '%')
             </if>
             and is_deleted = 0
         </where>
