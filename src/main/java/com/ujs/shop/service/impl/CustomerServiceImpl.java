@@ -2,6 +2,7 @@ package com.ujs.shop.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ujs.shop.common.dto.CustomerInfoDTO;
 import com.ujs.shop.common.enums.ResponseCodeEnum;
 import com.ujs.shop.common.exception.ServiceException;
 import com.ujs.shop.common.global.ConstantBean;
@@ -13,6 +14,7 @@ import com.ujs.shop.utils.ValidateCodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -76,7 +78,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerPO>
         redisTemplate.delete(phone);
         String token = ConstantBean.USER_PREFIX + phone;
         if (! redisTemplate.hasKey(token)) {
-            redisTemplate.boundValueOps(token).set(phone);
+            redisTemplate.boundValueOps(token).set(phone, 3, TimeUnit.DAYS);
         }
 
         CustomerPO customerPO = new CustomerPO();
@@ -106,6 +108,25 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerPO>
             throw new ServiceException(ResponseCodeEnum.USERNAME_UNIQUE);
         }
         BeanUtils.copyProperties(updateCustomerRO, customerPO);
+        customerPO.setUpdateTime(LocalDateTime.now());
         customerMapper.updateById(customerPO);
+    }
+
+    @Override
+    public CustomerInfoDTO getCustomerInfo(String id) {
+        CustomerPO customerPO = customerMapper.selectById(id);
+        if (customerPO == null) {
+            throw new ServiceException(ResponseCodeEnum.NO_SUCH_USER);
+        }
+        CustomerInfoDTO customerInfoDTO = new CustomerInfoDTO();
+        BeanUtils.copyProperties(customerPO, customerInfoDTO);
+        return customerInfoDTO;
+    }
+
+    @Override
+    public void logout(String id) {
+        CustomerPO customerPO = customerMapper.selectById(id);
+        String key = ConstantBean.USER_PREFIX + customerPO.getPhone();
+        redisTemplate.delete(key);
     }
 }

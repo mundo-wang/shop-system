@@ -1,6 +1,7 @@
 package com.ujs.shop.controller;
 
 import com.ujs.shop.common.base.BaseController;
+import com.ujs.shop.common.dto.CustomerInfoDTO;
 import com.ujs.shop.common.global.ResponseBean;
 import com.ujs.shop.common.ro.UpdateCustomerRO;
 import com.ujs.shop.common.ro.UpdatePackageRO;
@@ -62,6 +63,30 @@ public class CustomerController extends BaseController {
     @PostMapping("/updateCustomer")
     public ResponseBean<?> updateCustomer(@RequestBody @Valid UpdateCustomerRO updateCustomerRO) {
         customerService.updateCustomer(updateCustomerRO);
+        return ResponseBean.success();
+    }
+
+
+    /**
+     * 用户信息回显
+     * @param id
+     * @return
+     */
+    @GetMapping("/getCustomerInfo")
+    public ResponseBean<CustomerInfoDTO> getCustomerInfo(@RequestParam String id) {
+        CustomerInfoDTO customerInfo = customerService.getCustomerInfo(id);
+        return ResponseBean.success(customerInfo);
+    }
+
+
+    /**
+     * 用户登出
+     * @param id
+     * @return
+     */
+    @GetMapping("/logout")
+    public ResponseBean<?> logout(@RequestParam String id) {
+        customerService.logout(id);
         return ResponseBean.success();
     }
 
