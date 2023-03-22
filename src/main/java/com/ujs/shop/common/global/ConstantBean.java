@@ -66,4 +66,10 @@ public class ConstantBean {
     public static final String TOKEN = "token";
 
 
+    /**
+     * 图片前缀
+     */
+    public static final String IMAGE_PREFIX = "image_";
+
+
 }

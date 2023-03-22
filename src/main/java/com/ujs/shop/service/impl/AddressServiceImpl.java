@@ -1,6 +1,9 @@
 package com.ujs.shop.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ujs.shop.common.dto.AddressDTO;
+import com.ujs.shop.common.dto.AddressInfoDTO;
 import com.ujs.shop.common.enums.ResponseCodeEnum;
 import com.ujs.shop.common.exception.ServiceException;
 import com.ujs.shop.common.global.ConstantBean;
@@ -11,9 +14,12 @@ import com.ujs.shop.mapper.AddressMapper;
 import com.ujs.shop.service.AddressService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author mundo.wang
@@ -48,5 +54,31 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, AddressPO> im
         addressPO.setUserId(id);
         addressPO.setUpdateTime(LocalDateTime.now());
         addressMapper.updateById(addressPO);
+    }
+
+    @Override
+    public AddressInfoDTO getAddressInfo(String id) {
+        AddressPO addressPO = addressMapper.selectById(id);
+        if (addressPO == null) {
+            throw new ServiceException(ResponseCodeEnum.NO_SUCH_ADDRESS);
+        }
+        AddressInfoDTO addressInfoDTO = new AddressInfoDTO();
+        BeanUtils.copyProperties(addressPO, addressInfoDTO);
+        return addressInfoDTO;
+    }
+
+    @Override
+    public List<AddressDTO> addressList(String userId) {
+        LambdaQueryWrapper<AddressPO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(AddressPO::getUserId, userId)
+                .orderByDesc(AddressPO::getUpdateTime);
+        List<AddressPO> addressPOS = addressMapper.selectList(wrapper);
+        List<AddressDTO> addressDTOS = new ArrayList<>();
+        for (AddressPO addressPO : addressPOS) {
+            AddressDTO addressDTO = new AddressDTO();
+            BeanUtils.copyProperties(addressPO, addressDTO);
+            addressDTOS.add(addressDTO);
+        }
+        return addressDTOS;
     }
 }

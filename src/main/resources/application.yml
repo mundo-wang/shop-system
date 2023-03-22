@@ -28,3 +28,7 @@ mybatis-plus:
       id-type: assign_uuid
 
 
+image:
+  path: C:\wangsj\毕设配图
+
+
