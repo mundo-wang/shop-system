@@ -26,10 +26,10 @@
         </el-form-item>
         <el-form-item
           label="员工姓名:"
-          prop="name"
+          prop="realName"
         >
           <el-input
-            v-model="ruleForm.name"
+            v-model="ruleForm.realName"
             placeholder="请输入员工姓名"
             maxlength="20"
           />
@@ -47,9 +47,9 @@
         </el-form-item>
         <el-form-item
           label="性别:"
-          prop="sex"
+          prop="gender"
         >
-          <el-radio-group v-model="ruleForm.sex">
+          <el-radio-group v-model="ruleForm.gender">
             <el-radio label="男"></el-radio>
             <el-radio label="女"></el-radio>
           </el-radio-group>
@@ -106,9 +106,9 @@
             id: '',
             actionType : '',
             ruleForm : {
-                'name': '',
+                'realName': '',
                 'phone': '',
-                'sex': '男',
+                'gender': '男',
                 'idNumber': '',
                 'userName': ''
             }
@@ -124,7 +124,7 @@
                 }
               ],
               //姓名
-              name: [{ required: true, 'validator': checkName, 'trigger': 'blur' }],
+              realName: [{ required: true, 'validator': checkName, 'trigger': 'blur' }],
               'phone': [{ 'required': true, 'validator': checkPhone, 'trigger': 'blur' }],
               'idNumber': [{ 'required': true, 'validator': validID, 'trigger': 'blur' }]
             }
@@ -146,10 +146,10 @@
               if (String(res.code) === '100') {
                 console.log(res.data)
                 this.ruleForm = res.data
-                this.ruleForm.sex = res.data.sex === '0' ? '女' : '男'
+                this.ruleForm.gender = res.data.gender === false ? "男" : "女"
                 // this.ruleForm.password = ''
               } else {
-                this.$message.error(res.message || '操作失败')
+                this.$message.error(res.message)
               }
             })
           },
@@ -159,7 +159,7 @@
                 if (this.actionType === 'add') {
                   const params = {
                     ...this.ruleForm,
-                    sex: this.ruleForm.sex === '女' ? '0' : '1'
+                    gender: this.ruleForm.gender === '女' ? true : false
                   }
                   addEmployee(params).then(res => {
                     if (res.code === 100) {
@@ -169,16 +169,16 @@
                       } else {
                         this.ruleForm = {
                           userName: '',
-                          'name': '',
+                          'realName': '',
                           'phone': '',
                           // 'password': '',
                           // 'rePassword': '',/
-                          'sex': '男',
+                          'gender': '男',
                           'idNumber': ''
                         }
                       }
                     } else {
-                      this.$message.error(res.message || '操作失败')
+                      this.$message.error(res.message)
                     }
                   }).catch(err => {
                     this.$message.error('请求出错了：' + err)
@@ -186,14 +186,15 @@
                 } else {
                   const params = {
                     ...this.ruleForm,
-                    sex: this.ruleForm.sex === '女' ? '0' : '1'
+                    gender: this.ruleForm.gender === '女' ? true : false,
+                    id: this.id
                   }
                   editEmployee(params).then(res => {
                     if (res.code === 100) {
                       this.$message.success('员工信息修改成功！')
                       this.goBack()
                     } else {
-                      this.$message.error(res.message || '操作失败')
+                      this.$message.error(res.message)
                     }
                   }).catch(err => {
                     this.$message.error('请求出错了：' + err)

@@ -188,11 +188,13 @@
               'cancelButtonText': '取消',
               'type': 'warning'
               }).then(() => {
-              enableOrDisableEmployee({ 'id': this.id, 'status': !this.status ? 1 : 0 }).then(res => {
+              enableOrDisableEmployee({ 'id': this.id, 'status': !this.status ? true : false }).then(res => {
                 console.log('enableOrDisableEmployee',res)
                 if (String(res.code) === '100') {
                   this.$message.success('账号状态更改成功！')
                   this.handleQuery()
+                } else {
+                  this.$message.error(res.message)
                 }
               }).catch(err => {
                 this.$message.error('请求出错了：' + err)

@@ -122,12 +122,13 @@ public class EmployeeController extends BaseController {
 
     /**
      * 管理员更改员工状态
-     * @param status
+     * @param
      * @return
      */
-    @GetMapping("/changeStatus")
-    public ResponseBean<?> changeStatus(@RequestParam String id, @RequestParam Boolean status) {
-        employeeService.changeStatus(id, status, getUserName());
+    @PostMapping("/changeStatus")
+    public ResponseBean<?> changeStatus(@Valid @RequestBody ChangeEmployeeStatusRO changeEmployeeStatusRO) {
+        employeeService.changeStatus(changeEmployeeStatusRO.getId(),
+                changeEmployeeStatusRO.getStatus(), getUserName());
         return ResponseBean.success();
     }
 
