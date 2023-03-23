@@ -29,7 +29,7 @@
                     <div @click="toAddressPage">                    
                         <div class="address">{{address.detail}}</div>
                         <div class="name">
-                            <span>{{address.consignee}}{{address.sex === '1' ? '先生':'女士'}}</span>
+                            <span>{{address.consignee}}{{address.sex === '100' ? '先生':'女士'}}</span>
                             <span>{{address.phone}}</span>
                         </div>
                         <i class="el-icon-arrow-right"></i>
@@ -149,7 +149,7 @@
                     //获取默认地址
                     async defaultAddress(){
                         const res = await  getDefaultAddressApi()
-                        if(res.code === 1){
+                        if(res.code === 100){
                            this.address = res.data
                            this.getFinishTime()
                         }else{
@@ -179,10 +179,10 @@
                     //获取购物车数据
                     async getCartData(){
                         const res = await cartListApi({})
-                        if(res.code === 1){
+                        if(res.code === 100){
                             this.cartData = res.data
                         }else{
-                            this.$notify({ type:'warning', message:res.msg});
+                            this.$notify({ type:'warning', message:res.message});
                         }
                     },
                     async goToPaySuccess(){
@@ -192,12 +192,12 @@
                             addressBookId:this.address.id
                         }
                         const res = await addOrderApi(params)
-                        if(res.code === 1){
+                        if(res.code === 100){
                             window.requestAnimationFrame(()=>{
                                 window.location.replace('/front/page/pay-success.html')
                             })
                         }else{
-                            this.$notify({ type:'warning', message:res.msg});
+                            this.$notify({ type:'warning', message:res.message});
                         }
                     },
                     //网络图片路径转换

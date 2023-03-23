@@ -1,8 +1,11 @@
 function getMemberList (params) {
   return $axios({
-    url: '/employee/page',
-    method: 'get',
-    params
+    url: '/shop/employee/employeePage',
+    method: 'post',
+    headers: {
+      "Authorization": window.localStorage.getItem('Authorization')
+    },
+    data: { ...params }
   })
 }
 

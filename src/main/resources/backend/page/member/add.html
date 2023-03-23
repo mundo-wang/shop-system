@@ -21,8 +21,8 @@
         label-width="180px"
         class="demo-ruleForm"
       >
-        <el-form-item label="账号:" prop="username">
-          <el-input v-model="ruleForm.username" placeholder="请输入账号" maxlength="20"/>
+        <el-form-item label="账号:" prop="userName">
+          <el-input v-model="ruleForm.userName" placeholder="请输入账号" maxlength="20"/>
         </el-form-item>
         <el-form-item
           label="员工姓名:"
@@ -110,7 +110,7 @@
                 'phone': '',
                 'sex': '男',
                 'idNumber': '',
-                username: ''
+                'userName': ''
             }
           }
         },
@@ -118,7 +118,7 @@
           rules () {
             return {
               //账号
-              username: [
+              userName: [
                 {
                   required: true, 'validator': checkUserName, trigger: 'blur'
                 }
@@ -143,13 +143,13 @@
           async init () {
             queryEmployeeById(this.id).then(res => {
               console.log(res)
-              if (String(res.code) === '1') {
+              if (String(res.code) === '100') {
                 console.log(res.data)
                 this.ruleForm = res.data
                 this.ruleForm.sex = res.data.sex === '0' ? '女' : '男'
                 // this.ruleForm.password = ''
               } else {
-                this.$message.error(res.msg || '操作失败')
+                this.$message.error(res.message || '操作失败')
               }
             })
           },
@@ -162,13 +162,13 @@
                     sex: this.ruleForm.sex === '女' ? '0' : '1'
                   }
                   addEmployee(params).then(res => {
-                    if (res.code === 1) {
+                    if (res.code === 100) {
                       this.$message.success('员工添加成功！')
                       if (!st) {
                         this.goBack()
                       } else {
                         this.ruleForm = {
-                          username: '',
+                          userName: '',
                           'name': '',
                           'phone': '',
                           // 'password': '',
@@ -178,7 +178,7 @@
                         }
                       }
                     } else {
-                      this.$message.error(res.msg || '操作失败')
+                      this.$message.error(res.message || '操作失败')
                     }
                   }).catch(err => {
                     this.$message.error('请求出错了：' + err)
@@ -189,11 +189,11 @@
                     sex: this.ruleForm.sex === '女' ? '0' : '1'
                   }
                   editEmployee(params).then(res => {
-                    if (res.code === 1) {
+                    if (res.code === 100) {
                       this.$message.success('员工信息修改成功！')
                       this.goBack()
                     } else {
-                      this.$message.error(res.msg || '操作失败')
+                      this.$message.error(res.message || '操作失败')
                     }
                   }).catch(err => {
                     this.$message.error('请求出错了：' + err)

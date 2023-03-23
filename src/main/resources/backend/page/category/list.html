@@ -88,7 +88,7 @@
       <el-pagination
         class="pageList"
         :page-sizes="[10, 20, 30, 40]"
-        :page-size="pageSize"
+        :page-size="size"
         layout="total, sizes, prev, pager, next, jumper"
         :total="counts"
         @size-change="handleSizeChange"
@@ -155,7 +155,7 @@
             action: '',
             counts: 0,
             page: 1,
-            pageSize: 10,
+            size: 10,
             tableData: [],
             type :'',
             classData: {
@@ -175,12 +175,12 @@
         },
         methods: {
           async init () {
-            await getCategoryPage({'page': this.page, 'pageSize': this.pageSize}).then(res => {
-              if (String(res.code) === '1') {
+            await getCategoryPage({'page': this.page, 'size': this.size}).then(res => {
+              if (String(res.code) === '100') {
                 this.tableData = res.data.records
                 this.counts = Number(res.data.total)
               } else {
-                this.$message.error(res.msg || '操作失败')
+                this.$message.error(res.message || '操作失败')
               }
             }).catch(err => {
               this.$message.error('请求出错了：' + err)
@@ -224,11 +224,11 @@
               'type': 'warning'
             }).then(() => {
               deleCategory(id).then(res => {
-                if (res.code === 1) {
+                if (res.code === 100) {
                   this.$message.success('删除成功！')
                   this.handleQuery()
                 } else {
-                  this.$message.error(res.msg || '操作失败')
+                  this.$message.error(res.message || '操作失败')
                 }
               }).catch(err => {
                 this.$message.error('请求出错了：' + err)
@@ -245,7 +245,7 @@
                   if (reg.test(classData.sort)) {
                     addCategory({'name': classData.name,'type':this.type, sort: classData.sort}).then(res => {
                       console.log(res)
-                      if (res.code === 1) {
+                      if (res.code === 100) {
                         this.$message.success('分类添加成功！')
                         if (!st) {
                           this.classData.dialogVisible = false
@@ -255,7 +255,7 @@
                         }
                         this.handleQuery()
                       } else {
-                        this.$message.error(res.msg || '操作失败')
+                        this.$message.error(res.message || '操作失败')
                       }
                     }).catch(err => {
                       this.$message.error('请求出错了：' + err)
@@ -271,12 +271,12 @@
               const reg = /^\d+$/
               if (reg.test(this.classData.sort)) {
                 editCategory({'id':this.classData.id,'name': this.classData.name, sort: this.classData.sort}).then(res => {
-                  if (res.code === 1) {
+                  if (res.code === 100) {
                     this.$message.success('分类修改成功！')
                     this.classData.dialogVisible = false
                     this.handleQuery()
                   } else {
-                    this.$message.error(res.msg || '操作失败')
+                    this.$message.error(res.message || '操作失败')
                   }
                 }).catch(err => {
                   this.$message.error('请求出错了：' + err)
@@ -289,7 +289,7 @@
             }
           },
           handleSizeChange (val) {
-            this.pageSize = val
+            this.size = val
             this.init()
           },
           handleCurrentChange (val) {

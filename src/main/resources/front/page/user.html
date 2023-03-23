@@ -130,10 +130,10 @@
                 async getLatestOrder(){
                     const params = {
                         page:1,
-                        pageSize:1
+                        size:1
                     }
                     const res = await orderPagingApi(params)
-                    if(res.code === 1){
+                    if(res.code === 100){
                         this.order = res.data.records
                         if(this.order && this.order[0].orderDetails){
                             let number = 0
@@ -143,7 +143,7 @@
                             this.order[0].sumNum = number
                         }
                     }else{
-                        this.$notify({ type:'warning', message:res.msg});
+                        this.$notify({ type:'warning', message:res.message});
                     }
                 },
                 getStatus(status){
@@ -170,22 +170,22 @@
                 },
                 async addOrderAgain(){
                     const res = await orderAgainApi({id:this.order[0].id})
-                    if(res.code === 1){
+                    if(res.code === 100){
                         window.requestAnimationFrame(()=>{
                             window.location.href = '/front/index.html'
                         }) 
                     }else{
-                        this.$notify({ type:'warning', message:res.msg});
+                        this.$notify({ type:'warning', message:res.message});
                     }
                 },
                 async toPageLogin(){
                     const res = await loginoutApi()
-                    if(res.code === 1){
+                    if(res.code === 100){
                         window.requestAnimationFrame(()=>{
                             window.location.href = '/front/page/login.html'
                         }) 
                     }else{
-                        this.$notify({ type:'warning', message:res.msg});
+                        this.$notify({ type:'warning', message:res.message});
                     }                
                 }
             }

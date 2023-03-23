@@ -11,5 +11,5 @@ import lombok.Data;
 @Data
 public class EmployeePageRO extends BasePageRO {
 
-    private String userName;
+    private String realName;
 }

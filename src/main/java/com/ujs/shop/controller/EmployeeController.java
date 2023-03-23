@@ -3,6 +3,7 @@ package com.ujs.shop.controller;
 
 import com.ujs.shop.common.base.BaseController;
 import com.ujs.shop.common.dto.EmployeeInfoDTO;
+import com.ujs.shop.common.dto.EmployeeLoginDTO;
 import com.ujs.shop.common.dto.EmployeePageDTO;
 import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.global.ResponseBean;
@@ -74,8 +75,8 @@ public class EmployeeController extends BaseController {
      */
     @PostMapping("/login")
     public ResponseBean<String> login(@Valid @RequestBody EmployeeLoginRO employeeLoginRO) {
-        String jwtToken = employeeService.login(employeeLoginRO);
-        return ResponseBean.success(jwtToken);
+        String employeeLoginDTO = employeeService.login(employeeLoginRO);
+        return ResponseBean.success(employeeLoginDTO);
     }
 
 
@@ -101,7 +102,7 @@ public class EmployeeController extends BaseController {
         PageFormBean<EmployeePageDTO> employeePage = employeeService.employeePage(
                 employeePageRO.getPage(),
                 employeePageRO.getSize(),
-                employeePageRO.getUserName(),
+                employeePageRO.getRealName(),
                 getUserName());
         return ResponseBean.success(employeePage);
     }

@@ -5,11 +5,11 @@
 <mapper namespace="com.ujs.shop.mapper.EmployeeMapper">
 
     <select id="employeePage" resultType="com.ujs.shop.common.dto.EmployeePageDTO">
-        select id, user_name, real_name, phone, status
+        select id, user_name, real_name, phone, status, gender
         from shop_employee
         <where>
-            <if test="userName != null and userName != ''">
-                user_name like concat('%', #{userName}, '%')
+            <if test="realName != null and realName != ''">
+                real_name like concat('%', #{realName}, '%')
             </if>
             and is_deleted = 0
         </where>

@@ -336,7 +336,7 @@
           async init () {
             queryDishById(this.id).then(res => {
               console.log(res)
-              if (String(res.code) === '1') {
+              if (String(res.code) === '100') {
                 this.ruleForm = { ...res.data }
                 this.ruleForm.price = String(res.data.price/100)
                 this.ruleForm.status = res.data.status == '1'
@@ -346,7 +346,7 @@
                 // this.imageUrl = res.data.data.image
                 this.imageUrl = `/common/download?name=${res.data.image}`
               } else {
-                this.$message.error(res.msg || '操作失败')
+                this.$message.error(res.message || '操作失败')
               }
             })
           },
@@ -390,10 +390,10 @@
           // 获取菜品分类
           getDishList () {
             getCategoryList({ 'type': 1 }).then(res => {
-              if (res.code === 1) {
+              if (res.code === 100) {
                 this.dishList = res.data
               } else {
-                this.$message.error(res.msg || '操作失败')
+                this.$message.error(res.message || '操作失败')
               }
             })
           },
@@ -460,7 +460,7 @@
                 if (this.actionType == 'add') {
                   delete params.id
                   addDish(params).then(res => {
-                    if (res.code === 1) {
+                    if (res.code === 100) {
                       this.$message.success('菜品添加成功！')
                       if (!st) {
                         this.goBack()
@@ -481,7 +481,7 @@
                         }
                       }
                     } else {
-                      this.$message.error(res.msg || '操作失败')
+                      this.$message.error(res.message || '操作失败')
                     }
                   }).catch(err => {
                     this.$message.error('请求出错了：' + err)
@@ -489,11 +489,11 @@
                 } else {
                   delete params.updateTime
                   editDish(params).then(res => {
-                    if (res.code === 1) {
+                    if (res.code === 100) {
                       this.$message.success('菜品修改成功！')
                       this.goBack()
                     } else {
-                      this.$message.error(res.msg || '操作失败')
+                      this.$message.error(res.message || '操作失败')
                     }
                   }).catch(err => {
                     this.$message.error('请求出错了：' + err)
@@ -507,7 +507,7 @@
 
           handleAvatarSuccess (response, file, fileList) {
             // 拼接down接口预览
-            if(response.code === 0 && response.msg === '未登录'){
+            if(response.code === 0 && response.message === '未登录'){
               window.top.location.href = '/backend/page/login/login.html'
             }else{
               this.imageUrl = `/common/download?name=${response.data}`

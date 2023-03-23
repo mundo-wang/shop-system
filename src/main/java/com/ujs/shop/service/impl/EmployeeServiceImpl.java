@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ujs.shop.common.dto.EmployeeInfoDTO;
+import com.ujs.shop.common.dto.EmployeeLoginDTO;
 import com.ujs.shop.common.dto.EmployeePageDTO;
 import com.ujs.shop.common.dto.UserInfoDTO;
 import com.ujs.shop.common.enums.ResponseCodeEnum;
@@ -146,7 +147,11 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
         if (! redisTemplate.hasKey(token)) {
             redisTemplate.boundValueOps(token).set(userInfoDTO, 24, TimeUnit.HOURS);
         }
-        return JWTHelper.getJWTToken(token, ConstantBean.SECRET);
+        String jwtToken = JWTHelper.getJWTToken(token, ConstantBean.SECRET);
+        EmployeeLoginDTO employeeLoginDTO = new EmployeeLoginDTO();
+        BeanUtils.copyProperties(employeePO, employeeLoginDTO);
+        employeeLoginDTO.setJwtToken(jwtToken);
+        return jwtToken;
     }
 
     @Override
@@ -158,9 +163,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
 
 
     @Override
-    public PageFormBean<EmployeePageDTO> employeePage(Integer page, Integer size, String userName, String loginName) {
+    public PageFormBean<EmployeePageDTO> employeePage(Integer page, Integer size, String realName, String loginName) {
         Page<EmployeePageDTO> page1 = new Page<>(page, size);
-        IPage<EmployeePageDTO> page2 = employeeMapper.employeePage(page1, userName);
+        IPage<EmployeePageDTO> page2 = employeeMapper.employeePage(page1, realName);
         return new PageFormBean<>(page2);
     }
 

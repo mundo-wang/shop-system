@@ -17,6 +17,8 @@ public class EmployeePageDTO {
 
     private String userName;
 
+    private Boolean gender;
+
     private String phone;
 
     private Boolean status;

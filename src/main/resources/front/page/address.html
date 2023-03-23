@@ -127,19 +127,19 @@
                     },
                     async initData(){
                         const res = await addressListApi()
-                        if(res.code === 1){
+                        if(res.code === 100){
                             this.addressList = res.data
                         }else{
-                            this.$message.error(res.msg)
+                            this.$message.error(res.message)
                         }
                     },
                     async setDefaultAddress(item){
                         if(item.id){
                             const res = await setDefaultAddressApi({id:item.id})
-                            if(res.code === 1){
+                            if(res.code === 100){
                             this.initData()
                             }else{
-                                this.$message.error(res.msg)
+                                this.$message.error(res.message)
                             }
                         }
                     },

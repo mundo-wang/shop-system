@@ -1,6 +1,6 @@
 function loginApi(data) {
   return $axios({
-    'url': '/employee/login',
+    'url': '/shop/employee/login',
     'method': 'post',
     data
   })
@@ -8,7 +8,11 @@ function loginApi(data) {
 
 function logoutApi(){
   return $axios({
-    'url': '/employee/logout',
-    'method': 'post',
+    'url': '/shop/employee/logout',
+    'method': 'get',
+    "headers": {
+      // "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+      "Authorization": window.localStorage.getItem('userInfo')
+    }
   })
 }

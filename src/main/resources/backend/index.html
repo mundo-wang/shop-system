@@ -58,8 +58,7 @@
                     >
                     <i :class="iconfont" :class="sub.icon"></i>
                     <span slot="title">{{sub.name}}</span>
-                    </el-menu-item
-                  >
+                    </el-menu-item>
                 </el-submenu>
                 <el-menu-item v-else :index="item.id" @click="menuHandle(item,false)">
                   <i class="iconfont" :class="item.icon"></i>
@@ -79,7 +78,8 @@
               <span>{{headTitle}}</span>
             </div>
             <div class="right-menu">
-              <div class="avatar-wrapper">{{ userInfo.name }}</div>
+<!--              <div class="avatar-wrapper">{{ userInfo.realName }}</div>-->
+              <div class="avatar-wrapper">王诗剑</div>
               <!-- <div class="logout" @click="logout">退出</div> -->
               <img src="images/icons/btn_close@2x.png" class="outLogin" alt="退出" @click="logout" />
             </div>
@@ -166,7 +166,8 @@
         created() {
           const userInfo = window.localStorage.getItem('userInfo')
           if (userInfo) {
-            this.userInfo = JSON.parse(userInfo)
+            // this.userInfo = JSON.parse(userInfo)
+            this.userInfo = userInfo
           }
           this.closeLoading()
         },
@@ -180,9 +181,11 @@
         methods: {
           logout() {
             logoutApi().then((res)=>{
-              if(res.code === 1){
+              if(res.code === 100) {
                 localStorage.removeItem('userInfo')
                 window.location.href = '/backend/page/login/login.html'
+              } else {
+                this.$message.error(res.message)
               }
             })
           },

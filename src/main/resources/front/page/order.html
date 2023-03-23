@@ -76,7 +76,7 @@
                 return {
                     paging:{
                         page:1,
-                        pageSize:5
+                        size:5
                     },
                     orderList:[],
                     loading:false,
@@ -109,7 +109,7 @@
                         return
                     }
                     const res = await orderPagingApi(this.paging)
-                    if(res.code === 1){
+                    if(res.code === 100){
                         this.orderList.push(...res.data.records)
                         let records = res.data.records
                         if(records && Array.isArray(records)){
@@ -127,17 +127,17 @@
                         }
                         this.paging.page = this.paging.page + 1
                     }else{
-                        this.$notify({ type:'warning', message:res.msg});
+                        this.$notify({ type:'warning', message:res.message});
                     }
                 },
                 async addOrderAgain(order){
                     const res = await orderAgainApi({id:order.id})
-                    if(res.code === 1){
+                    if(res.code === 100){
                         window.requestAnimationFrame(()=>{
                             window.location.href= '/front/index.html'
                         })
                     }else{
-                        this.$notify({ type:'warning', message:res.msg});
+                        this.$notify({ type:'warning', message:res.message});
                     }
                 },
                 getStatus(status){

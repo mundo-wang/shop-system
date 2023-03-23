@@ -97,7 +97,7 @@
       <el-pagination
         class="pageList"
         :page-sizes="[10, 20, 30, 40]"
-        :page-size="pageSize"
+        :page-size="size"
         :current-page.sync="page"
         layout="total, sizes, prev, pager, next, jumper"
         :total="counts"
@@ -190,7 +190,7 @@
              endTime: '',
              counts: 0,
              page: 1,
-             pageSize: 10,
+             size: 10,
              tableData : [],
              dialogVisible: false,
              diaForm: {},
@@ -217,8 +217,8 @@
         },
         methods: {
           async init () {
-            getOrderDetailPage({ page: this.page, pageSize: this.pageSize, number: this.input || undefined, beginTime: this.beginTime || undefined, endTime: this.endTime || undefined }).then(res => {
-              if (String(res.code) === '1') {
+            getOrderDetailPage({ page: this.page, size: this.size, number: this.input || undefined, beginTime: this.beginTime || undefined, endTime: this.endTime || undefined }).then(res => {
+              if (String(res.code) === '100') {
                 this.tableData = res.data.records || []
                 this.counts = res.data.total
               }
@@ -266,11 +266,11 @@
                 'type': 'warning'
               }).then(() => {
                 editOrderDetail(params).then(res => {
-                  if (res.code === 1) {
+                  if (res.code === 100) {
                     this.$message.success(status === 3 ? '订单已派送' : '订单已完成')
                     this.init()
                   } else {
-                    this.$message.error(res.msg || '操作失败')
+                    this.$message.error(res.message || '操作失败')
                   }
                 }).catch(err => {
                   this.$message.error('请求出错了：' + err)
@@ -285,7 +285,7 @@
             this.dialogVisible = false
           },
           handleSizeChange (val) {
-            this.pageSize = val
+            this.size = val
             this.init()
           },
           handleCurrentChange (val) {

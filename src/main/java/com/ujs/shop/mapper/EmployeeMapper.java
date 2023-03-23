@@ -23,6 +23,6 @@ public interface EmployeeMapper extends BaseMapper<EmployeePO> {
 
 
     IPage<EmployeePageDTO> employeePage(@Param("page") Page<EmployeePageDTO> page,
-                                        @Param("userName") String userName);
+                                        @Param("realName") String realName);
 
 }

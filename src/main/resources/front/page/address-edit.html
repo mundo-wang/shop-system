@@ -29,7 +29,7 @@
                    <span>联系人：</span> 
                    <el-input placeholder=" 请填写收货人的姓名" v-model="form.consignee"  maxlength='10' class="inputUser"/></el-input>
                    <span class="spanChecked" @click="form.sex = '1'">
-                    <i :class="{iActive:form.sex === '1'}"></i>
+                    <i :class="{iActive:form.sex === '100'}"></i>
                     先生
                    </span>
                    <span class="spanChecked" @click="form.sex = '0'">
@@ -100,10 +100,10 @@
                         if(params.id){
                             this.title = '编辑收货地址'
                             const res = await addressFindOneApi(params.id)
-                            if(res.code === 1){
+                            if(res.code === 100){
                                 this.form = res.data
                             }else{
-                                this.$notify({ type:'warning', message:res.msg});
+                                this.$notify({ type:'warning', message:res.message});
                             }
                         }
                     },
@@ -133,12 +133,12 @@
                             res = await addAddressApi(this.form)
                         }
                         
-                        if(res.code === 1){
+                        if(res.code === 100){
                             window.requestAnimationFrame(()=>{
                                 window.location.replace('/front/page/address.html')
                             })
                         }else{
-                            this.$notify({ type:'warning', message:res.msg});
+                            this.$notify({ type:'warning', message:res.message});
                         }
                     },
                     deleteAddress(){
@@ -148,12 +148,12 @@
                         })
                         .then( async () => {
                             const res = await deleteAddressApi({ids:this.id })
-                            if(res.code === 1){
+                            if(res.code === 100){
                                 window.requestAnimationFrame(()=>{
                                     window.location.replace('/front/page/address.html')
                                 })
                             }else{
-                                this.$notify({ type:'warning', message:res.msg});
+                                this.$notify({ type:'warning', message:res.message});
                             }
                         })
                         .catch(() => {
