@@ -22,7 +22,7 @@
           class="continue"
           @click="addClass('class')"
         >
-          + 新增菜品分类
+          + 新增商品分类
         </el-button>
         <el-button
           type="primary"
@@ -45,21 +45,25 @@
           label="分类类型"
         >
           <template slot-scope="scope">
-            <span>{{ scope.row.type == '1' ? '菜品分类': '套餐分类' }}</span>
+            <span>{{ scope.row.type === false ? '商品分类': '套餐分类' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="updateUser"
+          label="最后操作人"
+        >
+          <template slot-scope="scope">
+            {{scope.row.updateUser}}
           </template>
         </el-table-column>
         <el-table-column
           prop="updateTime"
-          label="操作时间"
+          label="最后操作时间"
         >
         <template slot-scope="scope">
          {{scope.row.updateTime}}
         </template>
         </el-table-column>
-        <el-table-column
-          prop="sort"
-          label="排序"
-        /></el-table-column>
         <el-table-column
           label="操作"
           width="160"
@@ -112,9 +116,6 @@
             maxlength="14"
           />
         </el-form-item>
-        <el-form-item label="排序：">
-          <el-input v-model="classData.sort"  type="number" placeholder="请输入排序" />
-        </el-form-item>
       </el-form>
       <span
         slot="footer"
@@ -159,7 +160,7 @@
             tableData: [],
             type :'',
             classData: {
-              'title': '添加菜品分类',
+              'title': '添加商品分类',
               'dialogVisible': false,
               'categoryId': '',
               'name': '',
@@ -177,10 +178,10 @@
           async init () {
             await getCategoryPage({'page': this.page, 'size': this.size}).then(res => {
               if (String(res.code) === '100') {
-                this.tableData = res.data.records
+                this.tableData = res.data.data
                 this.counts = Number(res.data.total)
               } else {
-                this.$message.error(res.message || '操作失败')
+                this.$message.error(res.message)
               }
             }).catch(err => {
               this.$message.error('请求出错了：' + err)
@@ -193,11 +194,11 @@
            // 添加
           addClass(st) {
             if (st == 'class') {
-              this.classData.title = '新增菜品分类'
-              this.type = '1'
+              this.classData.title = '新增商品分类'
+              this.type = false
             } else {
               this.classData.title = '新增套餐分类'
-              this.type = '2'
+              this.type = true
             }
             this.action = 'add'
             this.classData.name = ''
@@ -218,7 +219,7 @@
           },
           //删除
           deleteHandle(id) {
-            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+            this.$confirm('此操作将永久删除该分类, 是否继续?', '提示', {
               'confirmButtonText': '确定',
               'cancelButtonText': '取消',
               'type': 'warning'
@@ -228,7 +229,7 @@
                   this.$message.success('删除成功！')
                   this.handleQuery()
                 } else {
-                  this.$message.error(res.message || '操作失败')
+                  this.$message.error(res.message)
                 }
               }).catch(err => {
                 this.$message.error('请求出错了：' + err)
@@ -238,54 +239,48 @@
           //数据提交
           submitForm(st) {
               const classData = this.classData
-              const valid = (classData.name === 0 ||classData.name)  && (classData.sort === 0 || classData.sort)
+              const valid = (classData.name === 0 ||classData.name)
               if (this.action === 'add') {
                 if (valid) {
                   const reg = /^\d+$/
-                  if (reg.test(classData.sort)) {
-                    addCategory({'name': classData.name,'type':this.type, sort: classData.sort}).then(res => {
-                      console.log(res)
-                      if (res.code === 100) {
-                        this.$message.success('分类添加成功！')
-                        if (!st) {
-                          this.classData.dialogVisible = false
-                        } else {
-                          this.classData.name = ''
-                          this.classData.sort = ''
-                        }
-                        this.handleQuery()
+                  addCategory({'name': classData.name,'type':this.type}).then(res => {
+                    console.log(res)
+                    if (res.code === 100) {
+                      this.$message.success('分类添加成功！')
+                      if (!st) {
+                        this.classData.dialogVisible = false
                       } else {
-                        this.$message.error(res.message || '操作失败')
+                        this.classData.name = ''
+                        this.classData.sort = ''
                       }
-                    }).catch(err => {
-                      this.$message.error('请求出错了：' + err)
-                    })
-                  } else {
-                    this.$message.error('排序只能输入数字类型')
-                  }
+                      this.handleQuery()
+                    } else {
+                      this.$message.error(res.message)
+                    }
+                  }).catch(err => {
+                    this.$message.error('请求出错了：' + err)
+                  })
+
                   
               } else {
                   this.$message.error('请输入分类名称或排序')
               }
             } else if (valid) {
               const reg = /^\d+$/
-              if (reg.test(this.classData.sort)) {
-                editCategory({'id':this.classData.id,'name': this.classData.name, sort: this.classData.sort}).then(res => {
-                  if (res.code === 100) {
-                    this.$message.success('分类修改成功！')
-                    this.classData.dialogVisible = false
-                    this.handleQuery()
-                  } else {
-                    this.$message.error(res.message || '操作失败')
-                  }
-                }).catch(err => {
-                  this.$message.error('请求出错了：' + err)
-                })
-              } else {
-                this.$message.error('排序只能输入数字类型')
-              }
+              editCategory({'id':this.classData.id,'name': this.classData.name}).then(res => {
+                if (res.code === 100) {
+                  this.$message.success('分类修改成功！')
+                  this.classData.dialogVisible = false
+                  this.handleQuery()
+                } else {
+                  this.$message.error(res.message)
+                }
+              }).catch(err => {
+                this.$message.error('请求出错了：' + err)
+              })
+
             } else {
-              this.$message.error('请输入分类名称或排序')
+              this.$message.error('请输入分类名称')
             }
           },
           handleSizeChange (val) {

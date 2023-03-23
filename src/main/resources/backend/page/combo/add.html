@@ -479,7 +479,7 @@
           },
           // 获取套餐分类
           getDishTypeList() {
-            getCategoryList({ type: 2 }).then((res) => {
+            getCategoryList({ categoryType: true }).then((res) => {
               if (res.code === 100) {
                 this.setMealList = res.data.map((obj) => ({ ...obj, idType: obj.id }))
               } else {
@@ -638,7 +638,7 @@
           },
           // 获取套餐分类
           getDishType () {
-            getCategoryList({'type':1}).then(res => {
+            getCategoryList({'categoryType':true}).then(res => {
               if (res.code === 100) {
                 this.dishType = res.data
                 this.getDishList(res.data[0].id)

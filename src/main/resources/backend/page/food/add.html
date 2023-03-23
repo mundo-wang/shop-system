@@ -275,10 +275,10 @@
               'name': '',
               'id': '',
               'price': '',
-              'code': '',
+              'allowance': '',
               'image': '',
               'description': '',
-              'dishFlavors': [],
+              'goodsConfig': [],
               'status': true,
               categoryId: ''
             },
@@ -339,14 +339,15 @@
               if (String(res.code) === '100') {
                 this.ruleForm = { ...res.data }
                 this.ruleForm.price = String(res.data.price/100)
-                this.ruleForm.status = res.data.status == '1'
-                this.dishFlavors = res.data.flavors && res.data.flavors.map(obj => ({ ...obj, value: JSON.parse(obj.value),showOption: false }))
-                console.log('this.dishFlavors',this.dishFlavors)
+                this.ruleForm.allowance = String(res.data.allowance)
+                // this.ruleForm.status = res.data.status == '1'
+                this.goodsConfig = res.data.goodsConfig && res.data.goodsConfig.map(obj => ({ ...obj, value: JSON.parse(obj.value),showOption: false }))
+                // console.log('this.dishFlavors',this.dishFlavors)
                 // this.ruleForm.id = res.data.data.categoryId
                 // this.imageUrl = res.data.data.image
                 this.imageUrl = `/common/download?name=${res.data.image}`
               } else {
-                this.$message.error(res.message || '操作失败')
+                this.$message.error(res.message)
               }
             })
           },
@@ -389,7 +390,7 @@
 
           // 获取菜品分类
           getDishList () {
-            getCategoryList({ 'type': 1 }).then(res => {
+            getCategoryList({ 'categoryType': false }).then(res => {
               if (res.code === 100) {
                 this.dishList = res.data
               } else {
@@ -448,20 +449,20 @@
               if (valid) {
                 let params = {...this.ruleForm}
                 // params.flavors = this.dishFlavors
-                params.status = this.ruleForm ? 1 : 0
+                params.status = this.ruleForm ? false : true
                 params.price *= 100
                 params.categoryId = this.ruleForm.categoryId
-                params.flavors = this.dishFlavors.map(obj => ({ ...obj, value: JSON.stringify(obj.value) }))
-                delete params.dishFlavors
+                params.goodsConfig = this.goodsConfig.map(obj => ({ ...obj, value: JSON.stringify(obj.value) }))
+                delete params.goodsConfig
                 if(!this.imageUrl){
-                  this.$message.error('请上传菜品图片')
+                  this.$message.error('请上传商品图片')
                   return 
                 }
                 if (this.actionType == 'add') {
                   delete params.id
                   addDish(params).then(res => {
                     if (res.code === 100) {
-                      this.$message.success('菜品添加成功！')
+                      this.$message.success('商品添加成功！')
                       if (!st) {
                         this.goBack()
                       } else {
@@ -472,10 +473,10 @@
                           'name': '',
                           'id': '',
                           'price': '',
-                          'code': '',
+                          'allowance': '',
                           'image': '',
                           'description': '',
-                          'dishFlavors': [],
+                          'goodsConfig': [],
                           'status': true,
                           categoryId: ''
                         }

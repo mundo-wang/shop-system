@@ -1,9 +1,12 @@
 // 查询列表接口
 const getCategoryPage = (params) => {
   return $axios({
-    url: '/category/page',
-    method: 'get',
-    params
+    url: '/shop/category/categoryPage',
+    method: 'post',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
+    data: { ...params }
   })
 }
 
@@ -18,8 +21,11 @@ const queryCategoryById = (id) => {
 // 删除当前列的接口
 const deleCategory = (id) => {
   return $axios({
-    url: '/category',
-    method: 'delete',
+    url: '/shop/category/removeCategory',
+    method: 'get',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
     params: { id }
   })
 }
@@ -27,8 +33,11 @@ const deleCategory = (id) => {
 // 修改接口
 const editCategory = (params) => {
   return $axios({
-    url: '/category',
-    method: 'put',
+    url: '/shop/category/updateCategory',
+    method: 'post',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
     data: { ...params }
   })
 }
@@ -36,8 +45,11 @@ const editCategory = (params) => {
 // 新增接口
 const addCategory = (params) => {
   return $axios({
-    url: '/category',
+    url: '/shop/category/addCategory',
     method: 'post',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
     data: { ...params }
   })
 }

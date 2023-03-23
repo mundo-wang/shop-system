@@ -1,9 +1,12 @@
 // 查询列表接口
 const getDishPage = (params) => {
   return $axios({
-    url: '/dish/page',
-    method: 'get',
-    params
+    url: '/shop/goods/goodsPage',
+    method: 'post',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
+    data: { ...params }
   })
 }
 
@@ -37,7 +40,10 @@ const addDish = (params) => {
 // 查询详情
 const queryDishById = (id) => {
   return $axios({
-    url: `/dish/${id}`,
+    url: `/shop/goods/getGoodsInfo?id=` + id,
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
     method: 'get'
   })
 }
@@ -45,8 +51,11 @@ const queryDishById = (id) => {
 // 获取菜品分类列表
 const getCategoryList = (params) => {
   return $axios({
-    url: '/category/list',
+    url: '/shop/goods/getCategoryList',
     method: 'get',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
     params
   })
 }

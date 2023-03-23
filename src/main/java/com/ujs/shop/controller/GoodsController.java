@@ -109,4 +109,11 @@ public class GoodsController extends BaseController {
         return ResponseBean.success(goodsPage);
     }
 
+
+    @GetMapping("/getCategoryList")
+    public ResponseBean<List<String>> getCategoryList(@RequestParam Boolean categoryType) {
+        List<String> categoryList = goodsService.getCategoryList(categoryType);
+        return ResponseBean.success(categoryList);
+    }
+
 }

@@ -29,4 +29,6 @@ public interface GoodsService extends IService<GoodsPO> {
 
     PageFormBean<GoodsPageDTO> goodsPage(Integer page, Integer size, String name, String categoryId);
 
+    List<String> getCategoryList(Boolean categoryType);
+
 }

@@ -16,7 +16,7 @@
       <div class="tableBar">
         <el-input
           v-model="input"
-          placeholder="请输入菜品名称"
+          placeholder="请输入商品名称"
           style="width: 250px"
           clearable
           @keyup.enter.native="handleQuery"
@@ -36,7 +36,7 @@
             type="primary"
             @click="addFoodtype('add')"
           >
-            + 新建菜品
+            + 新建商品
           </el-button>
         </div>
       </div>
@@ -52,22 +52,22 @@
         ></el-table-column>
         <el-table-column
           prop="name"
-          label="菜品名称"
+          label="商品名称"
         ></el-table-column>
-        <el-table-column prop="image" label="图片" align="center">
-          <template slot-scope="{ row }">
-            <el-image style="width: auto; height: 40px; border:none;cursor: pointer;" 
-            :src="getImage(row.image)" 
-            :preview-src-list="[ `/common/download?name=${row.image}` ]" >
-            <div slot="error" class="image-slot">
-              <img src="./../../images/noImg.png"  style="width: auto; height: 40px; border:none;" >
-            </div>  
-          </el-image>
-          </template>
-        </el-table-column>
+<!--        <el-table-column prop="image" label="图片" align="center">-->
+<!--          <template slot-scope="{ row }">-->
+<!--            <el-image style="width: auto; height: 40px; border:none;cursor: pointer;" -->
+<!--            :src="getImage(row.image)" -->
+<!--            :preview-src-list="[ `/common/download?name=${row.image}` ]" >-->
+<!--            <div slot="error" class="image-slot">-->
+<!--              <img src="./../../images/noImg.png"  style="width: auto; height: 40px; border:none;" >-->
+<!--            </div>  -->
+<!--          </el-image>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
         <el-table-column
           prop="categoryName"
-          label="菜品分类"
+          label="商品分类"
         ></el-table-column>
         <el-table-column label="售价">
           <template slot-scope="scope">
@@ -76,13 +76,24 @@
         </el-table-column>
         <el-table-column label="售卖状态">
           <template slot-scope="scope">
-            <span style="margin-right: 10px;">{{ scope.row.status == '0' ? '停售' : '启售' }}</span>
+            <span style="margin-right: 10px;">{{ scope.row.status === true ? '停售' : '启售' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="updateUser"
+          label="最后操作人"
+        >
+          <template slot-scope="scope">
+            {{scope.row.updateUser}}
           </template>
         </el-table-column>
         <el-table-column
           prop="updateTime"
           label="最后操作时间"
         >
+          <template slot-scope="scope">
+            {{scope.row.updateTime}}
+          </template>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -104,7 +115,7 @@
               class="blueBug"
               @click="statusHandle(scope.row)"
             >
-              {{ scope.row.status == '0' ? '启售' : '停售' }}
+              {{ scope.row.status === true ? '启售' : '停售' }}
             </el-button>
             <el-button
               type="text"
@@ -166,8 +177,10 @@
             }
             await getDishPage(params).then(res => {
               if (String(res.code) === '100') {
-                this.tableData = res.data.records || []
+                this.tableData = res.data.data || []
                 this.counts = res.data.total
+              } else {
+                this.$message.error(res.message)
               }
             }).catch(err => {
               this.$message.error('请求出错了：' + err)

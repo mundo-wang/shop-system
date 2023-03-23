@@ -11,12 +11,14 @@ import com.ujs.shop.common.enums.ResponseCodeEnum;
 import com.ujs.shop.common.exception.ServiceException;
 import com.ujs.shop.common.global.ConstantBean;
 import com.ujs.shop.common.global.PageFormBean;
+import com.ujs.shop.common.po.CategoryPO;
 import com.ujs.shop.common.po.GoodsConfigPO;
 import com.ujs.shop.common.po.GoodsPO;
 import com.ujs.shop.common.po.PackagePO;
 import com.ujs.shop.common.ro.AddGoodsRO;
 import com.ujs.shop.common.ro.AddOrUpdateConfigRO;
 import com.ujs.shop.common.ro.UpdateGoodsRO;
+import com.ujs.shop.mapper.CategoryMapper;
 import com.ujs.shop.mapper.GoodsConfigMapper;
 import com.ujs.shop.mapper.GoodsMapper;
 import com.ujs.shop.mapper.PackageMapper;
@@ -49,6 +51,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
 
     @Autowired
     private PackageMapper packageMapper;
+
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
 
     /**
@@ -177,5 +183,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
         Page<GoodsPageDTO> page1 = new Page<>(page, size);
         IPage<GoodsPageDTO> page2 = goodsMapper.goodsPage(page1, name, categoryId);
         return new PageFormBean<>(page2);
+    }
+
+    @Override
+    public List<String> getCategoryList(Boolean categoryType) {
+        LambdaQueryWrapper<CategoryPO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(CategoryPO::getType, categoryType);
+        return categoryMapper.selectList(wrapper).stream().map(CategoryPO::getName).collect(Collectors.toList());
     }
 }
