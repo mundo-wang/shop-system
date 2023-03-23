@@ -78,8 +78,8 @@
               <span>{{headTitle}}</span>
             </div>
             <div class="right-menu">
-<!--              <div class="avatar-wrapper">{{ userInfo.realName }}</div>-->
-              <div class="avatar-wrapper">王诗剑</div>
+              <div class="avatar-wrapper">{{ userInfo.realName }}</div>
+<!--              <div class="avatar-wrapper">王诗剑</div>-->
               <!-- <div class="logout" @click="logout">退出</div> -->
               <img src="images/icons/btn_close@2x.png" class="outLogin" alt="退出" @click="logout" />
             </div>
@@ -166,8 +166,8 @@
         created() {
           const userInfo = window.localStorage.getItem('userInfo')
           if (userInfo) {
-            // this.userInfo = JSON.parse(userInfo)
-            this.userInfo = userInfo
+            this.userInfo = JSON.parse(userInfo)
+            // this.userInfo = userInfo
           }
           this.closeLoading()
         },

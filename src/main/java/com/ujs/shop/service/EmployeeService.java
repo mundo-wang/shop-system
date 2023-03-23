@@ -27,7 +27,7 @@ public interface EmployeeService extends IService<EmployeePO> {
 
     EmployeeInfoDTO getEmployInfo(String id, String userName);
 
-    String login(EmployeeLoginRO employeeLoginRO);
+    EmployeeLoginDTO login(EmployeeLoginRO employeeLoginRO);
 
     void logout(String token);
 

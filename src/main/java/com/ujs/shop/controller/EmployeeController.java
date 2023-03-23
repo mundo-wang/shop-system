@@ -74,8 +74,8 @@ public class EmployeeController extends BaseController {
      * @return jwt字符串
      */
     @PostMapping("/login")
-    public ResponseBean<String> login(@Valid @RequestBody EmployeeLoginRO employeeLoginRO) {
-        String employeeLoginDTO = employeeService.login(employeeLoginRO);
+    public ResponseBean<EmployeeLoginDTO> login(@Valid @RequestBody EmployeeLoginRO employeeLoginRO) {
+        EmployeeLoginDTO employeeLoginDTO = employeeService.login(employeeLoginRO);
         return ResponseBean.success(employeeLoginDTO);
     }
 

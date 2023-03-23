@@ -3,7 +3,7 @@ function getMemberList (params) {
     url: '/shop/employee/employeePage',
     method: 'post',
     headers: {
-      "Authorization": window.localStorage.getItem('Authorization')
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
     },
     data: { ...params }
   })

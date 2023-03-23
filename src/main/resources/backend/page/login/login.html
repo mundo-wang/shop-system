@@ -101,7 +101,7 @@
               this.loading = true
               let res = await loginApi(this.loginForm)
               if (String(res.code) === '100') {
-                localStorage.setItem('userInfo', res.data)
+                localStorage.setItem('userInfo', JSON.stringify(res.data))
                 window.location.href= '/backend/index.html'
               } else {
                 this.$message.error(res.message)

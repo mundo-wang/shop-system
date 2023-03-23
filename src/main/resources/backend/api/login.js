@@ -11,8 +11,8 @@ function logoutApi(){
     'url': '/shop/employee/logout',
     'method': 'get',
     "headers": {
-      // "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
-      "Authorization": window.localStorage.getItem('userInfo')
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+      // "Authorization": window.localStorage.getItem('userInfo')
     }
   })
 }

@@ -125,7 +125,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
      * @return
      */
     @Override
-    public String login(EmployeeLoginRO employeeLoginRO) {
+    public EmployeeLoginDTO login(EmployeeLoginRO employeeLoginRO) {
         LambdaQueryWrapper<EmployeePO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(EmployeePO::getUserName, employeeLoginRO.getUserName());
         List<EmployeePO> employeePOS = employeeMapper.selectList(wrapper);
@@ -151,7 +151,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeePO>
         EmployeeLoginDTO employeeLoginDTO = new EmployeeLoginDTO();
         BeanUtils.copyProperties(employeePO, employeeLoginDTO);
         employeeLoginDTO.setJwtToken(jwtToken);
-        return jwtToken;
+        return employeeLoginDTO;
     }
 
     @Override
