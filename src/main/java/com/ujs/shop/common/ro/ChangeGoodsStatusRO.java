@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class ChangeGoodsStatusRO {
 
-    private List<String> goodsIds;
+    private String id;
 
     private Boolean status;
 }

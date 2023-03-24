@@ -91,17 +91,26 @@
               placeholder="请设置商品价格"
             />
           </el-form-item>
+          <el-form-item
+                  label="商品余量:"
+                  prop="allowance"
+          >
+            <el-input
+                    v-model="ruleForm.allowance"
+                    placeholder="请设置商品余量"
+            />
+          </el-form-item>
         </div>
         <el-form-item label="商品配置:">
           <el-form-item>
             <div class="flavorBox">
               <span
-                v-if="dishFlavors.length == 0"
+                v-if="goodsConfig.length == 0"
                 class="addBut"
                 @click="addFlavore"
               > + 添加配置</span>
               <div
-                v-if="dishFlavors.length != 0"
+                v-if="goodsConfig.length != 0"
                 class="flavor"
               >
                 <div class="title">
@@ -109,7 +118,7 @@
                 </div>
                 <div class="cont">
                   <div
-                    v-for="(item, index) in dishFlavors"
+                    v-for="(item, index) in goodsConfig"
                     :key="index"
                     class="items"
                   >
@@ -267,7 +276,7 @@
             actionType: '',
             dishList: [],
             dishFlavorsData: [],
-            dishFlavors: [],
+            goodsConfig: [],
             vueRest : '1',
             index : 0,
             inputStyle  : {'flex':1},
@@ -345,7 +354,7 @@
                 // console.log('this.dishFlavors',this.dishFlavors)
                 // this.ruleForm.id = res.data.data.categoryId
                 // this.imageUrl = res.data.data.image
-                this.imageUrl = `/common/download?name=${res.data.image}`
+                this.imageUrl = `/shop/common/download?fileName=${res.data.image}`
               } else {
                 this.$message.error(res.message)
               }
@@ -353,17 +362,17 @@
           },
           // 按钮 - 添加口味
           addFlavore () {
-            this.dishFlavors.push({'name': '', 'value': [], showOption: false}) // JSON.parse(JSON.stringify(this.dishFlavorsData))
+            this.goodsConfig.push({'name': '', 'value': [], showOption: false}) // JSON.parse(JSON.stringify(this.dishFlavorsData))
           },
 
           // 按钮 - 删除口味
           delFlavor (ind) {
-            this.dishFlavors.splice(ind, 1)
+            this.goodsConfig.splice(ind, 1)
           },
 
           // 按钮 - 删除口味标签
           delFlavorLabel (index, ind) {
-            this.dishFlavors[index].value.splice(ind, 1)
+            this.goodsConfig[index].value.splice(ind, 1)
           },
 
           //口味位置记录
@@ -375,7 +384,7 @@
           keyDownHandle (val,index) {
             console.log('keyDownHandle----val',val)
             console.log('keyDownHandle----index',index)
-            console.log('keyDownHandle----this.dishFlavors',this.dishFlavors)
+            console.log('keyDownHandle----this.goodsConfig',this.goodsConfig)
             if (event) {
               event.cancelBubble = true
               event.preventDefault()
@@ -383,7 +392,7 @@
             }
 
             if (val.target.innerText.trim() != '') {
-              this.dishFlavors[index].value.push(val.target.innerText)
+              this.goodsConfig[index].value.push(val.target.innerText)
               val.target.innerText = ''
             }
           },
@@ -404,7 +413,7 @@
             // flavor flavorData
             this.dishFlavorsData = [
               {'name':'容量','value':['330ML','500ML','888ML','1L','2L']},
-              {'name':'温度','value':['热饮','常温','去冰','少冰','多冰']},
+              {'name':'规格','value':['小份','中份','大份','超大份']},
               {'name':'忌口','value':['不要葱','不要蒜','不要香菜','不要辣']},
               {'name':'辣度','value':['不辣','微辣','中辣','重辣']}
             ]
@@ -413,19 +422,19 @@
           selectFlavor(st,index){
             console.log('st',st)
             console.log('index',index)
-            console.log('this.dishFlavors',this.dishFlavors)
-            const obj = JSON.parse(JSON.stringify(this.dishFlavors[index]))
+            console.log('this.goodsConfig',this.goodsConfig)
+            const obj = JSON.parse(JSON.stringify(this.goodsConfig[index]))
             obj.showOption = st
-            this.dishFlavors.splice(index,1,obj)
+            this.goodsConfig.splice(index,1,obj)
             // this.dishFlavors[index].showOption = st
           },
 
           outSelect(st,index){
             const _this = this
             setTimeout(()=> {
-              const obj = JSON.parse(JSON.stringify(_this.dishFlavors[index]))
+              const obj = JSON.parse(JSON.stringify(_this.goodsConfig[index]))
               obj.showOption = st
-              _this.dishFlavors.splice(index,1,obj)
+              _this.goodsConfig.splice(index,1,obj)
             }, 200)
           },
 
@@ -435,13 +444,13 @@
 
           checkOption(val, ind, index){
             this.selectHandle(val.name, index, ind)
-            this.dishFlavors[index].name = val.name
+            this.goodsConfig[index].name = val.name
           },
 
           selectHandle(val, key, ind){
-            const arrDate = [...this.dishFlavors]
+            const arrDate = [...this.goodsConfig]
             arrDate[key] = JSON.parse(JSON.stringify(this.dishFlavorsData[ind]))
-            this.dishFlavors = arrDate
+            this.goodsConfig = arrDate
           },
 
           submitForm(formName, st) {
@@ -449,11 +458,12 @@
               if (valid) {
                 let params = {...this.ruleForm}
                 // params.flavors = this.dishFlavors
-                params.status = this.ruleForm ? false : true
+                params.id = this.ruleForm.id
+                // params.status = this.ruleForm ? false : true
                 params.price *= 100
                 params.categoryId = this.ruleForm.categoryId
                 params.goodsConfig = this.goodsConfig.map(obj => ({ ...obj, value: JSON.stringify(obj.value) }))
-                delete params.goodsConfig
+                // delete params.goodsConfig
                 if(!this.imageUrl){
                   this.$message.error('请上传商品图片')
                   return 
@@ -471,13 +481,11 @@
                         this.imageUrl = ''
                         this.ruleForm = {
                           'name': '',
-                          'id': '',
                           'price': '',
                           'allowance': '',
                           'image': '',
                           'description': '',
                           'goodsConfig': [],
-                          'status': true,
                           categoryId: ''
                         }
                       }

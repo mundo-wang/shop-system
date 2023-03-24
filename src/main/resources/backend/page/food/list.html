@@ -74,6 +74,11 @@
             <span style="margin-right: 10px;">￥{{ scope.row.price/100 }}</span>
           </template>
         </el-table-column>
+        <el-table-column label="余量">
+          <template slot-scope="scope">
+            <span style="margin-right: 10px;">{{ scope.row.allowance }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="售卖状态">
           <template slot-scope="scope">
             <span style="margin-right: 10px;">{{ scope.row.status === true ? '停售' : '启售' }}</span>
@@ -179,6 +184,7 @@
               if (String(res.code) === '100') {
                 this.tableData = res.data.data || []
                 this.counts = res.data.total
+                // localStorage.setItem("goodsId", res.data.data.id)
               } else {
                 this.$message.error(res.message)
               }
@@ -243,10 +249,10 @@
                 return false
               }
               params.id = this.checkList.join(',')
-              params.status = row
+              params.status = row == '1' ? false : true
             } else {
               params.id = row.id
-              params.status = row.status ? '0' : '1'
+              params.status = row.status ? false : true
             }
             this.dishState = params
             this.$confirm('确认更改该菜品状态?', '提示', {

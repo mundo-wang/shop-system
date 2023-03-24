@@ -11,19 +11,25 @@ const getDishPage = (params) => {
 }
 
 // 删除接口
-const deleteDish = (ids) => {
+const deleteDish = (goodsIds) => {
   return $axios({
-    url: '/dish',
-    method: 'delete',
-    params: { ids }
+    url: '/shop/goods/removeGoods',
+    method: 'get',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
+    params: { goodsIds }
   })
 }
 
 // 修改接口
 const editDish = (params) => {
   return $axios({
-    url: '/dish',
-    method: 'put',
+    url: '/shop/goods/updateGoods',
+    method: 'post',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
     data: { ...params }
   })
 }
@@ -88,8 +94,11 @@ const commonDownload = (params) => {
 // 起售停售---批量起售停售接口
 const dishStatusByStatus = (params) => {
   return $axios({
-    url: `/dish/status/${params.status}`,
+    url: `/shop/goods/changeStatus`,
     method: 'post',
-    params: { ids: params.id }
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
+    data: { ...params }
   })
 }

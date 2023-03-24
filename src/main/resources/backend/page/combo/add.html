@@ -464,7 +464,7 @@
                 this.ruleForm = res.data
                 this.ruleForm.status = res.data.status === '100'
                 this.ruleForm.price = res.data.price / 100
-                this.imageUrl = `/common/download?name=${res.data.image}`
+                this.imageUrl = `/shop/common/download?fileName=${res.data.image}`
                 this.checkList = res.data.setmealDishes
                 this.dishTable = res.data.setmealDishes
                 this.ruleForm.idType = res.data.categoryId

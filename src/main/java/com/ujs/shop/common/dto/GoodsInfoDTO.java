@@ -15,6 +15,8 @@ import java.util.List;
 @Data
 public class GoodsInfoDTO {
 
+    private String id;
+
     private String name;
 
     private String categoryId;

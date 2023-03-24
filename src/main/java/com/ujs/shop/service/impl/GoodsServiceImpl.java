@@ -102,7 +102,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
         goodsMapper.insert(goodsPO);
 
         List<AddOrUpdateConfigRO> goodsConfigList = addGoodsRO.getGoodsConfig();
-        addGoodsConfig(goodsConfigList, goodsPO.getId());
+        if (goodsConfigList != null) {
+            addGoodsConfig(goodsConfigList, goodsPO.getId());
+        }
     }
 
     @Override
@@ -124,7 +126,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
         goodsConfigMapper.delete(wrapper);
 
         List<AddOrUpdateConfigRO> goodsConfigList = updateGoodsRO.getGoodsConfig();
-        addGoodsConfig(goodsConfigList, goodsPO.getId());
+        if (goodsConfigList != null) {
+            addGoodsConfig(goodsConfigList, goodsPO.getId());
+        }
     }
 
     @Override

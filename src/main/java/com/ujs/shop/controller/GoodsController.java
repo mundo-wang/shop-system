@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -77,7 +78,8 @@ public class GoodsController extends BaseController {
      */
     @PostMapping("/changeStatus")
     public ResponseBean<?> changeStatus(@Valid @RequestBody ChangeGoodsStatusRO statusRO) {
-        goodsService.changeStatus(statusRO.getGoodsIds(), statusRO.getStatus());
+        List<String> goodsIds = Arrays.asList(statusRO.getId().split(","));
+        goodsService.changeStatus(goodsIds, statusRO.getStatus());
         return ResponseBean.success();
     }
 
