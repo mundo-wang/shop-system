@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ujs.shop.common.dto.CategoryListDTO;
-import com.ujs.shop.common.dto.GoodsConfigDTO;
-import com.ujs.shop.common.dto.GoodsInfoDTO;
-import com.ujs.shop.common.dto.GoodsPageDTO;
+import com.ujs.shop.common.dto.*;
 import com.ujs.shop.common.enums.ResponseCodeEnum;
 import com.ujs.shop.common.exception.ServiceException;
 import com.ujs.shop.common.global.ConstantBean;
@@ -204,5 +201,19 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
                     return categoryListDTO;
                 }
         ).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GoodsForPackDTO> getGoodsForPack(String categoryId) {
+        List<GoodsForPackDTO> dtoList = new ArrayList<>();
+        LambdaQueryWrapper<GoodsPO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(GoodsPO::getCategoryId, categoryId);
+        List<GoodsPO> goodsPOList = goodsMapper.selectList(wrapper);
+        for (GoodsPO goodsPO : goodsPOList) {
+            GoodsForPackDTO goodsForPackDTO = new GoodsForPackDTO();
+            BeanUtils.copyProperties(goodsPO, goodsForPackDTO);
+            dtoList.add(goodsForPackDTO);
+        }
+        return dtoList;
     }
 }

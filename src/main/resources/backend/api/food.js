@@ -72,7 +72,10 @@ const getCategoryList = (params) => {
 // 查菜品列表的接口
 const queryDishList = (params) => {
   return $axios({
-    url: '/dish/list',
+    url: '/shop/goods/getGoodsForPack',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
     method: 'get',
     params
   })

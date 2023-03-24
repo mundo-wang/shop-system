@@ -2,6 +2,7 @@ package com.ujs.shop.controller;
 
 import com.ujs.shop.common.base.BaseController;
 import com.ujs.shop.common.dto.CategoryListDTO;
+import com.ujs.shop.common.dto.GoodsForPackDTO;
 import com.ujs.shop.common.dto.GoodsInfoDTO;
 import com.ujs.shop.common.dto.GoodsPageDTO;
 import com.ujs.shop.common.global.PageFormBean;
@@ -122,6 +123,13 @@ public class GoodsController extends BaseController {
     public ResponseBean<List<CategoryListDTO>> getCategoryList(@RequestParam Boolean categoryType) {
         List<CategoryListDTO> categoryList = goodsService.getCategoryList(categoryType);
         return ResponseBean.success(categoryList);
+    }
+
+
+    @GetMapping("/getGoodsForPack")
+    public ResponseBean<List<GoodsForPackDTO>> getGoodsForPack(@RequestParam String categoryId) {
+        List<GoodsForPackDTO> goodsForPack = goodsService.getGoodsForPack(categoryId);
+        return ResponseBean.success(goodsForPack);
     }
 
 }

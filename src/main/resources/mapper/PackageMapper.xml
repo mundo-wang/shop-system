@@ -5,7 +5,7 @@
 <mapper namespace="com.ujs.shop.mapper.PackageMapper">
 
     <select id="packagePage" resultType="com.ujs.shop.common.dto.PackagePageDTO">
-        select a.id, a.name, b.name as categoryName, a.price, a.status, a.update_time, a.update_user
+        select a.id, a.name, b.name as categoryName, a.price, a.image, a.status, a.update_time, a.update_user
         from shop_package a
         inner join shop_category b
         on a.category_id = b.id

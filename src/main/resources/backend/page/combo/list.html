@@ -81,8 +81,13 @@
         </el-table-column>
         <el-table-column label="售卖状态">
           <template slot-scope="scope">
-            <span>{{ scope.row.status == '0' ? '停售' : '启售' }}</span>
+            <span>{{ scope.row.status === true ? '停售' : '启售' }}</span>
           </template>
+        </el-table-column>
+        <el-table-column
+          prop="updateUser"
+          label="最后操作人"
+        >
         </el-table-column>
         <el-table-column
           prop="updateTime"
@@ -109,7 +114,7 @@
               class="blueBug"
               @click="statusHandle(scope.row)"
             >
-              {{ scope.row.status == '0' ? '启售' : '停售' }}
+              {{ scope.row.status === true ? '启售' : '停售' }}
             </el-button>
             <el-button
               type="text"
@@ -171,8 +176,10 @@
             }
             await getSetmealPage(params).then(res => {
               if (String(res.code) === '100') {
-                this.tableData = res.data.records || []
+                this.tableData = res.data.data || []
                 this.counts = res.data.total
+              } else {
+                this.$message.error(res.message)
               }
             }).catch(err => {
               this.$message.error('请求出错了：' + err)

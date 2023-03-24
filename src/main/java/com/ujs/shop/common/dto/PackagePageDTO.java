@@ -24,6 +24,8 @@ public class PackagePageDTO {
 
     private Boolean status;
 
+    private String image;
+
     @JsonFormat(pattern="yy-MM-dd HH:mm", timezone="GMT+8")
     private LocalDateTime updateTime;
 

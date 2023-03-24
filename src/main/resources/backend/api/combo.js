@@ -1,9 +1,12 @@
 // 查询列表数据
 const getSetmealPage = (params) => {
   return $axios({
-    url: '/setmeal/page',
-    method: 'get',
-    params
+    url: '/shop/package/packagePage',
+    method: 'post',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
+    data: { ...params }
   })
 }
 
@@ -28,8 +31,11 @@ const editSetmeal = (params) => {
 // 新增数据接口
 const addSetmeal = (params) => {
   return $axios({
-    url: '/setmeal',
+    url: '/shop/package/addPackage',
     method: 'post',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
     data: { ...params }
   })
 }
@@ -37,7 +43,10 @@ const addSetmeal = (params) => {
 // 查询详情接口
 const querySetmealById = (id) => {
   return $axios({
-    url: `/setmeal/${id}`,
+    url: '/shop/package/getPackageInfo?id=' + id,
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
     method: 'get'
   })
 }

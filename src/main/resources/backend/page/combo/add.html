@@ -189,22 +189,22 @@
             </el-form-item>
           </div>
           <div>
-            <el-form-item label="套餐菜品:" class="setmealFood">
+            <el-form-item label="套餐商品:" class="setmealFood">
               <el-form-item>
                 <div class="addDish">
-                  <span v-if="dishTable.length == 0" class="addBut" @click="openAddDish"> + 添加菜品</span>
+                  <span v-if="dishTable.length == 0" class="addBut" @click="openAddDish"> + 添加商品</span>
                   <div v-if="dishTable.length != 0" class="content">
-                    <div class="addBut" style="margin-bottom: 20px" @click="openAddDish">+ 添加菜品</div>
+                    <div class="addBut" style="margin-bottom: 20px" @click="openAddDish">+ 添加商品</div>
                     <div class="table">
                       <el-table :data="dishTable" style="width: 100%">
                         <el-table-column prop="name" label="名称" width="180" align="center"></el-table-column>
                         <el-table-column prop="price" label="原价" width="180">
-                          <template slot-scope="scope"> {{ Number(scope.row.price) / 100 }} </template>
+                          <template slot-scope="scope"> ￥{{ Number(scope.row.price) / 100 }} </template>
                         </el-table-column>
                         <el-table-column prop="address" label="份数" align="center">
                           <template slot-scope="scope">
                             <el-input-number
-                              v-model="scope.row.copies"
+                              v-model="scope.row.amount"
                               size="small"
                               :min="1"
                               :max="99"
@@ -228,7 +228,7 @@
             <el-form-item label="套餐图片:" class="uploadImg">
               <el-upload
                 class="avatar-uploader"
-                action="/common/upload"
+                action="/shop/common/upload"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :on-change="onChange"
@@ -313,7 +313,7 @@
                     >
                       <div class="item">
                         <span style="flex: 3;text-align: left">{{ item.dishName }}</span>
-                        <span>{{ item.status == 0 ? '停售' : '在售' }}</span>
+                        <span>{{ item.status === true ? '停售' : '在售' }}</span>
                         <span>{{ Number(item.price)/100 }}</span>
                       </div>
                     </el-checkbox>
@@ -462,11 +462,11 @@
             querySetmealById(this.id).then((res) => {
               if (String(res.code) === '100') {
                 this.ruleForm = res.data
-                this.ruleForm.status = res.data.status === '100'
+                this.ruleForm.status = res.data.status
                 this.ruleForm.price = res.data.price / 100
                 this.imageUrl = `/shop/common/download?fileName=${res.data.image}`
-                this.checkList = res.data.setmealDishes
-                this.dishTable = res.data.setmealDishes
+                this.checkList = res.data.goodsList
+                this.dishTable = res.data.goodsList
                 this.ruleForm.idType = res.data.categoryId
                 // this.ruleForm.password = ''
               } else {
@@ -519,7 +519,7 @@
           addTableList() {
             this.dishTable = JSON.parse(JSON.stringify(this.checkList))
             this.dishTable.forEach((n) => {
-              n.copies = 1
+              n.amount = 1
             })
             this.dialogVisible = false
             // 添加处理逻辑清空选中list
@@ -531,7 +531,7 @@
                 let prams = { ...this.ruleForm }
                 prams.price *= 100
                 prams.setmealDishes = this.dishTable.map((obj) => ({
-                  copies: obj.copies,
+                  amount: obj.amount,
                   dishId: obj.dishId,
                   name: obj.name,
                   price: obj.price,
@@ -636,9 +636,9 @@
               false
             )
           },
-          // 获取套餐分类
+          // 获取菜品分类
           getDishType () {
-            getCategoryList({'categoryType':true}).then(res => {
+            getCategoryList({'categoryType':false}).then(res => {
               if (res.code === 100) {
                 this.dishType = res.data
                 this.getDishList(res.data[0].id)
@@ -652,14 +652,14 @@
           getDishList (id) {
             queryDishList({categoryId: id}).then(res => {
               if (res.code === 100) {
-                if (res.data.length == 0) {
+                if (res.data.length === 0) {
                   this.dishAddList = []
                   return
                 }
                 let newArr = res.data;
                 newArr.forEach((n) => {
                   n.dishId = n.id
-                  n.copies = 1
+                  n.amount = 1
                   // n.dishCopies = 1
                   n.dishName = n.name
                 })

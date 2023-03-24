@@ -154,8 +154,14 @@ public class PackageServiceImpl extends ServiceImpl<PackageMapper, PackagePO> im
         wrapper.eq(PackageDetailPO::getPackageId, packagePO.getId());
         List<PackageDetailPO> packageDetailPOS = packageDetailMapper.selectList(wrapper);
         List<PackageGoodsDTO> goodsList = packageDetailPOS.stream().map(item -> {
+            GoodsPO goodsPO = goodsMapper.selectById(item.getGoodsId());
             PackageGoodsDTO packageGoodsDTO = new PackageGoodsDTO();
-            BeanUtils.copyProperties(item, packageGoodsDTO);
+            BeanUtils.copyProperties(goodsPO, packageGoodsDTO);
+            LambdaQueryWrapper<PackageDetailPO> wrapper1 = new LambdaQueryWrapper<>();
+            wrapper1.eq(PackageDetailPO::getPackageId, item.getPackageId());
+            wrapper1.eq(PackageDetailPO::getGoodsId, item.getGoodsId());
+            PackageDetailPO packageDetailPO = packageDetailMapper.selectOne(wrapper1);
+            packageGoodsDTO.setAmount(packageDetailPO.getAmount());
             return packageGoodsDTO;
         }).collect(Collectors.toList());
         packageInfoDTO.setGoodsList(goodsList);
