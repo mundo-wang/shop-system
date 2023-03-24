@@ -119,6 +119,7 @@ public class LoginCheckFilter implements Filter {
         list.add(NoFilterPathEnum.PATH4.getPath());
         list.add(NoFilterPathEnum.PATH5.getPath());
         list.add(NoFilterPathEnum.PATH6.getPath());
+        list.add(NoFilterPathEnum.PATH7.getPath());
         return list;
     }
 

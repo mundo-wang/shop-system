@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ujs.shop.common.dto.CategoryListDTO;
 import com.ujs.shop.common.dto.GoodsConfigDTO;
 import com.ujs.shop.common.dto.GoodsInfoDTO;
 import com.ujs.shop.common.dto.GoodsPageDTO;
@@ -186,9 +187,18 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
     }
 
     @Override
-    public List<String> getCategoryList(Boolean categoryType) {
+    public List<CategoryListDTO> getCategoryList(Boolean categoryType) {
+        List<CategoryListDTO> categoryListDTOS = new ArrayList<>();
         LambdaQueryWrapper<CategoryPO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(CategoryPO::getType, categoryType);
-        return categoryMapper.selectList(wrapper).stream().map(CategoryPO::getName).collect(Collectors.toList());
+        wrapper.orderByDesc(CategoryPO::getUpdateTime);
+        return categoryMapper.selectList(wrapper).stream().map(
+                item -> {
+                    CategoryListDTO categoryListDTO = new CategoryListDTO();
+                    BeanUtils.copyProperties(item, categoryListDTO);
+                    categoryListDTOS.add(categoryListDTO);
+                    return categoryListDTO;
+                }
+        ).collect(Collectors.toList());
     }
 }

@@ -31,8 +31,11 @@ const editDish = (params) => {
 // 新增接口
 const addDish = (params) => {
   return $axios({
-    url: '/dish',
+    url: '/shop/goods/addGoods',
     method: 'post',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
     data: { ...params }
   })
 }
@@ -73,9 +76,10 @@ const queryDishList = (params) => {
 const commonDownload = (params) => {
   return $axios({
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
     },
-    url: '/common/download',
+    url: '/shop/common/download',
     method: 'get',
     params
   })

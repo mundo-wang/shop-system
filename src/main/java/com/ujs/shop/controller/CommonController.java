@@ -38,9 +38,9 @@ public class CommonController extends BaseController {
     public ResponseBean<String> upload(MultipartFile file) {
 //        获取文件后缀
         String originalFilename = file.getOriginalFilename();
-        originalFilename.substring(originalFilename.lastIndexOf("."));
+        String suffer = originalFilename.substring(originalFilename.lastIndexOf("."));
 
-        String fileName = ConstantBean.IMAGE_PREFIX + ConstantBean.getUUID().substring(0, 8);
+        String fileName = ConstantBean.IMAGE_PREFIX + ConstantBean.getUUID().substring(0, 8) + suffer;
 
         File dir = new File(imagePath);
         if (! dir.exists()) {
@@ -70,7 +70,11 @@ public class CommonController extends BaseController {
             File file = new File(imagePath + fileName);
             fis = new FileInputStream(file);
             sos = response.getOutputStream();
-            response.setContentType("image/jpeg");
+            if (fileName.contains(".jpg") || fileName.contains(".jpeg")) {
+                response.setContentType("image/jpeg");
+            } else {
+                response.setContentType("image/png");
+            }
             int len = 0;
             byte[] bytes = new byte[1024];
             while ((len = fis.read(bytes)) != -1) {

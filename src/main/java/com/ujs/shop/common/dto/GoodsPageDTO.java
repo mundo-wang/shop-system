@@ -22,6 +22,8 @@ public class GoodsPageDTO {
 
     private BigDecimal price;
 
+    private String image;
+
     private Integer allowance;
 
     private Boolean status;

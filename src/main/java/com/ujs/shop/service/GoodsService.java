@@ -1,6 +1,7 @@
 package com.ujs.shop.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ujs.shop.common.dto.CategoryListDTO;
 import com.ujs.shop.common.dto.GoodsInfoDTO;
 import com.ujs.shop.common.dto.GoodsPageDTO;
 import com.ujs.shop.common.global.PageFormBean;
@@ -29,6 +30,6 @@ public interface GoodsService extends IService<GoodsPO> {
 
     PageFormBean<GoodsPageDTO> goodsPage(Integer page, Integer size, String name, String categoryId);
 
-    List<String> getCategoryList(Boolean categoryType);
+    List<CategoryListDTO> getCategoryList(Boolean categoryType);
 
 }

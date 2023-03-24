@@ -5,7 +5,7 @@
 <mapper namespace="com.ujs.shop.mapper.GoodsMapper">
 
     <select id="goodsPage" resultType="com.ujs.shop.common.dto.GoodsPageDTO">
-        select a.id, a.name, b.name as categoryName, a.price, a.allowance, a.status, a.update_user, a.update_time
+        select a.id, a.name, b.name as categoryName, a.price, a.image, a.allowance, a.status, a.update_user, a.update_time
         from shop_goods a
         inner join shop_category b
         on a.category_id = b.id
