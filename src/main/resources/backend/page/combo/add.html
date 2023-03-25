@@ -550,6 +550,9 @@
                 // delete prams.dishList
                 if (this.actionType == 'add') {
                   delete prams.id
+                  delete prams.dishList
+                  delete prams.status
+                  delete prams.code
                   addSetmeal(prams)
                     .then((res) => {
                       if (res.code === 100) {

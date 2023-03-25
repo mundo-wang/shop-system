@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class ChangePackageStatusRO {
 
-    private List<String> packageIds;
+    private String ids;
 
     private Boolean status;
 }

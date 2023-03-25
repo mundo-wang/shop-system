@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -70,11 +71,12 @@ public class PackageController {
 
     /**
      * 单体/批量删除套餐及其对应商品
-     * @param packageIds
+     * @param
      * @return
      */
     @GetMapping("/removePackage")
-    public ResponseBean<?> removePackage(@RequestParam("packageIds") List<String> packageIds) {
+    public ResponseBean<?> removePackage(@RequestParam("ids") String ids) {
+        List<String> packageIds = Arrays.asList(ids.split(","));
         packageService.removePackage(packageIds);
         return ResponseBean.success();
     }
@@ -87,7 +89,8 @@ public class PackageController {
      */
     @PostMapping("/changeStatus")
     public ResponseBean<?> changeStatus(@Valid @RequestBody ChangePackageStatusRO ro) {
-        packageService.changeStatus(ro.getPackageIds(), ro.getStatus());
+        List<String> packageIds = Arrays.asList(ro.getIds().split(","));
+        packageService.changeStatus(packageIds, ro.getStatus());
         return ResponseBean.success();
     }
 
