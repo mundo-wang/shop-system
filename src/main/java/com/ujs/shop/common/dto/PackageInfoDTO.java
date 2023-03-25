@@ -15,6 +15,8 @@ import java.util.List;
 @Data
 public class PackageInfoDTO {
 
+    private String id;
+
     private String categoryId;
 
     private String name;

@@ -35,4 +35,6 @@ public interface GoodsService extends IService<GoodsPO> {
 
     List<GoodsForPackDTO> getGoodsForPack(String categoryId);
 
+    List<GoodsForPackDTO> getGoodsForPackByName(String name);
+
 }

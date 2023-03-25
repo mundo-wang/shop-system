@@ -132,4 +132,11 @@ public class GoodsController extends BaseController {
         return ResponseBean.success(goodsForPack);
     }
 
+
+    @GetMapping("/getGoodsForPackByName")
+    public ResponseBean<List<GoodsForPackDTO>> getGoodsForPackByName(@RequestParam String name) {
+        List<GoodsForPackDTO> goodsForPack = goodsService.getGoodsForPackByName(name);
+        return ResponseBean.success(goodsForPack);
+    }
+
 }

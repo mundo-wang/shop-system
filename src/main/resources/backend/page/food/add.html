@@ -306,7 +306,7 @@
               'price': [
                 {
                   'required': true,
-                  // 'message': '请填写菜品价格',
+                  // 'message': '请填写商品价格',
                   validator: (rules, value, callback) => {
                     if (!value) {
                       callback(new Error('请填写商品价格'))
@@ -397,7 +397,7 @@
             }
           },
 
-          // 获取菜品分类
+          // 获取商品分类
           getDishList () {
             getCategoryList({ 'categoryType': false }).then(res => {
               if (res.code === 100) {

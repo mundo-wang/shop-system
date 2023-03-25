@@ -13,7 +13,7 @@ const getSetmealPage = (params) => {
 // 删除数据接口
 const deleteSetmeal = (ids) => {
   return $axios({
-    url: '/setmeal',
+    url: '/shop/package',
     method: 'delete',
     params: { ids }
   })
@@ -22,8 +22,11 @@ const deleteSetmeal = (ids) => {
 // 修改数据接口
 const editSetmeal = (params) => {
   return $axios({
-    url: '/setmeal',
-    method: 'put',
+    url: '/shop/package/updatePackage',
+    method: 'post',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
     data: { ...params }
   })
 }
@@ -50,6 +53,7 @@ const querySetmealById = (id) => {
     method: 'get'
   })
 }
+
 
 // 批量起售禁售
 const setmealStatusByStatus = (params) => {

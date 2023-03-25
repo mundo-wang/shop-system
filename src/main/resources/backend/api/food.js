@@ -57,7 +57,7 @@ const queryDishById = (id) => {
   })
 }
 
-// 获取菜品分类列表
+// 获取商品分类列表
 const getCategoryList = (params) => {
   return $axios({
     url: '/shop/goods/getCategoryList',
@@ -69,7 +69,7 @@ const getCategoryList = (params) => {
   })
 }
 
-// 查菜品列表的接口
+// 查商品列表的接口
 const queryDishList = (params) => {
   return $axios({
     url: '/shop/goods/getGoodsForPack',
@@ -80,6 +80,19 @@ const queryDishList = (params) => {
     params
   })
 }
+
+// 查商品列表的接口（姓名）
+const queryDishListByName = (params) => {
+  return $axios({
+    url: '/shop/goods/getGoodsForPackByName',
+    headers: {
+      "Authorization": JSON.parse(localStorage.getItem('userInfo')).jwtToken
+    },
+    method: 'get',
+    params
+  })
+}
+
 
 // 文件down预览
 const commonDownload = (params) => {

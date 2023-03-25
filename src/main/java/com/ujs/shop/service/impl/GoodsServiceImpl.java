@@ -216,4 +216,19 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
         }
         return dtoList;
     }
+
+
+    @Override
+    public List<GoodsForPackDTO> getGoodsForPackByName(String name) {
+        List<GoodsForPackDTO> dtoList = new ArrayList<>();
+        LambdaQueryWrapper<GoodsPO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(GoodsPO::getName, name);
+        List<GoodsPO> goodsPOList = goodsMapper.selectList(wrapper);
+        for (GoodsPO goodsPO : goodsPOList) {
+            GoodsForPackDTO goodsForPackDTO = new GoodsForPackDTO();
+            BeanUtils.copyProperties(goodsPO, goodsForPackDTO);
+            dtoList.add(goodsForPackDTO);
+        }
+        return dtoList;
+    }
 }
