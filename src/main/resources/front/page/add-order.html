@@ -178,7 +178,7 @@
                     },
                     //获取购物车数据
                     async getCartData(){
-                        const res = await cartListApi({})
+                        const res = await cartListApi()
                         if(res.code === 100){
                             this.cartData = res.data
                         }else{

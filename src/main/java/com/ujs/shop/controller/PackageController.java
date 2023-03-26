@@ -113,6 +113,11 @@ public class PackageController {
     }
 
 
+    /**
+     * 通过分类名查找套餐
+     * @param categoryId
+     * @return
+     */
     @GetMapping("/getPackByCate")
     public ResponseBean<List<PackByCateDTO>> getPackByCate(@RequestParam String categoryId) {
         List<PackByCateDTO> packByCate = packageService.getPackByCate(categoryId);

@@ -214,10 +214,12 @@ public class PackageServiceImpl extends ServiceImpl<PackageMapper, PackagePO> im
         LambdaQueryWrapper<PackagePO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(PackagePO::getCategoryId, categoryId);
         wrapper.eq(PackagePO::getStatus, false);
+        wrapper.orderByDesc(PackagePO::getCreateTime);
         List<PackagePO> packagePOS = packageMapper.selectList(wrapper);
         for (PackagePO packagePO : packagePOS) {
             PackByCateDTO packByCateDTO = new PackByCateDTO();
             BeanUtils.copyProperties(packagePO, packByCateDTO);
+            packByCateDTO.setType(true);
             list.add(packByCateDTO);
         }
         return list;

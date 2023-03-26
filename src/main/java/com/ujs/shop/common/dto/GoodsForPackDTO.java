@@ -21,7 +21,11 @@ public class GoodsForPackDTO {
 
     private BigDecimal price;
 
+//    private Integer allowance;
+
     private String image;
 
     private String description;
+
+    private Boolean type;
 }

@@ -23,4 +23,6 @@ public class PackByCateDTO {
     private String image;
 
     private String description;
+
+    private Boolean type;
 }

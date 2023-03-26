@@ -56,14 +56,14 @@
               <div>
                 <div class="divName">{{item.name}}</div>
                 <div class="divDesc">{{item.description}}</div>
-                <div class="divDesc">{{'月销' + (item.saleNum ? item.saleNum : 0)  }}</div>
+                <div class="divDesc">{{'月销' + (item.saleNum ? item.saleNum : 100)  }}</div>
                 <div class="divBottom"><span>￥</span><span>{{item.price/100}}</span></div>
                 <div class="divNum">
                   <div class="divSubtract" v-if="item.number > 0">
                     <img src="./images/subtract.png" @click.prevent.stop="subtractCart(item)"/>
                   </div>
                   <div class="divDishNum">{{item.number}}</div>
-                  <div class="divTypes" v-if="item.flavors && item.flavors.length > 0 && !item.number " @click.prevent.stop="chooseFlavorClick(item)">选择规格</div>
+                  <div class="divTypes" v-if="item.goodsConfig && item.goodsConfig.length > 0 && !item.number " @click.prevent.stop="chooseFlavorClick(item)">选择规格</div>
                   <div class="divAdd" v-else>
                     <img src="./images/add.png" @click.prevent.stop="addCart(item)"/>
                   </div>
@@ -295,7 +295,7 @@
           methods:{
             //初始化数据
             initData(){
-              Promise.all([categoryListApi(),cartListApi({})]).then(res=>{
+              Promise.all([categoryListApi(),cartListApi()]).then(res=>{
                 //获取分类数据
                 if(res[0].code === 100){
                   this.categoryList = res[0].data
@@ -340,7 +340,7 @@
                 if(dishList.length > 0 && cartData.length > 0){
                   dishList.forEach(dish=>{
                     cartData.forEach(cart=>{
-                      if(dish.id === cart.dishId){
+                      if(dish.id === cart.goodsId){
                         dish.number = cart.number
                       }
                     })
@@ -363,7 +363,7 @@
                   if(dishList.length > 0 && cartData.length > 0){
                     dishList.forEach(dish=>{
                       cartData.forEach(cart=>{
-                        if(dish.id === cart.setmealId){
+                        if(dish.id === cart.packageId){
                           dish.number = cart.number
                         }
                       })
@@ -376,7 +376,7 @@
             },
             //获取购物车数据
             async getCartData(){
-              const res = await cartListApi({})
+              const res = await cartListApi()
               if(res.code === 100){
                 this.cartData = res.data
               }else{
@@ -387,26 +387,26 @@
             async addCart(item){
               let params = {
                 amount:item.price/100,//金额
-                dishFlavor:item.dishFlavor,//口味  如果没有传undefined
-                dishId:undefined,//商品id
-                setmealId:undefined,//套餐id
+                // goodsConfig:item.goodsConfig,//口味  如果没有传undefined
+                goodsId:undefined,//商品id
+                packageId:undefined,//套餐id
                 name:item.name,
                 image:item.image
               }
-              if(Array.isArray(item.flavors)){//表示是商品
-                params.dishId = item.id
+              if(item.type === false){//表示是商品
+                params.goodsId = item.id
               }else{//表示套餐 套餐没有口味
-                params.setmealId = item.id
+                params.packageId = item.id
               }
               const res = await addCartApi(params)
               if(res.code === 100){
                 this.dishList.forEach(dish=>{
                   if(dish.id === item.id){
-                    dish.number = res.data.number
+                    dish.number = res.data
                   }
                 })
                 if(this.setMealDialog.show){
-                  item.number = res.data.number
+                  item.number = res.data
                 }
                 this.getCartData()
               }else{
@@ -417,22 +417,22 @@
             //菜单中减少选中的商品
             async subtractCart(item){
                 let params = {
-                  dishId:item.id,
+                  goodsId:item.id,
                 }
-                if(!Array.isArray(item.flavors)){
+                if(item.type === true){
                   params = {
-                    setmealId:item.id,
+                    packageId:item.id,
                   }
                 }
                 const res = await updateCartApi(params)
                 if(res.code === 100){
                 this.dishList.forEach(dish=>{
                   if(dish.id === item.id){
-                    dish.number = (res.data.number === 0 ? undefined : res.data.number)
+                    dish.number = (res.data === 0 ? undefined : res.data)
                   }
                 })
                 if(this.setMealDialog.show){
-                  item.number = (res.data.number === 0 ? undefined : res.data.number)
+                  item.number = (res.data === 0 ? undefined : res.data)
                 }
                 this.getCartData()
                 }else{
@@ -450,17 +450,17 @@
             async cartNumAdd(item){
               let params = {
                 amount:item.amount,//金额
-                dishFlavor:item.dishFlavor,//口味  如果没有传undefined
-                dishId:item.dishId,//商品id
-                setmealId:item.setmealId,//套餐id
+                // dishFlavor:item.dishFlavor,//口味  如果没有传undefined
+                goodsId:item.goodsId,//商品id
+                packageId:item.packageId,//套餐id
                 name:item.name,
                 image:item.image
               }
               const res = await addCartApi(params)
               if(res.code === 100){
                 this.dishList.forEach(dish=>{
-                  if(dish.id === (item.dishId || item.setmealId)){
-                    dish.number = res.data.number
+                  if(dish.id === (item.goodsId || item.packageId)){
+                    dish.number = res.data
                   }
                 })
                 console.log(this.dishList)
@@ -472,14 +472,14 @@
             //购物车中减少商品数量
             async cartNumberSubtract(item){
               let params = {
-                  dishId:item.dishId,
-                  setmealId:item.setmealId,
+                  goodsId:item.goodsId,
+                  packageId:item.packageId,
                 }
                 const res = await updateCartApi(params)
                 if(res.code === 100){
                 this.dishList.forEach(dish=>{
                   if(dish.id === (item.dishId || item.setmealId)){
-                    dish.number = (res.data.number === 0 ? undefined : res.data.number)
+                    dish.number = (res.data === 0 ? undefined : res.data)
                   }
                 })
                 this.getCartData()
