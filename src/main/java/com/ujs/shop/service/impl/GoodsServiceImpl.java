@@ -210,6 +210,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
         List<GoodsForPackDTO> dtoList = new ArrayList<>();
         LambdaQueryWrapper<GoodsPO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(GoodsPO::getCategoryId, categoryId);
+        wrapper.eq(GoodsPO::getStatus, false);
         List<GoodsPO> goodsPOList = goodsMapper.selectList(wrapper);
         for (GoodsPO goodsPO : goodsPOList) {
             GoodsForPackDTO goodsForPackDTO = new GoodsForPackDTO();

@@ -23,7 +23,7 @@ function dishListApi(data) {
 //获取商品分类对应的套餐
 function setmealListApi(data) {
     return $axios({
-        'url': '/shop/goods/getGoodsForPack?categoryId=' + data,
+        'url': '/shop/package/getPackByCate?categoryId=' + data,
         'method': 'get',
         headers: {
             "token": sessionStorage.getItem("token")

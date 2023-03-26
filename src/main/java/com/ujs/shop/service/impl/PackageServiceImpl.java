@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ujs.shop.common.dto.PackByCateDTO;
 import com.ujs.shop.common.dto.PackageGoodsDTO;
 import com.ujs.shop.common.dto.PackageInfoDTO;
 import com.ujs.shop.common.dto.PackagePageDTO;
@@ -28,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -204,5 +206,20 @@ public class PackageServiceImpl extends ServiceImpl<PackageMapper, PackagePO> im
         Page<PackagePageDTO> page1 = new Page<>(page, size);
         IPage<PackagePageDTO> page2 = packageMapper.packagePage(page1, name, categoryId);
         return new PageFormBean<>(page2);
+    }
+
+    @Override
+    public List<PackByCateDTO> getPackByCate(String categoryId) {
+        List<PackByCateDTO> list = new ArrayList<>();
+        LambdaQueryWrapper<PackagePO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(PackagePO::getCategoryId, categoryId);
+        wrapper.eq(PackagePO::getStatus, false);
+        List<PackagePO> packagePOS = packageMapper.selectList(wrapper);
+        for (PackagePO packagePO : packagePOS) {
+            PackByCateDTO packByCateDTO = new PackByCateDTO();
+            BeanUtils.copyProperties(packagePO, packByCateDTO);
+            list.add(packByCateDTO);
+        }
+        return list;
     }
 }

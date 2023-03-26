@@ -1,5 +1,6 @@
 package com.ujs.shop.controller;
 
+import com.ujs.shop.common.dto.PackByCateDTO;
 import com.ujs.shop.common.dto.PackageInfoDTO;
 import com.ujs.shop.common.dto.PackagePageDTO;
 import com.ujs.shop.common.global.PageFormBean;
@@ -109,6 +110,13 @@ public class PackageController {
                 packagePageRO.getCategoryId()
         );
         return ResponseBean.success(packagePage);
+    }
+
+
+    @GetMapping("/getPackByCate")
+    public ResponseBean<List<PackByCateDTO>> getPackByCate(@RequestParam String categoryId) {
+        List<PackByCateDTO> packByCate = packageService.getPackByCate(categoryId);
+        return ResponseBean.success(packByCate);
     }
 
 }
