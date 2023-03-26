@@ -27,9 +27,9 @@
             <div class="divContent">
                 <div class="divAddress">
                     <div @click="toAddressPage">                    
-                        <div class="address">{{address.detail}}</div>
+                        <div class="address">{{address.address}}</div>
                         <div class="name">
-                            <span>{{address.consignee}}{{address.sex === '100' ? '先生':'女士'}}</span>
+                            <span>{{address.receiver}} {{address.sex === '100' ? '先生':'女士'}}</span>
                             <span>{{address.phone}}</span>
                         </div>
                         <i class="el-icon-arrow-right"></i>
@@ -161,8 +161,8 @@
                     //获取送达时间
                     getFinishTime(){
                         let now = new Date()
-                        let hour = now.getHours() +1
-                        let minute = now.getMinutes()
+                        let hour = now.getHours()
+                        let minute = now.getMinutes() + 15
                         if(hour.toString().length <2){
                             hour = '0' + hour
                         }

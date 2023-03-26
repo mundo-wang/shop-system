@@ -183,7 +183,7 @@
             await getDishPage(params).then(res => {
               if (String(res.code) === '100') {
                 this.tableData = res.data.data || []
-                this.counts = res.data.total
+                this.counts = Number(res.data.total)
                 // localStorage.setItem("goodsId", res.data.data.id)
               } else {
                 this.$message.error(res.message)
