@@ -75,5 +75,39 @@ public class AddressController extends BaseController {
     }
 
 
+    /**
+     * 删除地址
+     * @param id
+     * @return
+     */
+    @GetMapping("/removeAddress")
+    public ResponseBean<?> removeAddress(@RequestParam String id) {
+        addressService.removeAddress(id, getCustomerId());
+        return ResponseBean.success();
+    }
+
+
+    /**
+     * 设置默认地址
+     * @param id
+     * @return
+     */
+    @GetMapping("/setDefault")
+    public ResponseBean<?> setDefault(@RequestParam String id) {
+        addressService.setDefault(id, getCustomerId());
+        return ResponseBean.success();
+    }
+
+
+    /**
+     * 获取默认地址
+     * @return
+     */
+    @GetMapping("/getDefault")
+    public ResponseBean<AddressInfoDTO> getDefault() {
+        AddressInfoDTO addressInfoDTO = addressService.getDefault(getCustomerId());
+        return ResponseBean.success(addressInfoDTO);
+    }
+
 
 }

@@ -1,7 +1,10 @@
 //获取所有地址
 function addressListApi() {
     return $axios({
-      'url': '/addressBook/list',
+      'url': '/shop/address/addressList',
+        headers: {
+            "token": sessionStorage.getItem("token")
+        },
       'method': 'get',
     })
   }
@@ -17,8 +20,11 @@ function addressLastUpdateApi() {
 //新增地址
 function  addAddressApi(data){
     return $axios({
-        'url': '/addressBook',
+        'url': '/shop/address/addAddress',
         'method': 'post',
+        headers: {
+            "token": sessionStorage.getItem("token")
+        },
         data
       })
 }
@@ -26,42 +32,55 @@ function  addAddressApi(data){
 //修改地址
 function  updateAddressApi(data){
     return $axios({
-        'url': '/addressBook',
-        'method': 'put',
+        'url': '/shop/address/updateAddress',
+        'method': 'post',
+        headers: {
+            "token": sessionStorage.getItem("token")
+        },
         data
       })
 }
 
 //删除地址
-function deleteAddressApi(params) {
+function deleteAddressApi(id) {
     return $axios({
-        'url': '/addressBook',
-        'method': 'delete',
-        params
+        'url': '/shop/address/removeAddress?id=' + id,
+        headers: {
+            "token": sessionStorage.getItem("token")
+        },
+        'method': 'get',
     })
 }
 
 //查询单个地址
 function addressFindOneApi(id) {
   return $axios({
-    'url': `/addressBook/${id}`,
+    'url': `/shop/address/getAddressInfo?id=` + id,
+      headers: {
+          "token": sessionStorage.getItem("token")
+      },
     'method': 'get',
   })
 }
 
 //设置默认地址
-function  setDefaultAddressApi(data){
+function  setDefaultAddressApi(id){
   return $axios({
-      'url': '/addressBook/default',
-      'method': 'put',
-      data
+      'url': '/shop/address/setDefault?id=' + id,
+      headers: {
+          "token": sessionStorage.getItem("token")
+      },
+      'method': 'get',
     })
 }
 
 //获取默认地址
 function getDefaultAddressApi() {
   return $axios({
-    'url': `/addressBook/default`,
+    'url': `/shop/address/getDefault`,
+      headers: {
+          "token": sessionStorage.getItem("token")
+      },
     'method': 'get',
   })
 }

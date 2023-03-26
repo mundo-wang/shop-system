@@ -19,5 +19,5 @@ public interface CustomerService extends IService<CustomerPO> {
 
     CustomerInfoDTO getCustomerInfo(String id);
 
-    void logout(String id);
+    void logout(String token);
 }

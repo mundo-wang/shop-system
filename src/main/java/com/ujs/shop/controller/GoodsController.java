@@ -120,12 +120,17 @@ public class GoodsController extends BaseController {
      * @return
      */
     @GetMapping("/getCategoryList")
-    public ResponseBean<List<CategoryListDTO>> getCategoryList(@RequestParam Boolean categoryType) {
+    public ResponseBean<List<CategoryListDTO>> getCategoryList(Boolean categoryType) {
         List<CategoryListDTO> categoryList = goodsService.getCategoryList(categoryType);
         return ResponseBean.success(categoryList);
     }
 
 
+    /**
+     * 通过分类查所有商品
+     * @param categoryId
+     * @return
+     */
     @GetMapping("/getGoodsForPack")
     public ResponseBean<List<GoodsForPackDTO>> getGoodsForPack(@RequestParam String categoryId) {
         List<GoodsForPackDTO> goodsForPack = goodsService.getGoodsForPack(categoryId);
@@ -133,6 +138,11 @@ public class GoodsController extends BaseController {
     }
 
 
+    /**
+     * 通过名字查商品
+     * @param name
+     * @return
+     */
     @GetMapping("/getGoodsForPackByName")
     public ResponseBean<List<GoodsForPackDTO>> getGoodsForPackByName(@RequestParam String name) {
         List<GoodsForPackDTO> goodsForPack = goodsService.getGoodsForPackByName(name);

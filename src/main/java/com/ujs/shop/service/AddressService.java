@@ -22,4 +22,11 @@ public interface AddressService extends IService<AddressPO> {
     AddressInfoDTO getAddressInfo(String id);
 
     List<AddressDTO> addressList(String userId);
+
+    void removeAddress(String id, String customerId);
+
+    void setDefault(String id, String customerId);
+
+    AddressInfoDTO getDefault(String customerId);
+
 }

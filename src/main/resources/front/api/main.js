@@ -1,7 +1,10 @@
 //获取所有的商品分类
 function categoryListApi() {
     return $axios({
-      'url': '/category/list',
+      'url': '/shop/goods/getCategoryList',
+        headers: {
+            "token": sessionStorage.getItem("token")
+        },
       'method': 'get',
     })
   }
@@ -9,18 +12,22 @@ function categoryListApi() {
 //获取商品分类对应的商品
 function dishListApi(data) {
     return $axios({
-        'url': '/dish/list',
+        'url': '/shop/goods/getGoodsForPack?categoryId=' + data,
         'method': 'get',
-        params:{...data}
+        headers: {
+            "token": sessionStorage.getItem("token")
+        }
     })
 }
 
 //获取商品分类对应的套餐
 function setmealListApi(data) {
     return $axios({
-        'url': '/setmeal/list',
+        'url': '/shop/goods/getGoodsForPack?categoryId=' + data,
         'method': 'get',
-        params:{...data}
+        headers: {
+            "token": sessionStorage.getItem("token")
+        }
     })
 }
 

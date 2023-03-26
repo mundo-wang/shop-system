@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
-        <title>菩提阁</title>
+        <title>江苏大学超市</title>
         <link rel="icon" href="./../images/favico.ico">
         <!--不同屏幕尺寸根字体设置-->
         <script src="./../js/base.js"></script>
@@ -24,7 +24,7 @@
             <div class="divContainer">
                 <el-input placeholder=" 请输入手机号码" v-model="form.phone"  maxlength='20'/></el-input>
                 <div class="divSplit"></div>
-                <el-input placeholder=" 请输入验证码" v-model="form.code"  maxlength='20'/></el-input>
+                <el-input placeholder=" 请输入验证码" v-model="form.verifyCode"  maxlength='20'/></el-input>
                 <span @click='getCode'>获取验证码</span>
             </div>
             <div class="divMsg" v-if="msgFlag">手机号输入不正确，请重新输入</div>
@@ -48,7 +48,7 @@
                 return {
                     form:{
                         phone:'',
-                        code:''
+                        verifyCode:''
                     },
                     msgFlag:false,
                     loading:false
@@ -59,23 +59,28 @@
             mounted(){},
             methods:{
                 getCode(){
-                    this.form.code = ''
-                    const regex = /^(13[0-9]{9})|(15[0-9]{9})|(17[0-9]{9})|(18[0-9]{9})|(19[0-9]{9})$/;
+                    this.form.verifyCode = ''
+                    const regex = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
                     if (regex.test(this.form.phone)) {
                         this.msgFlag = false
-                        //this.form.code = (Math.random()*1000000).toFixed(0)
-                        sendMsgApi({phone:this.form.phone})
+                        //this.form.verifyCode = (Math.random()*1000000).toFixed(0)
+                        sendMsgApi(this.form.phone).then(res => {
+                            if (res.code !== 100) {
+                                this.$notify({ type:'warning', message:res.message});
+                            }
+                        })
                     }else{
                         this.msgFlag = true
                     }
                 },
                 async btnLogin(){
-                    if(this.form.phone && this.form.code){
+                    if(this.form.phone && this.form.verifyCode){
                         this.loading = true
                         const res = await loginApi(this.form)
                         this.loading = false
                         if(res.code === 100){
                             sessionStorage.setItem("userPhone",this.form.phone)
+                            sessionStorage.setItem("token", res.data)
                             window.requestAnimationFrame(()=>{
                                 window.location.href= '/front/index.html'
                             })                           
@@ -83,7 +88,7 @@
                             this.$notify({ type:'warning', message:res.message});
                         }
                     }else{
-                        this.$notify({ type:'warning', message:'请输入手机号码'});
+                        this.$notify({ type:'warning', message:'请输入手机号码或验证码'});
                     }
                 }
             }

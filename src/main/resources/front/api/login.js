@@ -1,23 +1,24 @@
 function loginApi(data) {
     return $axios({
-      'url': '/user/login',
-      'method': 'post',
-      data
+      'url': '/shop/customer/login?phone=' + data.phone + "&verifyCode=" + data.verifyCode,
+      'method': 'get',
     })
 }
 
-function sendMsgApi(data) {
+function sendMsgApi(phone) {
     return $axios({
-        'url': '/user/sendMsg',
-        'method': 'post',
-        data
+        'url': '/shop/customer/getVerifyCode?phone=' + phone,
+        'method': 'get',
     })
 }
 
 function loginoutApi() {
   return $axios({
-    'url': '/user/loginout',
-    'method': 'post',
+    'url': '/shop/customer/logout',
+      headers: {
+          "token": sessionStorage.getItem("token")
+      },
+    'method': 'get',
   })
 }
 

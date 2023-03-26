@@ -27,18 +27,19 @@
             <div class="divContent">
                 <div class="divItem" v-for="(item,index) in addressList" :key="index" @click.capture="itemClick(item)">
                     <div class="divAddress">
-                        <span :class="{spanCompany:item.label === '公司',spanHome:item.label === '家',spanSchool:item.label === '学校'}">{{item.label}}</span>
-                        {{item.detail}}
+                        <span :class="{spanNull:item.label === '无',spanCompany:item.label === '公司',spanHome:item.label === '家',spanSchool:item.label === '学校'}">{{item.label}}</span>
+                        {{item.address}}
                     </div>
                     <div class="divUserPhone">
-                        <span>{{item.consignee}}</span>
-                        <span>{{item.sex === '0' ? '女士' : '先生'}}</span>
+                        <span>{{item.receiver}}</span>
+                        <span>{{item.gender === true ? '女士' : '先生'}}</span>
                         <span>{{item.phone}}</span>
+                        <span>{{item.isDefault === true ? '默认' : ''}}</span>
                     </div>
                     <img src="./../images/edit.png" @click.stop.prevent="toAddressEditPage(item)"/>
                     <div class="divSplit"></div>
                     <div class="divDefault" >
-                        <img src="./../images/checked_true.png" v-if="item.isDefault === 1">
+                        <img src="./../images/checked_true.png" v-if="item.isDefault === true">
                         <img src="./../images/checked_false.png" @click.stop.prevent="setDefaultAddress(item)" v-else>设为默认地址
                     </div>
                 </div>
@@ -135,7 +136,7 @@
                     },
                     async setDefaultAddress(item){
                         if(item.id){
-                            const res = await setDefaultAddressApi({id:item.id})
+                            const res = await setDefaultAddressApi(item.id)
                             if(res.code === 100){
                             this.initData()
                             }else{

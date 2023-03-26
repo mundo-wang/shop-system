@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class AddressInfoDTO {
 
+    private String id;
+
     private String receiver;
 
     private Boolean gender;

@@ -2,6 +2,7 @@ package com.ujs.shop.controller;
 
 import com.ujs.shop.common.base.BaseController;
 import com.ujs.shop.common.dto.CustomerInfoDTO;
+import com.ujs.shop.common.global.ConstantBean;
 import com.ujs.shop.common.global.ResponseBean;
 import com.ujs.shop.common.ro.UpdateCustomerRO;
 import com.ujs.shop.common.ro.UpdatePackageRO;
@@ -81,12 +82,12 @@ public class CustomerController extends BaseController {
 
     /**
      * 用户登出
-     * @param id
      * @return
      */
     @GetMapping("/logout")
-    public ResponseBean<?> logout(@RequestParam String id) {
-        customerService.logout(id);
+    public ResponseBean<?> logout() {
+        String token = request.getHeader(ConstantBean.TOKEN);
+        customerService.logout(token);
         return ResponseBean.success();
     }
 

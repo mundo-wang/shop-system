@@ -20,4 +20,8 @@ public class GoodsForPackDTO {
     private Boolean status;
 
     private BigDecimal price;
+
+    private String image;
+
+    private String description;
 }

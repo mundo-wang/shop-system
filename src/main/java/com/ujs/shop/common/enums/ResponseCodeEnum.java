@@ -44,7 +44,10 @@ public enum ResponseCodeEnum {
     USERNAME_UNIQUE(225, "用户名重复"),
     VERIFY_ERROR(226, "验证码错误"),
     VERIFY_OVERDUE(227, "验证码已过期"),
-    NO_SUCH_ADDRESS(228, "没有此地址");
+    NO_SUCH_ADDRESS(228, "没有此地址"),
+    VERIFY_ALREADY(229, "验证码已发送，两分钟内不得重复获取"),
+    DEFAULT_ADDRESS(230, "默认地址不能删除"),
+    ;
 
     private final Integer code;
 

@@ -84,6 +84,12 @@ public class LoginCheckFilter implements Filter {
                 writer.write(JSON.toJSONString(ResponseBean.fail(ResponseCodeEnum.NO_LOGIN_MSG), SerializerFeature.WriteMapNullValue));
                 return;
             }
+            if (! redisTemplate.hasKey(token)) {
+                response.setContentType("application/json;charset=utf-8");
+                PrintWriter writer = response.getWriter();
+                writer.write(JSON.toJSONString(ResponseBean.fail(ResponseCodeEnum.OVERDUE), SerializerFeature.WriteMapNullValue));
+                return;
+            }
             filterChain.doFilter(request, response);
             return;
         }

@@ -62,6 +62,10 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerPO>
 
     @Override
     public void getVerifyCode(String phone) {
+        String key = ConstantBean.VERIFY_PREFIX + phone;
+        if (redisTemplate.hasKey(key)) {
+            throw new ServiceException(ResponseCodeEnum.VERIFY_ALREADY);
+        }
         String verifyCode = ValidateCodeUtil.generateValidateCode(6).toString();
         log.info("手机号：" + phone + "，获取到验证码：" + verifyCode);
         redisTemplate.boundValueOps(ConstantBean.VERIFY_PREFIX + phone).set(verifyCode, 2, TimeUnit.MINUTES);
@@ -76,7 +80,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerPO>
         if (! verifyCode.equals(code)) {
             throw new ServiceException(ResponseCodeEnum.VERIFY_ERROR);
         }
-        redisTemplate.delete(phone);
+        redisTemplate.delete(ConstantBean.VERIFY_PREFIX + phone);
         String id = ConstantBean.getUUID();
         String token = ConstantBean.USER_PREFIX + phone;
 
@@ -131,9 +135,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerPO>
     }
 
     @Override
-    public void logout(String id) {
-        CustomerPO customerPO = customerMapper.selectById(id);
-        String key = ConstantBean.USER_PREFIX + customerPO.getPhone();
-        redisTemplate.delete(key);
+    public void logout(String token) {
+        redisTemplate.delete(token);
     }
 }

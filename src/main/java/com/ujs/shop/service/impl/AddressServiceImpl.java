@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author mundo.wang
@@ -71,7 +72,7 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, AddressPO> im
     public List<AddressDTO> addressList(String userId) {
         LambdaQueryWrapper<AddressPO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(AddressPO::getUserId, userId)
-                .orderByDesc(AddressPO::getUpdateTime);
+                .orderByDesc(AddressPO::getCreateTime);
         List<AddressPO> addressPOS = addressMapper.selectList(wrapper);
         List<AddressDTO> addressDTOS = new ArrayList<>();
         for (AddressPO addressPO : addressPOS) {
@@ -80,5 +81,44 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, AddressPO> im
             addressDTOS.add(addressDTO);
         }
         return addressDTOS;
+    }
+
+    @Override
+    public void removeAddress(String id, String customerId) {
+        AddressPO addressPO = addressMapper.selectById(id);
+        if (addressPO == null || ! addressPO.getUserId().equals(customerId)) {
+            throw new ServiceException(ResponseCodeEnum.NO_SUCH_ADDRESS);
+        }
+        if (addressPO.getIsDefault()) {
+            throw new ServiceException(ResponseCodeEnum.DEFAULT_ADDRESS);
+        }
+        addressMapper.deleteById(id);
+    }
+
+    @Override
+    public void setDefault(String id, String customerId) {
+        AddressPO addressPO = addressMapper.selectById(id);
+        if (addressPO == null || ! addressPO.getUserId().equals(customerId)) {
+            throw new ServiceException(ResponseCodeEnum.NO_SUCH_ADDRESS);
+        }
+        AddressPO addressPO1 = addressMapper.selectOne(new LambdaQueryWrapper<AddressPO>()
+                .eq(AddressPO::getIsDefault, true)
+                .eq(AddressPO::getUserId, customerId));
+        if (addressPO1 != null) {
+            addressPO1.setIsDefault(false);
+            addressMapper.updateById(addressPO1);
+        }
+        addressPO.setIsDefault(true);
+        addressMapper.updateById(addressPO);
+    }
+
+    @Override
+    public AddressInfoDTO getDefault(String customerId) {
+        AddressPO addressPO = addressMapper.selectOne(new LambdaQueryWrapper<AddressPO>()
+                .eq(AddressPO::getIsDefault, true)
+                .eq(AddressPO::getUserId, customerId));
+        AddressInfoDTO addressInfoDTO = new AddressInfoDTO();
+        BeanUtils.copyProperties(addressPO, addressInfoDTO);
+        return addressInfoDTO;
     }
 }

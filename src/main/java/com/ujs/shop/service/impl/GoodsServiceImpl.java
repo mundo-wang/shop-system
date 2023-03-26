@@ -191,7 +191,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
     public List<CategoryListDTO> getCategoryList(Boolean categoryType) {
         List<CategoryListDTO> categoryListDTOS = new ArrayList<>();
         LambdaQueryWrapper<CategoryPO> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(CategoryPO::getType, categoryType);
+        if (categoryType != null) {
+            wrapper.eq(CategoryPO::getType, categoryType);
+        }
         wrapper.orderByDesc(CategoryPO::getUpdateTime);
         return categoryMapper.selectList(wrapper).stream().map(
                 item -> {
