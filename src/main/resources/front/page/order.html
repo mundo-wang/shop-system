@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
-        <title>菩提阁</title>
+        <title>江苏大学超市</title>
         <link rel="icon" href="./../images/favico.ico">
         <!--不同屏幕尺寸根字体设置-->
         <script src="./../js/base.js"></script>
@@ -21,7 +21,7 @@
         <div id="order" class="app">
             <div class="divHead">
                 <div class="divTitle">
-                    <i class="el-icon-arrow-left" @click="goBack"></i>菩提阁
+                    <i class="el-icon-arrow-left" @click="goBack"></i>江苏大学超市
                 </div>
             </div>
             <div class="divBody" v-if="orderList.length > 0">
@@ -108,10 +108,10 @@
                         this.loading = false;
                         return
                     }
-                    const res = await orderPagingApi(this.paging)
+                    const res = await orderListApi()
                     if(res.code === 100){
-                        this.orderList.push(...res.data.records)
-                        let records = res.data.records
+                        this.orderList.push(...res.data)
+                        let records = res.data
                         if(records && Array.isArray(records)){
                             records.forEach(item=>{
                                 let number = 0
@@ -122,9 +122,7 @@
                             })
                         }
                         this.loading = false;
-                        if(this.paging.page >= res.data.pages){
-                            this.finished = true;
-                        }
+                        this.finished = true;
                         this.paging.page = this.paging.page + 1
                     }else{
                         this.$notify({ type:'warning', message:res.message});
@@ -143,22 +141,12 @@
                 getStatus(status){
                     let str = ''
                     switch(status){
-                        case 1:
-                            str =  '待付款'
+                        case false:
+                            str =  '待处理'
                         break;
-                        case 2:
-                            str =  '正在派送'
+                        case true:
+                            str =  '已处理'
                         break;
-                        case 3:
-                            str =  '已派送'
-                        break;
-                        case 4:
-                            str =  '已完成'
-                        break;
-                        case 5:
-                            str =  '已取消'
-                        break;
-
                     }
                     return str
                 }

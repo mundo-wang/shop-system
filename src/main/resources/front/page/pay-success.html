@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
-        <title>菩提阁</title>
+        <title>江苏大学超市</title>
         <link rel="icon" href="./../images/favico.ico">
         <!--不同屏幕尺寸根字体设置-->
         <script src="./../js/base.js"></script>
@@ -71,13 +71,17 @@
                 //获取送达时间
                 getFinishTime(){
                     let now = new Date()
-                    let hour = now.getHours() +1
-                    let minute = now.getMinutes()
+                    let hour = now.getHours()
+                    let minute = now.getMinutes() + 15
                     if(hour.toString().length <2){
                         hour = '0' + hour
                     }
                     if(minute.toString().length <2){
                         minute = '0' + minute
+                    }
+                    if (Number(minute) > 60) {
+                        minute = String(Number(minute) - 60)
+                        hour = String(Number(hour) + 1)
                     }
                     this.finishTime = hour + ':' + minute
                 },

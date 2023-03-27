@@ -1,8 +1,11 @@
 //提交订单
 function  addOrderApi(data){
     return $axios({
-        'url': '/order/submit',
+        'url': '/shop/order/submit',
         'method': 'post',
+        headers: {
+            "token": sessionStorage.getItem("token")
+        },
         data
       })
 }
@@ -10,16 +13,22 @@ function  addOrderApi(data){
 //查询所有订单
 function orderListApi() {
   return $axios({
-    'url': '/order/list',
-    'method': 'get',
+    'url': '/shop/order/orderList',
+      headers: {
+          "token": sessionStorage.getItem("token")
+      },
+    'method': 'get'
   })
 }
 
 //分页查询订单
 function orderPagingApi(data) {
   return $axios({
-      'url': '/order/userPage',
+      'url': '/shop/order/orderPage',
       'method': 'get',
+      headers: {
+          "token": sessionStorage.getItem("token")
+      },
       params:{...data}
   })
 }

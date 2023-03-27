@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ujs.shop.mapper.OrderMapper">
+
+    <select id="orderPage" resultType="com.ujs.shop.common.dto.OrderPageDTO">
+        select id, status, null
+        from shop_order
+        where user_id = #{userId}
+        order by create_time desc
+    </select>
+
+</mapper>

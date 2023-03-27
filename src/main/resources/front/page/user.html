@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
-    <title>菩提阁</title>
+    <title>江苏大学超市</title>
     <link rel="icon" href="./../images/favico.ico">
     <!--element-ui的样式-->
     <link rel="stylesheet" href="../../backend/plugins/element-ui/index.css" />
@@ -134,7 +134,7 @@
                     }
                     const res = await orderPagingApi(params)
                     if(res.code === 100){
-                        this.order = res.data.records
+                        this.order = res.data
                         if(this.order && this.order[0].orderDetails){
                             let number = 0
                             this.order[0].orderDetails.forEach(item=>{
@@ -149,22 +149,12 @@
                 getStatus(status){
                     let str = ''
                     switch(status){
-                        case 1:
-                            str =  '待付款'
-                        break;
-                        case 2:
-                            str =  '正在派送'
-                        break;
-                        case 3:
-                            str =  '已派送'
-                        break;
-                        case 4:
-                            str =  '已完成'
-                        break;
-                        case 5:
-                            str =  '已取消'
-                        break;
-
+                        case false:
+                            str =  '待处理'
+                            break;
+                        case true:
+                            str =  '已处理'
+                            break;
                     }
                     return str
                 },
