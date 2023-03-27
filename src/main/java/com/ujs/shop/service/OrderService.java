@@ -1,9 +1,11 @@
 package com.ujs.shop.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ujs.shop.common.dto.OrderPageBackDTO;
 import com.ujs.shop.common.dto.OrderPageDTO;
 import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.po.OrderPO;
+import com.ujs.shop.common.ro.OrderPageRO;
 import com.ujs.shop.common.ro.SubmitRO;
 
 import java.util.List;
@@ -19,4 +21,8 @@ public interface OrderService extends IService<OrderPO> {
     PageFormBean<OrderPageDTO> orderPage(Integer page, Integer size, String userId);
 
     List<OrderPageDTO> orderList(String userId);
+
+    PageFormBean<OrderPageBackDTO> getOrderPage(OrderPageRO orderPageRO);
+
+    void changeStatus(String id);
 }

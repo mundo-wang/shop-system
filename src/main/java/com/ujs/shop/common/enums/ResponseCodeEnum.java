@@ -47,6 +47,7 @@ public enum ResponseCodeEnum {
     NO_SUCH_ADDRESS(228, "没有此地址"),
     VERIFY_ALREADY(229, "验证码已发送，两分钟内不得重复获取"),
     DEFAULT_ADDRESS(230, "默认地址不能删除"),
+    NO_SUCH_ORDER(231, "没有此订单")
     ;
 
     private final Integer code;

@@ -5,12 +5,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ujs.shop.common.dto.OrderDetailPageDTO;
+import com.ujs.shop.common.dto.OrderPageBackDTO;
 import com.ujs.shop.common.dto.OrderPageDTO;
+import com.ujs.shop.common.enums.ResponseCodeEnum;
+import com.ujs.shop.common.exception.ServiceException;
 import com.ujs.shop.common.global.ConstantBean;
 import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.po.CartPO;
 import com.ujs.shop.common.po.OrderDetailPO;
 import com.ujs.shop.common.po.OrderPO;
+import com.ujs.shop.common.ro.OrderPageRO;
 import com.ujs.shop.common.ro.SubmitRO;
 import com.ujs.shop.mapper.CartMapper;
 import com.ujs.shop.mapper.OrderDetailMapper;
@@ -106,5 +110,25 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderPO> implemen
             list.add(orderPageDTO);
         }
         return list;
+    }
+
+    @Override
+    public PageFormBean<OrderPageBackDTO> getOrderPage(OrderPageRO orderPageRO) {
+        Page<OrderPageBackDTO> page1 = new Page<>(orderPageRO.getPage(), orderPageRO.getSize());
+        IPage<OrderPageBackDTO> page2 = orderMapper.getOrderPage(page1,
+                orderPageRO.getNumber(),
+                orderPageRO.getBeginTime(),
+                orderPageRO.getEndTime());
+        return new PageFormBean<>(page2);
+    }
+
+    @Override
+    public void changeStatus(String id) {
+        OrderPO orderPO = orderMapper.selectById(id);
+        if (orderPO == null) {
+            throw new ServiceException(ResponseCodeEnum.NO_SUCH_ORDER);
+        }
+        orderPO.setStatus(true);
+        orderMapper.updateById(orderPO);
     }
 }

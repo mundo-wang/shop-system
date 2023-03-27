@@ -11,4 +11,18 @@
         order by create_time desc
     </select>
 
+
+    <select id="getOrderPage" resultType="com.ujs.shop.common.dto.OrderPageBackDTO">
+        select a.id, a.number, a.status, b.receiver as userName, b.phone, b.address, a.create_time, a.amount
+        from shop_order a
+        inner join shop_address b
+        on a.address_id = b.id
+        <where>
+            <if test="number != null and number != ''">
+                and a.number = #{number}
+            </if>
+        </where>
+        order by a.create_time desc
+    </select>
+
 </mapper>
