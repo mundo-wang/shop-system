@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ujs.shop.common.dto.PackByCateDTO;
-import com.ujs.shop.common.dto.PackageGoodsDTO;
-import com.ujs.shop.common.dto.PackageInfoDTO;
-import com.ujs.shop.common.dto.PackagePageDTO;
+import com.ujs.shop.common.dto.*;
 import com.ujs.shop.common.enums.ResponseCodeEnum;
 import com.ujs.shop.common.exception.ServiceException;
 import com.ujs.shop.common.global.ConstantBean;
@@ -224,4 +221,22 @@ public class PackageServiceImpl extends ServiceImpl<PackageMapper, PackagePO> im
         }
         return list;
     }
+
+    @Override
+    public List<GetGoodsDTO> getGoods(String packageId) {
+        List<GetGoodsDTO> list = new ArrayList<>();
+        LambdaQueryWrapper<PackageDetailPO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(PackageDetailPO::getPackageId, packageId);
+        wrapper.orderByDesc(PackageDetailPO::getCreateTime);
+        List<PackageDetailPO> packageDetailPOS = packageDetailMapper.selectList(wrapper);
+        for (PackageDetailPO packageDetailPO : packageDetailPOS) {
+            GetGoodsDTO getGoodsDTO = new GetGoodsDTO();
+            getGoodsDTO.setNumber(packageDetailPO.getAmount());
+            GoodsPO goodsPO = goodsMapper.selectById(packageDetailPO.getGoodsId());
+            BeanUtils.copyProperties(goodsPO, getGoodsDTO);
+            list.add(getGoodsDTO);
+        }
+        return list;
+    }
+
 }

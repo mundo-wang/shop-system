@@ -169,6 +169,10 @@
                         if(minute.toString().length <2){
                             minute = '0' + minute
                         }
+                        if (Number(minute) > 60) {
+                            minute = String(Number(minute) - 60)
+                            hour = String(Number(hour) + 1)
+                        }
                         this.finishTime = hour + ':' + minute
                     },
                     toAddressPage(){

@@ -1,6 +1,7 @@
 package com.ujs.shop.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ujs.shop.common.dto.GetGoodsDTO;
 import com.ujs.shop.common.dto.PackByCateDTO;
 import com.ujs.shop.common.dto.PackageInfoDTO;
 import com.ujs.shop.common.dto.PackagePageDTO;
@@ -32,6 +33,8 @@ public interface PackageService extends IService<PackagePO> {
     PageFormBean<PackagePageDTO> packagePage(Integer page, Integer size, String name, String categoryId);
 
     List<PackByCateDTO> getPackByCate(String categoryId);
+
+    List<GetGoodsDTO> getGoods(String packageId);
 
 
 }

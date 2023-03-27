@@ -1,5 +1,6 @@
 package com.ujs.shop.controller;
 
+import com.ujs.shop.common.dto.GetGoodsDTO;
 import com.ujs.shop.common.dto.PackByCateDTO;
 import com.ujs.shop.common.dto.PackageInfoDTO;
 import com.ujs.shop.common.dto.PackagePageDTO;
@@ -122,6 +123,13 @@ public class PackageController {
     public ResponseBean<List<PackByCateDTO>> getPackByCate(@RequestParam String categoryId) {
         List<PackByCateDTO> packByCate = packageService.getPackByCate(categoryId);
         return ResponseBean.success(packByCate);
+    }
+
+
+    @GetMapping("/getGoods")
+    public ResponseBean<List<GetGoodsDTO>> getGoods(@RequestParam String packageId) {
+        List<GetGoodsDTO> goods = packageService.getGoods(packageId);
+        return ResponseBean.success(goods);
     }
 
 }

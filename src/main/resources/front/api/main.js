@@ -81,7 +81,10 @@ function clearCartApi() {
 //获取套餐的全部商品
 function setMealDishDetailsApi(id) {
     return $axios({
-        'url': `/setmeal/dish/${id}`,
+        'url': `/shop/package/getGoods?packageId=` + id,
+        headers: {
+            "token": sessionStorage.getItem("token")
+        },
         'method': 'get',
     })
 }
