@@ -29,7 +29,7 @@
                     <div @click="toAddressPage">                    
                         <div class="address">{{address.address}}</div>
                         <div class="name">
-                            <span>{{address.receiver}} {{address.sex === '100' ? '先生':'女士'}}</span>
+                            <span>{{address.receiver}} {{address.gender === false ? '先生':'女士'}}</span>
                             <span>{{address.phone}}</span>
                         </div>
                         <i class="el-icon-arrow-right"></i>

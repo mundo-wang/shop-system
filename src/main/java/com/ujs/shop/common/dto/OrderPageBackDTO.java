@@ -30,4 +30,6 @@ public class OrderPageBackDTO {
 
     private BigDecimal amount;
 
+    private String remark;
+
 }

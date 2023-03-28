@@ -139,6 +139,10 @@
           <span class="des">￥{{ diaForm.amount }}</span>
         </div>
         <div class="item-box">
+          <span class="label">备注：</span>
+          <span class="des">{{ diaForm.remark }}</span>
+        </div>
+        <div class="item-box">
           <span class="label">下单时间：</span>
           <span class="des">{{ diaForm.createTime }}</span>
         </div>
@@ -220,7 +224,7 @@
             getOrderDetailPage({ page: this.page, size: this.size, number: this.input || undefined, beginTime: this.beginTime || undefined, endTime: this.endTime || undefined }).then(res => {
               if (String(res.code) === '100') {
                 this.tableData = res.data.data || []
-                this.counts = res.data.total
+                this.counts = Number(res.data.total)
               }
             }).catch(err => {
               this.$message.error('请求出错了：' + err)

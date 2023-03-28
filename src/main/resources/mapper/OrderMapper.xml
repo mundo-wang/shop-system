@@ -13,7 +13,7 @@
 
 
     <select id="getOrderPage" resultType="com.ujs.shop.common.dto.OrderPageBackDTO">
-        select a.id, a.number, a.status, b.receiver as userName, b.phone, b.address, a.create_time, a.amount
+        select a.id, a.number, a.status, b.receiver as userName, b.phone, b.address, a.create_time, a.amount, a.remark
         from shop_order a
         inner join shop_address b
         on a.address_id = b.id
