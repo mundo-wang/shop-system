@@ -33,7 +33,6 @@ public final class ResponseBean<T> implements Serializable {
      */
     private T data;
 
-
     /**
      * 成功
      */
@@ -47,7 +46,6 @@ public final class ResponseBean<T> implements Serializable {
                 ResponseCodeEnum.SUCCESS.getMessage(), data);
     }
 
-
     /**
      * 失败
      */
@@ -58,6 +56,4 @@ public final class ResponseBean<T> implements Serializable {
     public static ResponseBean<?> fail(ResponseCodeEnum code, String message) {
         return new ResponseBean<>(code.getCode(), message, null);
     }
-
-
 }

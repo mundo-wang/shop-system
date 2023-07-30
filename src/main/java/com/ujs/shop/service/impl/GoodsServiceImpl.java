@@ -9,17 +9,11 @@ import com.ujs.shop.common.enums.ResponseCodeEnum;
 import com.ujs.shop.common.exception.ServiceException;
 import com.ujs.shop.common.global.ConstantBean;
 import com.ujs.shop.common.global.PageFormBean;
-import com.ujs.shop.common.po.CategoryPO;
-import com.ujs.shop.common.po.GoodsConfigPO;
-import com.ujs.shop.common.po.GoodsPO;
-import com.ujs.shop.common.po.PackagePO;
+import com.ujs.shop.common.po.*;
 import com.ujs.shop.common.ro.AddGoodsRO;
 import com.ujs.shop.common.ro.AddOrUpdateConfigRO;
 import com.ujs.shop.common.ro.UpdateGoodsRO;
-import com.ujs.shop.mapper.CategoryMapper;
-import com.ujs.shop.mapper.GoodsConfigMapper;
-import com.ujs.shop.mapper.GoodsMapper;
-import com.ujs.shop.mapper.PackageMapper;
+import com.ujs.shop.mapper.*;
 import com.ujs.shop.service.GoodsConfigService;
 import com.ujs.shop.service.GoodsService;
 import org.springframework.beans.BeanUtils;
@@ -53,6 +47,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Autowired
+    private PackageDetailMapper packageDetailMapper;
 
 
     /**
@@ -156,6 +153,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
             GoodsPO goodsPO = goodsMapper.selectById(id);
             if (goodsPO == null) {
                 throw new ServiceException(ResponseCodeEnum.NO_SUCH_GOODS);
+            }
+            LambdaQueryWrapper<PackageDetailPO> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(PackageDetailPO::getGoodsId, id);
+            List<PackageDetailPO> packageDetailPOS = packageDetailMapper.selectList(wrapper);
+            if (packageDetailPOS.size() != 0) {
+                throw new ServiceException(ResponseCodeEnum.HAS_PACKAGE);
             }
             goodsPO.setStatus(status);
             goodsMapper.updateById(goodsPO);
