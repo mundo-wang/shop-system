@@ -18,10 +18,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 @Slf4j
 @ServletComponentScan
 public class UJSShopSystemApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(UJSShopSystemApplication.class, args);
         log.info("项目启动成功");
     }
-
 }
