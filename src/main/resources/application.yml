@@ -11,11 +11,12 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://123.60.188.152:3306/shop?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
-      password: 123456
+      password: P@7z#L&2*K!W8%X
   redis:
     host: 123.60.188.152
     port: 6379
     database: 0
+    password: F!9@L#4&X%7q*P6
 
 
 # Mybatis-Plus相关配置

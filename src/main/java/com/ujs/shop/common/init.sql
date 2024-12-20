@@ -161,4 +161,6 @@ CREATE TABLE `shop_package` (
                                 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='套餐表';
 
+INSERT INTO `shop`.`shop_employee`(`id`, `user_name`, `password`, `real_name`, `phone`, `gender`, `id_number`, `status`, `create_time`, `update_time`, `create_user`, `update_user`, `is_deleted`) VALUES ('4fea2cbe-b98b-4991-be2f-a8a6f601dab8', 'admin', '101aa172f432dc8846a55018dcce3d16', '超级管理员', '18106524342', 0, '211282200005286039', 0, '2024-12-20 17:20:57', '2024-12-20 17:27:44', 'admin', 'admin', 0);
+
 
