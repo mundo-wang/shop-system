@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.suye</groupId>
-    <artifactId>ujs_shop_system</artifactId>
+    <artifactId>shop-system</artifactId>
     <version>1.0</version>
     <name>ujs_shop_system</name>
     <description>Demo project for Spring Boot</description>
