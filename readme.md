@@ -1,4 +1,4 @@
-该项目的后端部分使用`SpringBoot`+`MybatisPlus`框架编写，数据库部分使用到了`MySQL`和`Redis`，前后端不分离。
+该项目的后端部分使用`SpringBoot`+`MybatisPlus`框架编写，数据库部分使用到了`MySQL`和`Redis`，前端使用`Vue`框架，前后端不分离。
 
 拿到项目后，首先更改`src/main/resources`目录下的`application.yml`与`application-prod.yml`这两个文件，具体更改以下内容：
 
