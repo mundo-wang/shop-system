@@ -2,8 +2,8 @@
 
 拿到项目后，首先更改`src/main/resources`目录下的`application.yml`与`application-prod.yml`这两个文件，具体更改以下内容：
 
-1. MySQL地址
-2. Redis地址
+1. `MySQL`地址
+2. `Redis`地址
 3. 图片保存路径
 4. 端口号（若需要）
 
@@ -11,17 +11,14 @@
 
 如果在本地运行，更改完上面的配置文件后，直接运行项目入口`UJSShopSystemApplication`即可，然后访问下方网址即可查看界面。
 
-后台界面地址：
+后台界面地址：http://localhost:8280/backend/page/login/login.html
 
-http://localhost:8280/backend/page/login/login.html
-
-前台界面地址：
-
-http://localhost:8280/front/page/login.html
+前台界面地址：http://localhost:8280/front/page/login.html
 
 如果是打包部署到`Linux`上运行，步骤参考下面内容。
 
 打包命令：
+
 ```shell
 mvn clean package
 ```
@@ -73,12 +70,13 @@ fi
 
 项目运行起来后，查看`output.log`日志文件是否已经启动成功，然后访问下面的页面地址，这里的`IP`部分要改为自己的服务器地址：
 
-后台界面地址：
+后台界面地址：http://123.60.188.152:8280/backend/page/login/login.html
 
-http://123.60.188.152:8280/backend/page/login/login.html
+前台界面地址：http://123.60.188.152:8280/front/page/login.html
 
-前台界面地址：
+如有任何问题或建议，请通过以下方式联系我：
 
-http://123.60.188.152:8280/front/page/login.html
+> - 邮箱：userwsj@126.com
+> - 微信：13136163259
 
-`README.md`文件写的比较简略，如果有不懂的地方，欢迎添加我的微信（`13136163259`）随时向我询问，我看到就回！
+感谢您的积极反馈！
