@@ -30,6 +30,6 @@ public class GoodsPageDTO {
 
     private String updateUser;
 
-    @JsonFormat(pattern="yy-MM-dd HH:mm", timezone="GMT+8")
+    @JsonFormat(pattern = "yy-MM-dd HH:mm", timezone = "GMT+8")
     private LocalDateTime updateTime;
 }

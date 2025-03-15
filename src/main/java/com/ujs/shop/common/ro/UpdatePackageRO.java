@@ -9,7 +9,7 @@ import lombok.Data;
 
 
 @Data
-public class UpdatePackageRO extends AddPackageRO{
+public class UpdatePackageRO extends AddPackageRO {
 
     private String id;
 }

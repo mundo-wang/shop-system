@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * @author mundo.wang
  * @date 2023/2/16 15:34
- *
+ * <p>
  * 套餐表对应controller
  */
 
@@ -37,6 +37,7 @@ public class PackageController {
 
     /**
      * 新增套餐
+     *
      * @param addPackageRO
      * @return
      */
@@ -49,6 +50,7 @@ public class PackageController {
 
     /**
      * 修改套餐
+     *
      * @param updatePackageRO
      * @return
      */
@@ -61,6 +63,7 @@ public class PackageController {
 
     /**
      * 回显套餐具体信息
+     *
      * @param id
      * @return
      */
@@ -73,6 +76,7 @@ public class PackageController {
 
     /**
      * 单体/批量删除套餐及其对应商品
+     *
      * @param
      * @return
      */
@@ -86,6 +90,7 @@ public class PackageController {
 
     /**
      * 单体/批量 启用/禁用
+     *
      * @param ro
      * @return
      */
@@ -99,6 +104,7 @@ public class PackageController {
 
     /**
      * 套餐分页展示
+     *
      * @param packagePageRO
      * @return
      */
@@ -116,6 +122,7 @@ public class PackageController {
 
     /**
      * 通过分类名查找套餐
+     *
      * @param categoryId
      * @return
      */

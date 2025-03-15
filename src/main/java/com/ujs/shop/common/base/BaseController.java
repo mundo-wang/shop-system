@@ -1,12 +1,9 @@
 package com.ujs.shop.common.base;
 
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ujs.shop.common.dto.UserInfoDTO;
 import com.ujs.shop.common.enums.ResponseCodeEnum;
 import com.ujs.shop.common.exception.ControllerException;
-import com.ujs.shop.common.exception.ServiceException;
 import com.ujs.shop.common.global.ConstantBean;
-import com.ujs.shop.service.CustomerService;
 import com.ujs.shop.utils.JWTHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -37,6 +34,7 @@ public class BaseController {
 
     /**
      * 从请求头中获取JwtToken
+     *
      * @return
      */
     public String getJwtToken() {
@@ -46,11 +44,12 @@ public class BaseController {
 
     /**
      * 由jwtToken获取定义的token
+     *
      * @return
      */
     public String getToken() {
         String jwtToken = getJwtToken();
-        if (! JWTHelper.decode(jwtToken)) {
+        if (!JWTHelper.decode(jwtToken)) {
             throw new ControllerException(ResponseCodeEnum.JWT_TOKEN_ERROR);
         }
         return JWTHelper.getToken(jwtToken);
@@ -59,6 +58,7 @@ public class BaseController {
     /**
      * 由token从Redis获取到用户具体信息
      * 这里可能登录信息已经过期，返回值可能为null
+     *
      * @return
      */
     public UserInfoDTO getUserInfo() {
@@ -85,6 +85,7 @@ public class BaseController {
 
     /**
      * 获取用户的用户id
+     *
      * @return
      */
     public String getCustomerId() {

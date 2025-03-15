@@ -3,18 +3,16 @@ package com.ujs.shop.common.base;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @author mundo.wang
  * @date 2023/2/6 16:42
- *
- *
+ * <p>
+ * <p>
  * 这个类写的是所有实体类共用的字段，每个实体类都要继承它。
  * 这里的字段不用我们手动处理，在其他类中定义了处理的方法。
  */

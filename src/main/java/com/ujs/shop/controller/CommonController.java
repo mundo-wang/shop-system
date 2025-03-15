@@ -31,6 +31,7 @@ public class CommonController extends BaseController {
 
     /**
      * 页面上传文件，存到硬盘，返回文件名
+     *
      * @param file
      * @return
      */
@@ -43,7 +44,7 @@ public class CommonController extends BaseController {
         String fileName = ConstantBean.IMAGE_PREFIX + ConstantBean.getUUID().substring(0, 8) + suffer;
 
         File dir = new File(imagePath);
-        if (! dir.exists()) {
+        if (!dir.exists()) {
             dir.mkdirs();
         }
 
@@ -59,6 +60,7 @@ public class CommonController extends BaseController {
 
     /**
      * 文件回显到页面
+     *
      * @param fileName
      * @return
      */

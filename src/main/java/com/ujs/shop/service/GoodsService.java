@@ -8,7 +8,6 @@ import com.ujs.shop.common.dto.GoodsPageDTO;
 import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.po.GoodsPO;
 import com.ujs.shop.common.ro.AddGoodsRO;
-import com.ujs.shop.common.ro.GoodsPageRO;
 import com.ujs.shop.common.ro.UpdateGoodsRO;
 
 import java.util.List;

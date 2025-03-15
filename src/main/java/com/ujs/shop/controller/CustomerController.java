@@ -5,22 +5,16 @@ import com.ujs.shop.common.dto.CustomerInfoDTO;
 import com.ujs.shop.common.global.ConstantBean;
 import com.ujs.shop.common.global.ResponseBean;
 import com.ujs.shop.common.ro.UpdateCustomerRO;
-import com.ujs.shop.common.ro.UpdatePackageRO;
 import com.ujs.shop.service.CustomerService;
-import com.ujs.shop.utils.ValidateCodeUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author mundo.wang
  * @date 2023/2/19 15:29
  */
-
 
 
 @RestController
@@ -34,6 +28,7 @@ public class CustomerController extends BaseController {
 
     /**
      * 获取验证码
+     *
      * @param phone
      * @return
      */
@@ -46,6 +41,7 @@ public class CustomerController extends BaseController {
 
     /**
      * 用户登录
+     *
      * @param phone
      * @return
      */
@@ -58,6 +54,7 @@ public class CustomerController extends BaseController {
 
     /**
      * 用户修改信息
+     *
      * @param updateCustomerRO
      * @return
      */
@@ -70,6 +67,7 @@ public class CustomerController extends BaseController {
 
     /**
      * 用户信息回显
+     *
      * @param id
      * @return
      */
@@ -82,6 +80,7 @@ public class CustomerController extends BaseController {
 
     /**
      * 用户登出
+     *
      * @return
      */
     @GetMapping("/logout")
@@ -90,8 +89,6 @@ public class CustomerController extends BaseController {
         customerService.logout(token);
         return ResponseBean.success();
     }
-
-
 
 
 }

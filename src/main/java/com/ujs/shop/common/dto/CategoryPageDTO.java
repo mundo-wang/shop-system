@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @author mundo.wang
@@ -27,7 +26,7 @@ public class CategoryPageDTO {
     /**
      * 如果不使用@JsonFormat，返回的将是一串时间戳数字
      */
-    @JsonFormat(pattern="yy-MM-dd HH:mm", timezone="GMT+8")
+    @JsonFormat(pattern = "yy-MM-dd HH:mm", timezone = "GMT+8")
     private LocalDateTime updateTime;
 
 }

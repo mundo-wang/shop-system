@@ -4,15 +4,17 @@ import com.ujs.shop.common.enums.ResponseCodeEnum;
 import com.ujs.shop.common.exception.ControllerException;
 import com.ujs.shop.common.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.SQLException;
 
 /**
  * @author mundo.wang
  * @date 2023/2/8 11:03
- *
- *
+ * <p>
+ * <p>
  * 对于一些全局异常的捕捉与集中处理
  */
 
@@ -25,6 +27,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 对于MySQL数据库存在的问题统一返回给前端
+     *
      * @param exception
      * @return
      */
@@ -37,6 +40,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 捕捉一切在service抛出的异常，返回标准格式给前端
+     *
      * @param exception
      * @return
      */
@@ -47,9 +51,9 @@ public class GlobalExceptionHandler {
     }
 
 
-
     /**
      * 捕捉一切在controller抛出的异常，返回标准格式给前端
+     *
      * @param exception
      * @return
      */
@@ -62,6 +66,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 捕捉其余异常，返回标准格式给前端
+     *
      * @param exception
      * @return
      */
@@ -70,7 +75,6 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage(), exception);
         return ResponseBean.fail(ResponseCodeEnum.OTHER_ERROR);
     }
-
 
 
 }

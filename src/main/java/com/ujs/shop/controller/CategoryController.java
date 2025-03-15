@@ -17,7 +17,7 @@ import javax.validation.Valid;
 /**
  * @author mundo.wang
  * @date 2023/2/11 19:24
- *
+ * <p>
  * 分类表对应controller
  */
 
@@ -33,6 +33,7 @@ public class CategoryController extends BaseController {
 
     /**
      * 增加分类（商品/套餐）
+     *
      * @param addCategoryRO
      * @return
      */
@@ -45,6 +46,7 @@ public class CategoryController extends BaseController {
 
     /**
      * 编辑分类
+     *
      * @param updateCategoryRO
      * @return
      */
@@ -57,6 +59,7 @@ public class CategoryController extends BaseController {
 
     /**
      * 删除分类
+     *
      * @param id
      * @return
      */
@@ -69,6 +72,7 @@ public class CategoryController extends BaseController {
 
     /**
      * 回显分类具体信息
+     *
      * @param id
      * @return
      */
@@ -81,6 +85,7 @@ public class CategoryController extends BaseController {
 
     /**
      * 分类的分页展示
+     *
      * @param categoryPageRO
      * @return
      */

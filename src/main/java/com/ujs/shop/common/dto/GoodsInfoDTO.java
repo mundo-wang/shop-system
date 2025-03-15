@@ -1,9 +1,7 @@
 package com.ujs.shop.common.dto;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 

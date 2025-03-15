@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * @author mundo.wang
  * @date 2023/2/8 14:40
- *
+ * <p>
  * 判断用户是否跳过登录直接访问内部页面
  */
 
@@ -84,7 +84,7 @@ public class LoginCheckFilter implements Filter {
                 writer.write(JSON.toJSONString(ResponseBean.fail(ResponseCodeEnum.NO_LOGIN_MSG), SerializerFeature.WriteMapNullValue));
                 return;
             }
-            if (! redisTemplate.hasKey(token)) {
+            if (!redisTemplate.hasKey(token)) {
                 response.setContentType("application/json;charset=utf-8");
                 PrintWriter writer = response.getWriter();
                 writer.write(JSON.toJSONString(ResponseBean.fail(ResponseCodeEnum.OVERDUE), SerializerFeature.WriteMapNullValue));
@@ -93,14 +93,14 @@ public class LoginCheckFilter implements Filter {
             filterChain.doFilter(request, response);
             return;
         }
-        if (! JWTHelper.decode(jwtToken)) {
+        if (!JWTHelper.decode(jwtToken)) {
             response.setContentType("application/json;charset=utf-8");
             PrintWriter writer = response.getWriter();
             writer.write(JSON.toJSONString(ResponseBean.fail(ResponseCodeEnum.JWT_TOKEN_ERROR), SerializerFeature.WriteMapNullValue));
             return;
         }
         String token = JWTHelper.getToken(jwtToken);
-        if (! redisTemplate.hasKey(token)) {
+        if (!redisTemplate.hasKey(token)) {
             response.setContentType("application/json;charset=utf-8");
             PrintWriter writer = response.getWriter();
             writer.write(JSON.toJSONString(ResponseBean.fail(ResponseCodeEnum.OVERDUE), SerializerFeature.WriteMapNullValue));

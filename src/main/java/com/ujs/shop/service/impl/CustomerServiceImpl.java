@@ -1,6 +1,5 @@
 package com.ujs.shop.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ujs.shop.common.dto.CustomerInfoDTO;
@@ -15,14 +14,12 @@ import com.ujs.shop.utils.ValidateCodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -44,6 +41,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerPO>
 
     /**
      * 获取所有电话号集合
+     *
      * @return
      */
     private Set<String> phoneSet() {
@@ -53,6 +51,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerPO>
 
     /**
      * 获取所有用户名集合
+     *
      * @return
      */
     private Set<String> userNameSet() {
@@ -77,7 +76,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerPO>
         if (code == null || code.equals("")) {
             throw new ServiceException(ResponseCodeEnum.VERIFY_OVERDUE);
         }
-        if (! verifyCode.equals(code)) {
+        if (!verifyCode.equals(code)) {
             throw new ServiceException(ResponseCodeEnum.VERIFY_ERROR);
         }
         redisTemplate.delete(ConstantBean.VERIFY_PREFIX + phone);
@@ -86,12 +85,12 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerPO>
 
         if (phoneSet().contains(phone)) {
             CustomerPO customerPO = customerMapper.selectOne(new LambdaUpdateWrapper<CustomerPO>().eq(CustomerPO::getPhone, phone));
-            if (! redisTemplate.hasKey(token)) {
+            if (!redisTemplate.hasKey(token)) {
                 redisTemplate.boundValueOps(token).set(customerPO.getId(), 3, TimeUnit.DAYS);
             }
             return token;
         } else {
-            if (! redisTemplate.hasKey(token)) {
+            if (!redisTemplate.hasKey(token)) {
                 redisTemplate.boundValueOps(token).set(id, 3, TimeUnit.DAYS);
             }
         }

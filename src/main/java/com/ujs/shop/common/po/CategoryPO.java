@@ -9,11 +9,10 @@ import lombok.Data;
 /**
  * @author mundo.wang
  * @date 2023/2/11 19:11
- *
- *
+ * <p>
+ * <p>
  * 分类表对应实体类
  */
-
 
 
 @Data

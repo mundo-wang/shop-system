@@ -14,13 +14,11 @@ import com.ujs.shop.mapper.AddressMapper;
 import com.ujs.shop.service.AddressService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author mundo.wang
@@ -86,7 +84,7 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, AddressPO> im
     @Override
     public void removeAddress(String id, String customerId) {
         AddressPO addressPO = addressMapper.selectById(id);
-        if (addressPO == null || ! addressPO.getUserId().equals(customerId)) {
+        if (addressPO == null || !addressPO.getUserId().equals(customerId)) {
             throw new ServiceException(ResponseCodeEnum.NO_SUCH_ADDRESS);
         }
         if (addressPO.getIsDefault()) {
@@ -98,7 +96,7 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, AddressPO> im
     @Override
     public void setDefault(String id, String customerId) {
         AddressPO addressPO = addressMapper.selectById(id);
-        if (addressPO == null || ! addressPO.getUserId().equals(customerId)) {
+        if (addressPO == null || !addressPO.getUserId().equals(customerId)) {
             throw new ServiceException(ResponseCodeEnum.NO_SUCH_ADDRESS);
         }
         AddressPO addressPO1 = addressMapper.selectOne(new LambdaQueryWrapper<AddressPO>()

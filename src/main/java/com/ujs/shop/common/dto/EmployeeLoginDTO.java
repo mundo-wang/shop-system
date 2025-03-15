@@ -9,7 +9,7 @@ import lombok.Data;
 
 
 @Data
-public class EmployeeLoginDTO extends EmployeeInfoDTO{
+public class EmployeeLoginDTO extends EmployeeInfoDTO {
 
     private String jwtToken;
 

@@ -1,9 +1,7 @@
 package com.ujs.shop.common.enums;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author mundo.wang
@@ -49,8 +47,7 @@ public enum ResponseCodeEnum {
     DEFAULT_ADDRESS(230, "默认地址不能删除"),
     NO_SUCH_ORDER(231, "没有此订单"),
     HAS_GOODS_OR_PACKAGE(232, "此分类已经被商品或套餐引用，无法删除"),
-    HAS_PACKAGE(233, "商品已被套餐引用，无法停售或删除")
-    ;
+    HAS_PACKAGE(233, "商品已被套餐引用，无法停售或删除");
 
     private final Integer code;
 

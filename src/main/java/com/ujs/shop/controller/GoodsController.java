@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * @author mundo.wang
  * @date 2023/2/12 18:17
- *
+ * <p>
  * 商品表对应controller
  */
 
@@ -38,6 +38,7 @@ public class GoodsController extends BaseController {
 
     /**
      * 增加商品
+     *
      * @param addGoodsRO
      * @return
      */
@@ -50,6 +51,7 @@ public class GoodsController extends BaseController {
 
     /**
      * 修改商品
+     *
      * @param updateGoodsRO
      * @return
      */
@@ -62,6 +64,7 @@ public class GoodsController extends BaseController {
 
     /**
      * 回显商品信息
+     *
      * @param id
      * @return
      */
@@ -74,6 +77,7 @@ public class GoodsController extends BaseController {
 
     /**
      * 单体/批量 启售/停售
+     *
      * @param statusRO
      * @return
      */
@@ -87,6 +91,7 @@ public class GoodsController extends BaseController {
 
     /**
      * 单体/批量 删除商品以及对应配置
+     *
      * @param goodsIds
      * @return
      */
@@ -99,6 +104,7 @@ public class GoodsController extends BaseController {
 
     /**
      * 商品分页展示
+     *
      * @param goodsPageRO
      * @return
      */
@@ -116,6 +122,7 @@ public class GoodsController extends BaseController {
 
     /**
      * 获取分类下拉框
+     *
      * @param categoryType
      * @return
      */
@@ -128,6 +135,7 @@ public class GoodsController extends BaseController {
 
     /**
      * 通过分类查所有商品
+     *
      * @param categoryId
      * @return
      */
@@ -140,6 +148,7 @@ public class GoodsController extends BaseController {
 
     /**
      * 通过名字查商品
+     *
      * @param name
      * @return
      */

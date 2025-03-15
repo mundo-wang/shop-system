@@ -18,7 +18,7 @@ import java.io.Serializable;
 /**
  * @author mundo.wang
  * @date 2023/2/8 15:18
- *
+ * <p>
  * 使用 RedisTemplate 的序列化配置
  */
 
@@ -34,6 +34,7 @@ public class RedisTemplateUtil {
      * 设置 redis 的序列化方式为 StringRedisSerializer
      * 默认为 JdkSerializationRedisSerializer
      * 目的是让 key 存储到 Redis 中时不存在乱码
+     *
      * @param redisTemplate
      */
     @Autowired(required = false)
@@ -51,6 +52,7 @@ public class RedisTemplateUtil {
      * 将 RedisTemplate 的序列化方式改为Jackson2JsonRedisSerialize
      * 默认为 JdkSerializationRedisSerializer
      * 目的是让Java对象序列化为json，存储在 Redis 的 string 数据类型中
+     *
      * @param redisConnectionFactory
      * @return
      */

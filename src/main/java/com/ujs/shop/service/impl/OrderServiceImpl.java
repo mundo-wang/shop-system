@@ -20,7 +20,6 @@ import com.ujs.shop.mapper.CartMapper;
 import com.ujs.shop.mapper.OrderDetailMapper;
 import com.ujs.shop.mapper.OrderMapper;
 import com.ujs.shop.service.OrderService;
-import com.ujs.shop.utils.ValidateCodeUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

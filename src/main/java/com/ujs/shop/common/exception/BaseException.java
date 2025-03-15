@@ -7,8 +7,8 @@ import lombok.Setter;
 /**
  * @author mundo.wang
  * @date 2023/2/7 12:55
- *
- *
+ * <p>
+ * <p>
  * 基础异常类
  */
 

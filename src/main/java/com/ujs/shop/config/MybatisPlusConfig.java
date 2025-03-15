@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author mundo.wang
  * @date 2023/2/8 14:05
- *
+ * <p>
  * 配置mybatisplus的分页插件
  */
 

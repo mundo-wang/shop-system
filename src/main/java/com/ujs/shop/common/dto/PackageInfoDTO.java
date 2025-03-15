@@ -1,6 +1,5 @@
 package com.ujs.shop.common.dto;
 
-import com.ujs.shop.common.ro.AddOrUpdateGoodsRO;
 import lombok.Data;
 
 import java.math.BigDecimal;

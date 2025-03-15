@@ -30,6 +30,7 @@ public class AddressController extends BaseController {
 
     /**
      * 新增地址
+     *
      * @param addAddressRO
      * @return
      */
@@ -42,6 +43,7 @@ public class AddressController extends BaseController {
 
     /**
      * 修改地址
+     *
      * @param updateAddressRO
      * @return
      */
@@ -54,6 +56,7 @@ public class AddressController extends BaseController {
 
     /**
      * 地址回显
+     *
      * @param id
      * @return
      */
@@ -66,6 +69,7 @@ public class AddressController extends BaseController {
 
     /**
      * 地址列表
+     *
      * @return
      */
     @GetMapping("/addressList")
@@ -77,6 +81,7 @@ public class AddressController extends BaseController {
 
     /**
      * 删除地址
+     *
      * @param id
      * @return
      */
@@ -89,6 +94,7 @@ public class AddressController extends BaseController {
 
     /**
      * 设置默认地址
+     *
      * @param id
      * @return
      */
@@ -101,6 +107,7 @@ public class AddressController extends BaseController {
 
     /**
      * 获取默认地址
+     *
      * @return
      */
     @GetMapping("/getDefault")

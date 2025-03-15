@@ -14,12 +14,10 @@ import com.ujs.shop.common.po.PackageDetailPO;
 import com.ujs.shop.common.po.PackagePO;
 import com.ujs.shop.common.ro.AddOrUpdateGoodsRO;
 import com.ujs.shop.common.ro.AddPackageRO;
-import com.ujs.shop.common.ro.ChangePackageStatusRO;
 import com.ujs.shop.common.ro.UpdatePackageRO;
 import com.ujs.shop.mapper.GoodsMapper;
 import com.ujs.shop.mapper.PackageDetailMapper;
 import com.ujs.shop.mapper.PackageMapper;
-import com.ujs.shop.service.PackageDetailService;
 import com.ujs.shop.service.PackageService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +53,7 @@ public class PackageServiceImpl extends ServiceImpl<PackageMapper, PackagePO> im
 
     /**
      * 拿到所有商品和套餐名
+     *
      * @return
      */
     private Set<String> goodsAndPackageNames() {
@@ -87,6 +86,7 @@ public class PackageServiceImpl extends ServiceImpl<PackageMapper, PackagePO> im
 
     /**
      * 检验套餐内商品的数量是否超过库存上线或者已被禁售
+     *
      * @param goodsList
      * @return
      */
@@ -101,7 +101,6 @@ public class PackageServiceImpl extends ServiceImpl<PackageMapper, PackagePO> im
             }
         }
     }
-
 
 
     @Override
@@ -126,7 +125,7 @@ public class PackageServiceImpl extends ServiceImpl<PackageMapper, PackagePO> im
         if (packagePO == null) {
             throw new ServiceException(ResponseCodeEnum.NO_SUCH_PACHAGE);
         }
-        if (! packagePO.getName().equals(updatePackageRO.getName())) {
+        if (!packagePO.getName().equals(updatePackageRO.getName())) {
             if (goodsAndPackageNames().contains(updatePackageRO.getName())) {
                 throw new ServiceException(ResponseCodeEnum.PACKAGE_NAME_UNIQUE);
             }
@@ -175,7 +174,7 @@ public class PackageServiceImpl extends ServiceImpl<PackageMapper, PackagePO> im
             if (packagePO == null) {
                 throw new ServiceException(ResponseCodeEnum.NO_SUCH_PACHAGE);
             }
-            if (! packagePO.getStatus()) {
+            if (!packagePO.getStatus()) {
                 throw new ServiceException(ResponseCodeEnum.PACKAGE_ON_SALE);
             }
         }

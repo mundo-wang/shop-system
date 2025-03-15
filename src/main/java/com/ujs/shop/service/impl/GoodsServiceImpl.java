@@ -14,7 +14,6 @@ import com.ujs.shop.common.ro.AddGoodsRO;
 import com.ujs.shop.common.ro.AddOrUpdateConfigRO;
 import com.ujs.shop.common.ro.UpdateGoodsRO;
 import com.ujs.shop.mapper.*;
-import com.ujs.shop.service.GoodsConfigService;
 import com.ujs.shop.service.GoodsService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +53,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
 
     /**
      * 增加商品的配置
+     *
      * @param list
      * @param goodsId
      */
@@ -73,6 +73,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
 
     /**
      * 拿到所有商品和套餐名
+     *
      * @return
      */
     private Set<String> goodsAndPackageNames() {
@@ -108,7 +109,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
         if (goodsPO == null) {
             throw new ServiceException(ResponseCodeEnum.NO_SUCH_GOODS);
         }
-        if (! goodsPO.getName().equals(updateGoodsRO.getName())) {
+        if (!goodsPO.getName().equals(updateGoodsRO.getName())) {
             if (goodsAndPackageNames().contains(updateGoodsRO.getName())) {
                 throw new ServiceException(ResponseCodeEnum.GOODS_NAME_UNIQUE);
             }
@@ -173,7 +174,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, GoodsPO> implemen
             if (goodsPO == null) {
                 throw new ServiceException(ResponseCodeEnum.NO_SUCH_GOODS);
             }
-            if (! goodsPO.getStatus()) {
+            if (!goodsPO.getStatus()) {
                 throw new ServiceException(ResponseCodeEnum.GOODS_ON_SALE);
             }
         }

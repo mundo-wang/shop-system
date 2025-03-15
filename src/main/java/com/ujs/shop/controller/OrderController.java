@@ -7,7 +7,6 @@ import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.global.ResponseBean;
 import com.ujs.shop.common.ro.OrderPageRO;
 import com.ujs.shop.common.ro.SubmitRO;
-import com.ujs.shop.service.OrderDetailService;
 import com.ujs.shop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +28,7 @@ public class OrderController extends BaseController {
 
     /**
      * 用户端提交订单
+     *
      * @param submitRO
      * @return
      */
@@ -48,6 +48,7 @@ public class OrderController extends BaseController {
 
     /**
      * 用户端查看订单
+     *
      * @return
      */
     @GetMapping("/orderList")

@@ -11,7 +11,7 @@ import com.ujs.shop.common.ro.UpdateCategoryRO;
 /**
  * @author mundo.wang
  * @date 2023/2/11 19:19
- *
+ * <p>
  * 分类表对应service接口
  */
 public interface CategoryService extends IService<CategoryPO> {

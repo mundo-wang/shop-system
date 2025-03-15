@@ -14,7 +14,7 @@ import lombok.Getter;
 public enum NoFilterPathEnum {
 
     PATH1("/shop/employee/login"),
-//    PATH2("/shop/employee/logout"),
+    //    PATH2("/shop/employee/logout"),
     PATH3("/backend/**"),
     PATH4("/front/**"),
     PATH5("/shop/customer/login"),

@@ -7,7 +7,7 @@ import java.util.UUID;
 /**
  * @author mundo.wang
  * @date 2023/2/6 20:37
- *
+ * <p>
  * 常量表，所有用到的常量都从这取
  */
 public class ConstantBean {

@@ -1,7 +1,6 @@
 package com.ujs.shop.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ujs.shop.common.base.BasePageRO;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -26,7 +25,7 @@ public class PackagePageDTO {
 
     private String image;
 
-    @JsonFormat(pattern="yy-MM-dd HH:mm", timezone="GMT+8")
+    @JsonFormat(pattern = "yy-MM-dd HH:mm", timezone = "GMT+8")
     private LocalDateTime updateTime;
 
     private String updateUser;

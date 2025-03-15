@@ -8,7 +8,6 @@ import com.ujs.shop.common.dto.PackagePageDTO;
 import com.ujs.shop.common.global.PageFormBean;
 import com.ujs.shop.common.po.PackagePO;
 import com.ujs.shop.common.ro.AddPackageRO;
-import com.ujs.shop.common.ro.ChangePackageStatusRO;
 import com.ujs.shop.common.ro.UpdatePackageRO;
 
 import java.util.List;

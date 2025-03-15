@@ -1,10 +1,8 @@
 package com.ujs.shop.common.ro;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author mundo.wang
@@ -12,7 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 
 @Data
-public class UpdateEmployeeRO extends AddEmployeeRO{
+public class UpdateEmployeeRO extends AddEmployeeRO {
 
 
     @NotBlank(message = "id不能为空")

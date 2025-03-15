@@ -17,7 +17,7 @@ import javax.validation.Valid;
 /**
  * @author mundo.wang
  * @date 2023/2/6 18:59
- *
+ * <p>
  * shop_employee表对应controller
  */
 
@@ -31,9 +31,9 @@ public class EmployeeController extends BaseController {
     private EmployeeService employeeService;
 
 
-
     /**
      * 增加员工
+     *
      * @param addEmployeeRO
      * @return
      */
@@ -46,6 +46,7 @@ public class EmployeeController extends BaseController {
 
     /**
      * 员工修改信息
+     *
      * @param updateEmployeeRO
      * @return
      */
@@ -58,6 +59,7 @@ public class EmployeeController extends BaseController {
 
     /**
      * 员工信息回显
+     *
      * @param id
      * @return
      */
@@ -70,6 +72,7 @@ public class EmployeeController extends BaseController {
 
     /**
      * 员工登录平台
+     *
      * @param employeeLoginRO
      * @return jwt字符串
      */
@@ -82,6 +85,7 @@ public class EmployeeController extends BaseController {
 
     /**
      * 员工登出平台
+     *
      * @return
      */
     @GetMapping("/logout")
@@ -94,6 +98,7 @@ public class EmployeeController extends BaseController {
 
     /**
      * 员工信息分页展示
+     *
      * @param employeePageRO
      * @return
      */
@@ -110,6 +115,7 @@ public class EmployeeController extends BaseController {
 
     /**
      * 员工进行密码修改
+     *
      * @param updatePasswordRO
      * @return
      */
@@ -122,6 +128,7 @@ public class EmployeeController extends BaseController {
 
     /**
      * 管理员更改员工状态
+     *
      * @param
      * @return
      */
@@ -135,6 +142,7 @@ public class EmployeeController extends BaseController {
 
     /**
      * 管理员移除员工
+     *
      * @param id
      * @return
      */
@@ -143,8 +151,6 @@ public class EmployeeController extends BaseController {
         employeeService.removeEmployee(id, getUserName());
         return ResponseBean.success();
     }
-
-
 
 
 }
