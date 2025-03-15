@@ -61,7 +61,7 @@ echo "程序正在运行，进程ID：$JAVA_PID"
 
 赋予执行权限并运行脚本：
 
-```
+```sh
 chmod +x run.sh
 ./run.sh
 ```
@@ -70,7 +70,7 @@ chmod +x run.sh
 
 在`/opt/shop`目录下创建`run.sh`脚本，用于停止项目：
 
-```
+```sh
 #!/bin/bash
 
 # 获取占用8280端口的进程ID
