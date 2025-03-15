@@ -1,55 +1,79 @@
-该项目的后端部分使用`SpringBoot`+`MybatisPlus`框架编写，数据库部分使用到了`MySQL`和`Redis`，前端使用`Vue`框架，前后端不分离。
+## 项目简介
 
-拿到项目后，首先更改`src/main/resources`目录下的`application.yml`与`application-prod.yml`这两个文件，具体更改以下内容：
+本项目的后端基于`SpringBoot`+`MyBatis-Plus`，数据库采用`MySQL`和`Redis`，前端使用`Vue`，并采用前后端不分离的架构。
 
-1. `MySQL`地址
-2. `Redis`地址
-3. 图片保存路径
-4. 端口号（若需要）
+### 初始化与本地运行
 
-在`common`目录下有一个`init.sql`文件，里面是`MySQL`数据库的所有建表语句，需要执行一遍。
+#### 1. 配置文件修改
 
-如果在本地运行，更改完上面的配置文件后，直接运行项目入口`UJSShopSystemApplication`即可，然后访问下方网址即可查看界面。
+获取项目后，首先修改`src/main/resources`目录下的`application.yml`与`application-prod.yml`文件，需调整以下内容：
 
-后台界面地址：http://localhost:8280/backend/page/login/login.html
+- `MySQL`连接地址、用户名、密码
+- `Redis`连接地址、端口
+- 图片存储路径
+- 服务暴露端口（如有必要）
 
-前台界面地址：http://localhost:8280/front/page/login.html
+#### 2. 初始化数据库
 
-如果是打包部署到`Linux`上运行，步骤参考下面内容。
+在`common`目录下的`init.sql`文件中包含了所有`MySQL`建表语句，可以在你的数据库中执行该文件，完成数据库初始化。
 
-打包命令：
+#### 3. 运行项目
 
-```shell
+配置完成后，直接运行主入口`UJSShopSystemApplication`启动项目。
+
+访问以下地址查看界面：
+
+- 后台管理系统：http://localhost:8280/backend/page/login/login.html
+- 前台商城系统：http://localhost:8280/front/page/login.html
+
+### 生产环境部署（`Linux`服务器）
+
+#### 1. 代码打包
+
+使用`Maven`进行打包，生成可执行`JAR`文件：
+
+```sh
 mvn clean package
 ```
 
-接着从生成的`target`目录下拿到`shop-system-1.0.jar`文件，放置到`Linux`合适的目录位置，例如`/opt/shop`。
+打包完成后，将`target`目录下的`shop-system-1.0.jar`文件拷贝至服务器指定目录，例如`/opt/shop`。
 
-`Linux`服务器项目运行脚本，可以命名为`run.sh`（生产环境指定配置文件为`prod`，可按需自行修改）：
+#### 2. 运行脚本（`run.sh`）
 
-```shell
+在`/opt/shop`目录下创建`run.sh`脚本，用于启动项目（指定生产环境配置`prod`）：
+
+```sh
 #!/bin/bash
 
-# 检查8280端口是否被占用
+# 检查端口是否被占用
 if lsof -i:8280 > /dev/null; then
     echo "端口8280已被占用"
     exit 1
 fi
 
-# 执行Java命令并记录日志
+# 启动服务，并将日志重定向到文件
 nohup java -jar /opt/shop/shop-system-1.0.jar --spring.profiles.active=prod >> /opt/shop/output.log 2>&1 &
 
-# 获取执行程序的进程ID
+# 输出进程ID
 JAVA_PID=$!
-echo "程序正在运行，进程ID为：$JAVA_PID"
+echo "程序正在运行，进程ID：$JAVA_PID"
 ```
 
-`Linux`服务器项目停止脚本，可以命名为`stop.sh`：
+赋予执行权限并运行脚本：
 
-```shell
+```
+chmod +x run.sh
+./run.sh
+```
+
+#### 3. 停止脚本（`stop.sh`）
+
+在`/opt/shop`目录下创建`run.sh`脚本，用于停止项目：
+
+```
 #!/bin/bash
 
-# 检查8280端口是否被占用
+# 获取占用8280端口的进程ID
 PID=$(lsof -t -i:8280)
 
 if [ -z "$PID" ]; then
@@ -57,26 +81,36 @@ if [ -z "$PID" ]; then
     exit 0
 fi
 
-# 杀死占用8280端口的进程
+# 终止进程
 kill -9 "$PID"
 
 if [ $? -eq 0 ]; then
-    echo "成功杀死占用8280端口的进程，进程ID：$PID"
+    echo "成功停止程序，进程ID：$PID"
 else
-    echo "无法杀死占用8280端口的进程，请检查权限"
+    echo "无法停止进程，请检查权限"
     exit 1
 fi
 ```
 
-项目运行起来后，查看`output.log`日志文件是否已经启动成功，然后访问下面的页面地址，这里的`IP`部分要改为自己的服务器地址：
+赋予执行权限并运行脚本：
 
-后台界面地址：http://123.60.188.152:8280/backend/page/login/login.html
+```sh
+chmod +x stop.sh
+./stop.sh
+```
 
-前台界面地址：http://123.60.188.152:8280/front/page/login.html
+#### 4. 访问系统
 
-如有任何问题或建议，请通过以下方式联系我：
+项目启动后，可通过以下地址访问（请将`123.60.188.152`替换为您的服务器`IP`）：
 
-> - 邮箱：userwsj@126.com
-> - 微信：13136163259
+- **后台管理系统**：http://123.60.188.152:8280/backend/page/login/login.html
+- **前台商城系统**：http://123.60.188.152:8280/front/page/login.html
 
-感谢您的积极反馈！
+## 联系方式
+
+如有任何问题或建议，请联系：
+
+- 邮箱：userwsj@126.com
+- 微信：13136163259
+
+感谢您的支持！
